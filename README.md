@@ -1,5 +1,5 @@
 # Radar de Oportunidades Acadêmicas
-Projeto oficial da disciplina POOALAB (UCSal 2026.2).
+Projeto da disciplina POOA (UCSal 2026.2).
 Centralização e divulgação dinâmica de oportunidades acadêmicas (IC, Extensão e Monitoria).
 
 ## Tecnologias
