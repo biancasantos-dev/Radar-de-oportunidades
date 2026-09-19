@@ -1,9 +1,9 @@
-# ?? Radar de Oportunidades Acadêmicas
+# ?? Radar de Oportunidades AcadÃªmicas
 Projeto oficial da disciplina POOALAB (UCSal 2026.2).
-Centralização e divulgação dinâmica de oportunidades acadêmicas (IC, Extensão e Monitoria).
+CentralizaÃ§Ã£o e divulgaÃ§Ã£o dinÃ¢mica de oportunidades acadÃªmicas (IC, ExtensÃ£o e Monitoria).
 
 ## ??? Tecnologias
 - Java 21 LTS (com.sun.net.httpserver.HttpServer)
 - PostgreSQL 16
 - Maven 3.9
-- HTML5, CSS3 e JavaScript puro
+- HTML5, CSS3 e JavaScript 
