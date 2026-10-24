@@ -49,3 +49,33 @@ async function apiFetch(endpoint, options = {}) {
 
   return response.text();
 }
+
+// ── Menu Sanduíche Mobile Interativo ──
+document.addEventListener('DOMContentLoaded', () => {
+  const toggleBtn = document.querySelector('.navbar-toggle');
+  const navMenu = document.querySelector('.navbar-nav');
+
+  if (toggleBtn && navMenu) {
+    toggleBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      toggleBtn.classList.toggle('active');
+      navMenu.classList.toggle('open');
+    });
+
+    // Fecha o menu ao clicar fora
+    document.addEventListener('click', (e) => {
+      if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+        toggleBtn.classList.remove('active');
+        navMenu.classList.remove('open');
+      }
+    });
+
+    // Fecha ao clicar em um link interno
+    navMenu.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        toggleBtn.classList.remove('active');
+        navMenu.classList.remove('open');
+      });
+    });
+  }
+});

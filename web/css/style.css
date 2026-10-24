@@ -1,52 +1,70 @@
 /* ============================================================
-   OPORTUNI — Base & Design Tokens
-   Identidade Visual: Poppins + Paleta Oficial
+   OPORTUNI — Design System & Tokens
+   Identidade Visual: Poppins, Azul-Marinho (#2A3576), Laranja (#DF6E1E),
+   Lilás (#C572C7), Verde (#8FD31A), Ciano (#07AED3) e Lavanda (#E2E0FF)
    ============================================================ */
 
 /* ── Tipografia Oficial ── */
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ============================================================
-   1. DESIGN TOKENS (Cores oficiais da ID Visual)
+   1. DESIGN TOKENS OFICIAIS (Fiel à Identidade Visual OportUni)
    ============================================================ */
 :root {
-  /* — Cores Institucionais — */
-  --color-navy:        #2A3576;   /* Azul-marinho principal */
-  --color-navy-dark:   #1B0735;   /* Tom escuro profundo */
-  --color-orange:      #DF6E1E;   /* Laranja vibrante */
-  --color-purple:      #C572C7;   /* Lilás oficial */
-  --color-cyan:        #07AED3;   /* Ciano */
-  --color-green:       #8FD31A;   /* Verde limão */
-  --color-lavender:    #E2E0FF;   /* Lavanda suave */
+  /* — Cores Mestras da Marca — */
+  --brand-navy:        #2A3576;   /* Azul-marinho oficial (logo e estrutura) */
+  --brand-plum:        #1B0735;   /* Tom escuro profundo */
+  --brand-orange:      #DF6E1E;   /* Laranja do radar (foco / ação / CTA) */
+  --brand-lilac:       #C572C7;   /* Lilás oficial */
+  --brand-cyan:        #07AED3;   /* Ciano oficial */
+  --brand-green:       #8FD31A;   /* Verde limão oficial */
+  --brand-lavender:    #E2E0FF;   /* Lavanda oficial */
 
-  /* — Cores das Pastas por Eixo Temático — */
-  --eixo-geral:        #E2E0FF;   /* Geral (Lavanda) */
-  --eixo-exatas:       #6DD4EC;   /* Exatas (Ciano pastel) */
-  --eixo-humanas:      #F0A46B;   /* Humanas (Laranja/Pêssego pastel) */
-  --eixo-saude:        #B5E060;   /* Saúde (Verde pastel) */
+  /* — Canvas e Superfícies (Aura Lavanda Luminosa) — */
+  --bg-canvas:         #F7F6FD;   /* Fundo banhado em lavanda suave */
+  --bg-surface:        #FFFFFF;   /* Superfície dos blocos */
+  --text-primary:      #2A3576;   /* Texto principal na cor da marca */
+  --text-muted:        #68668A;   /* Texto secundário azulado suave */
 
-  /* — Neutros — */
-  --color-white:       #FFFFFF;
-  --color-bg-page:     #F3F2F8;   /* Fundo geral sutil */
-  --color-text:        #1B0735;   /* Texto principal em contraste com Poppins */
-  --color-text-muted:  #706E88;   /* Texto secundário */
-  --color-border:      #E4E2EE;
+  /* — Escala Pastel dos Cards (Subtons 20% da Paleta Oficial) — */
+  --card-ic:           #E3F7FC;   /* Ciano 20% */
+  --card-monitoria:    #F6E8F8;   /* Lilás 20% */
+  --card-extensao:     #EFF9DE;   /* Verde 20% */
+  --card-estagio:      #FDEFE5;   /* Laranja 20% */
+  --card-evento:       #FFF6DC;   /* Amarelo/Dourado 20% */
+  --card-grupo:        #ECE9FD;   /* Lavanda 20% */
+
+  /* — Abas dos 4 Eixos Temáticos — */
+  --tab-geral:         #E2E0FF;   /* Lavanda institucional */
+  --tab-exatas:        #D8F4FA;   /* Ciano pastel */
+  --tab-humanas:       #FCE8DB;   /* Laranja pastel */
+  --tab-saude:         #EBF7D4;   /* Verde pastel */
 
   /* — Tipografia — */
   --font-family:       'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
 
-  /* — Estilo das Pastas & Fichas (Cantos bem arredondados) — */
-  --radius-tab:        18px 18px 0 0;
+  /* — Traços e Sombras Contemporâneas da Marca — */
+  --stroke-subtle:     1px solid rgba(42, 53, 118, 0.08);
+  --stroke-brand:      1px solid rgba(42, 53, 118, 0.12);
+  --stroke-brand-sm:   1px solid rgba(42, 53, 118, 0.08);
+  --shadow-xs:         0 2px 6px rgba(42, 53, 118, 0.04);
+  --shadow-sm:         0 4px 12px rgba(42, 53, 118, 0.06);
+  --shadow-md:         0 8px 24px rgba(42, 53, 118, 0.07);
+  --shadow-lg:         0 16px 40px rgba(42, 53, 118, 0.08);
+  --shadow-card-hover: 0 16px 36px rgba(42, 53, 118, 0.10);
+
+  /* — Formas Arredondadas da Identidade — */
+  --radius-tab:        20px 20px 0 0;
   --radius-card:       24px;
   --radius-pill:       999px;
-  --radius-sm:         10px;
+  --radius-btn:        16px;
 
   /* — Layout — */
   --container-max:     1160px;
 }
 
 /* ============================================================
-   2. RESET & BASE LIMPOS
+   2. RESET & BASE
    ============================================================ */
 *,
 *::before,
@@ -59,11 +77,24 @@
 body {
   font-family: var(--font-family);
   font-weight: 400;
-  color: var(--color-text);
-  background-color: var(--color-bg-page);
+  color: var(--text-primary);
+  background-color: #F8F7FD;
+  background-image: 
+    /* 1. Grade sutil de pontos técnicos (textura de sketchbook/blueprint) */
+    radial-gradient(circle, rgba(42, 53, 118, 0.08) 1.2px, transparent 1.2px),
+    /* 2. Auras luminosas da paleta oficial OportUni */
+    radial-gradient(circle at 6% 16%, rgba(226, 224, 255, 0.85) 0%, transparent 35%),
+    radial-gradient(circle at 94% 12%, rgba(7, 174, 211, 0.15) 0%, transparent 40%),
+    radial-gradient(circle at 88% 75%, rgba(197, 114, 199, 0.15) 0%, transparent 42%),
+    radial-gradient(circle at 10% 82%, rgba(143, 211, 26, 0.12) 0%, transparent 38%),
+    radial-gradient(circle at 50% 28%, rgba(223, 110, 30, 0.06) 0%, transparent 45%);
+  background-size: 26px 26px, 100% 100%, 100% 100%, 100% 100%, 100% 100%, 100% 100%;
+  background-attachment: fixed;
   line-height: 1.5;
   min-height: 100vh;
   -webkit-font-smoothing: antialiased;
+  position: relative;
+  overflow-x: hidden;
 }
 
 img, svg {
@@ -89,13 +120,13 @@ input, select, textarea {
 }
 
 /* ============================================================
-   3. UTILITÁRIOS ESTRUTURAIS BÁSICOS
+   3. UTILITÁRIOS
    ============================================================ */
 .container {
   width: 100%;
   max-width: var(--container-max);
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 24px;
 }
 
 .sr-only {
@@ -111,4 +142,247 @@ input, select, textarea {
 
 .hidden {
   display: none !important;
+}
+
+/* ============================================================
+   4. NAVBAR INTEGRADA À MARCA
+   ============================================================ */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid rgba(42, 53, 118, 0.08);
+  box-shadow: 0 2px 14px rgba(42, 53, 118, 0.03);
+  z-index: 100;
+  padding: 14px 0;
+}
+
+.navbar .container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.navbar-brand img {
+  height: 38px;
+  width: auto;
+}
+
+.navbar-nav {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.nav-link {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-muted);
+  transition: all 0.2s ease;
+  position: relative;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+}
+
+.nav-link:hover {
+  color: var(--brand-navy);
+  background-color: rgba(42, 53, 118, 0.06);
+}
+
+.nav-link.active {
+  color: var(--brand-navy);
+  font-weight: 700;
+  background-color: var(--brand-lavender);
+}
+
+.nav-btn-professor {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 8px 18px;
+  background-color: #C774CA;
+  color: #FFFFFF;
+  font-size: 13.5px;
+  font-weight: 600;
+  border: 1.5px solid #C774CA;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 2px 10px rgba(199, 116, 202, 0.25);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.nav-btn-professor img {
+  width: 15px;
+  height: 15px;
+  filter: brightness(0) invert(1);
+  transition: transform 0.22s ease;
+}
+
+.nav-btn-professor:hover {
+  background-color: #B55DBB;
+  border-color: #B55DBB;
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(199, 116, 202, 0.40);
+}
+
+.nav-btn-professor:hover img {
+  transform: scale(1.08);
+}
+
+.navbar-toggle {
+  display: none;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  border-radius: 10px;
+  background: rgba(42, 53, 118, 0.05);
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.navbar-toggle:hover {
+  background: rgba(42, 53, 118, 0.1);
+}
+
+.navbar-toggle span {
+  display: block;
+  width: 22px;
+  height: 2px;
+  background-color: var(--brand-navy);
+  border-radius: 2px;
+  transition: all 0.25s ease;
+}
+
+/* Animação do X quando menu aberto */
+.navbar-toggle.active span:nth-child(1) {
+  transform: translateY(7px) rotate(45deg);
+}
+
+.navbar-toggle.active span:nth-child(2) {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.navbar-toggle.active span:nth-child(3) {
+  transform: translateY(-7px) rotate(-45deg);
+}
+
+/* ── Rodapé Institucional ── */
+.footer {
+  margin-top: 80px;
+  padding: 40px 0;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-top: 1px solid rgba(42, 53, 118, 0.08);
+}
+
+.footer-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer-brand img {
+  height: 28px;
+}
+
+.footer-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+}
+
+.footer-links {
+  display: flex;
+  gap: 20px;
+}
+
+.footer-links a {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-navy);
+  transition: color 0.2s ease;
+}
+
+.footer-links a:hover {
+  color: var(--brand-orange);
+}
+
+/* Responsividade Global */
+@media (max-width: 768px) {
+  .navbar-toggle {
+    display: flex;
+  }
+
+  .navbar-nav {
+    display: none;
+    position: absolute;
+    top: calc(100% + 14px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 18px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    box-shadow: 0 16px 36px rgba(42, 53, 118, 0.12);
+    border: 1px solid rgba(42, 53, 118, 0.08);
+  }
+
+  .navbar-nav.open {
+    display: flex;
+    animation: menuSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+  }
+
+  .navbar-nav .nav-btn-professor {
+    width: 100%;
+    text-align: center;
+    padding: 12px 20px;
+    margin-top: 4px;
+    font-size: 15px;
+  }
+
+  .footer-content {
+    flex-direction: column;
+    text-align: center;
+    gap: 18px;
+  }
+
+  .footer-links {
+    justify-content: center;
+  }
+}
+
+@keyframes menuSlideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
