@@ -105,6 +105,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const mesNum = partesData[1] || '11';
       const mesTexto = MESES[mesNum] || 'NOV';
 
+      const bolsaLower = (item.bolsa || '').toLowerCase();
+      const captionBolsa = bolsaLower.includes('h') || bolsaLower.includes('ac') || bolsaLower.includes('voluntário')
+        ? 'Benefício'
+        : 'Remuneração';
+
       const article = document.createElement('article');
       article.className = cardClass;
       article.setAttribute('data-eixo', item.eixo);
@@ -125,7 +130,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <footer class="card-footer">
           <dl class="card-bento-metrics">
             <div class="metric-box bolsa-box">
-              <dt class="metric-caption">Remuneração</dt>
+              <dt class="metric-caption">${captionBolsa}</dt>
               <dd class="metric-val">${item.bolsa}</dd>
             </div>
             <div class="metric-box prazo-box">
