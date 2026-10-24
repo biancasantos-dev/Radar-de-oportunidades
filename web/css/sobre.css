@@ -1,3 +1,1156 @@
 /* ============================================================
-   SOBRE — Estilos específicos
+   OPORTUNI — Estilos da Página "Sobre o Projeto"
+   A estética combina referências modernas de design editorial:
+   - Mathscool (Fichário universitário, anéis metálicos, clipes)
+   - Ruang Edit & DesignOps (Títulos expressivos, pílulas com setas, stickers)
+   - Strategy Sculptors (Bento grid de impacto com paleta pastel suave)
+   - Craftsmen (Aspas tipográficas gigantes e 4 pilares minimalistas)
    ============================================================ */
+
+/* ── Container e Espaçamento Geral ── */
+.sobre-main {
+  padding-top: 36px;
+  padding-bottom: 72px;
+  display: flex;
+  flex-direction: column;
+  gap: 64px;
+}
+
+/* ============================================================
+   1. HERO EDITORIAL DINÂMICO (Ruang Edit & DesignOps)
+   ============================================================ */
+.sobre-hero {
+  text-align: center;
+  max-width: 860px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Stickers em Linha */
+.hero-stickers-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.sticker-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 14px;
+  border-radius: var(--radius-pill);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.sticker-pill:hover {
+  transform: translateY(-2px);
+}
+
+.sticker-accent {
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  box-shadow: 0 4px 12px rgba(223, 110, 30, 0.25);
+}
+
+.sticker-subtle {
+  background-color: #FFFFFF;
+  color: var(--brand-navy);
+  border: var(--stroke-brand);
+  box-shadow: var(--shadow-xs);
+}
+
+.sticker-green {
+  background-color: #EBF8D5;
+  color: #4B7806;
+  border: 1px solid rgba(143, 211, 26, 0.35);
+}
+
+.sticker-lilac {
+  background-color: #F8EAF9;
+  color: #8C2C90;
+  border: 1px solid rgba(197, 114, 199, 0.35);
+}
+
+/* Título de Alto Impacto */
+.sobre-hero-title {
+  font-size: clamp(2rem, 4.8vw, 3.25rem);
+  font-weight: 800;
+  line-height: 1.18;
+  color: var(--brand-navy);
+  letter-spacing: -0.03em;
+  margin: 0;
+}
+
+/* Palavra-chave com formato de Pílula Interativa com Seta */
+.inline-keyword-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 18px;
+  margin: 0 4px;
+  background-color: var(--brand-navy);
+  color: #FFFFFF;
+  border-radius: var(--radius-pill);
+  font-size: 0.88em;
+  font-weight: 700;
+  vertical-align: middle;
+  box-shadow: 0 6px 18px rgba(42, 53, 118, 0.25);
+  transition: transform 0.25s ease, background-color 0.25s ease;
+  cursor: default;
+}
+
+.inline-keyword-pill:hover {
+  transform: scale(1.04);
+  background-color: var(--brand-orange);
+}
+
+.pill-arrow-icon {
+  stroke: currentColor;
+  transition: transform 0.25s ease;
+}
+
+.inline-keyword-pill:hover .pill-arrow-icon {
+  transform: translateX(4px);
+}
+
+/* Subtítulo / Lead */
+.sobre-hero-lead {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  color: var(--text-muted);
+  line-height: 1.65;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+/* Quick Feature Dots */
+.hero-quick-features {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  flex-wrap: wrap;
+  padding-top: 6px;
+}
+
+.quick-feature-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  background-color: rgba(255, 255, 255, 0.7);
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: var(--stroke-brand-sm);
+  backdrop-filter: blur(8px);
+}
+
+.quick-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.dot-cyan { background-color: var(--brand-cyan); box-shadow: 0 0 8px rgba(7, 174, 211, 0.6); }
+.dot-orange { background-color: var(--brand-orange); box-shadow: 0 0 8px rgba(223, 110, 30, 0.6); }
+.dot-lilac { background-color: var(--brand-lilac); box-shadow: 0 0 8px rgba(197, 114, 199, 0.6); }
+
+
+/* ============================================================
+   2. O PROBLEMA vs A SOLUÇÃO (Metáfora Fichário — Mathscool)
+   ============================================================ */
+.binder-section {
+  width: 100%;
+}
+
+.binder-notebook {
+  position: relative;
+  background-color: #FFFFFF;
+  border-radius: 28px;
+  border: 1.5px solid rgba(42, 53, 118, 0.12);
+  box-shadow: 
+    0 20px 48px rgba(42, 53, 118, 0.08),
+    0 4px 12px rgba(42, 53, 118, 0.04);
+  background-image: 
+    /* Grade suave de folha milimetrada de fichário */
+    linear-gradient(to right, rgba(42, 53, 118, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(42, 53, 118, 0.03) 1px, transparent 1px);
+  background-size: 24px 24px;
+  padding: 44px 36px 36px 36px;
+  overflow: visible;
+}
+
+/* Fita de Anéis Metálicos no Topo do Fichário */
+.binder-rings-strip {
+  position: absolute;
+  top: -14px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: space-around;
+  padding: 0 32px;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.binder-hole {
+  position: relative;
+  width: 18px;
+  height: 28px;
+  background: #E8E7F0;
+  border-radius: 999px;
+  border: 1.5px solid rgba(42, 53, 118, 0.2);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ring-metal {
+  width: 8px;
+  height: 24px;
+  background: linear-gradient(135deg, #FFFFFF 0%, #A4A9C4 50%, #4E557A 100%);
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(42, 53, 118, 0.25);
+}
+
+/* Clipes Decorativo */
+.binder-paperclip {
+  position: absolute;
+  top: -16px;
+  right: 48px;
+  z-index: 6;
+  filter: drop-shadow(0 4px 8px rgba(223, 110, 30, 0.28));
+  transform: rotate(6deg);
+  transition: transform 0.3s ease;
+}
+
+.binder-notebook:hover .binder-paperclip {
+  transform: rotate(12deg) translateY(-2px);
+}
+
+/* Conteúdo da Folha */
+.binder-sheet-content {
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.binder-header-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  border-bottom: 2px dashed rgba(42, 53, 118, 0.12);
+  padding-bottom: 20px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.binder-badge {
+  display: inline-block;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--brand-orange);
+  margin-bottom: 6px;
+}
+
+.binder-title {
+  font-size: clamp(1.4rem, 2.5vw, 1.85rem);
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0;
+  letter-spacing: -0.02em;
+}
+
+.binder-date-stamp {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  background-color: var(--brand-lavender);
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  border: var(--stroke-brand-sm);
+}
+
+/* Comparativo em Duas Colunas */
+.comparison-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 24px;
+}
+
+.comparison-card {
+  border-radius: 20px;
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  border: 1px solid transparent;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.comparison-card:hover {
+  transform: translateY(-3px);
+}
+
+/* Cartão Antes */
+.card-before {
+  background-color: #FAF8F6;
+  border-color: rgba(220, 53, 69, 0.16);
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.02);
+}
+
+/* Cartão Depois (OportUni) */
+.card-after {
+  background-color: #F6FCF5;
+  border-color: rgba(143, 211, 26, 0.3);
+  box-shadow: 0 8px 24px rgba(143, 211, 26, 0.08);
+}
+
+/* Cabeçalho dos cartões */
+.card-status-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid rgba(42, 53, 118, 0.08);
+}
+
+.status-symbol {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 800;
+  flex-shrink: 0;
+}
+
+.header-before .status-symbol {
+  background-color: #FDE8E8;
+  color: #D32F2F;
+}
+
+.header-after .status-symbol {
+  background-color: #E2F7D8;
+  color: #2E7D32;
+}
+
+.comparison-heading {
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0;
+}
+
+.comparison-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  margin: 2px 0 0 0;
+}
+
+/* Listas de Itens */
+.comparison-list {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+}
+
+.comparison-list li {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.comparison-list li p {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+}
+
+.list-bullet-tag {
+  display: inline-flex;
+  align-self: flex-start;
+  padding: 2px 10px;
+  border-radius: var(--radius-pill);
+  font-size: 0.74rem;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+}
+
+.tag-red {
+  background-color: #FFEAE9;
+  color: #C62828;
+}
+
+.tag-green {
+  background-color: #E7F8DE;
+  color: #2E7D32;
+}
+
+
+/* ============================================================
+   3. BENTO GRID DE IMPACTO & NÚMEROS (Strategy Sculptors)
+   ============================================================ */
+.bento-section {
+  width: 100%;
+}
+
+.section-intro {
+  text-align: center;
+  max-width: 680px;
+  margin: 0 auto 36px auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 3.2vw, 2.3rem);
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: -0.02em;
+  margin: 0;
+}
+
+.section-desc {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  margin: 0;
+  line-height: 1.55;
+}
+
+/* Layout Bento Grid */
+.bento-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 20px;
+}
+
+.bento-item {
+  border-radius: 24px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  background-color: #FFFFFF;
+  border: var(--stroke-brand);
+  box-shadow: var(--shadow-sm);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.bento-item:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.bento-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.bento-tag {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: var(--radius-pill);
+}
+
+.tag-navy { background-color: var(--brand-lavender); color: var(--brand-navy); }
+.tag-lilac { background-color: #F8EAF9; color: var(--brand-teacher); }
+.tag-green { background-color: #EBF8D5; color: #447204; }
+.tag-orange { background-color: #FDEFE5; color: var(--brand-orange); }
+
+.bento-number-badge {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: -0.02em;
+}
+
+.bento-icon-svg {
+  opacity: 0.8;
+}
+
+.bento-item-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0 0 8px 0;
+}
+
+.bento-item-text {
+  font-size: 0.88rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0 0 18px 0;
+}
+
+/* Bento 1: 3 Eixos Acadêmicos UCSal (6 colunas) */
+.bento-axes {
+  grid-column: span 6;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F5F4FD 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-folders-showcase {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 14px;
+  flex: 1;
+  justify-content: space-between;
+}
+
+.mini-folder-tab {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.mini-folder-tab:hover {
+  transform: translateY(-2px);
+}
+
+.mini-tab-ear {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 16px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  border-radius: 8px 8px 0 0;
+  width: fit-content;
+  margin-bottom: -1px;
+  position: relative;
+  z-index: 2;
+  box-shadow: 0 -2px 4px rgba(42, 53, 118, 0.03);
+}
+
+.mini-folder-card {
+  border-radius: 0 16px 16px 16px;
+  padding: 15px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  box-shadow: 0 2px 8px rgba(42, 53, 118, 0.03);
+  transition: box-shadow 0.2s ease;
+}
+
+.mini-folder-tab:hover .mini-folder-card {
+  box-shadow: 0 6px 16px rgba(42, 53, 118, 0.07);
+}
+
+.mini-folder-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.mini-folder-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.mini-folder-name {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+}
+
+.mini-folder-arrow {
+  display: flex;
+  align-items: center;
+  color: var(--text-muted);
+  opacity: 0.4;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+
+.mini-folder-tab:hover .mini-folder-arrow {
+  transform: translateX(3px);
+  opacity: 0.9;
+  color: var(--brand-navy);
+}
+
+/* Cores específicas das 3 pastas */
+.folder-exatas .mini-tab-ear {
+  background-color: var(--tab-exatas);
+  color: #026075;
+  border: 1px solid rgba(7, 174, 211, 0.3);
+  border-bottom: none;
+}
+.folder-exatas .mini-folder-card {
+  background-color: #F0FAFC;
+  border: 1px solid rgba(7, 174, 211, 0.25);
+}
+.folder-exatas .icon-exatas {
+  background-color: #D6F2F8;
+  color: #07AED3;
+}
+
+.folder-humanas .mini-tab-ear {
+  background-color: var(--tab-humanas);
+  color: #9A4608;
+  border: 1px solid rgba(223, 110, 30, 0.3);
+  border-bottom: none;
+}
+.folder-humanas .mini-folder-card {
+  background-color: #FDF6F0;
+  border: 1px solid rgba(223, 110, 30, 0.25);
+}
+.folder-humanas .icon-humanas {
+  background-color: #FCE8DB;
+  color: #DF6E1E;
+}
+
+.folder-saude .mini-tab-ear {
+  background-color: var(--tab-saude);
+  color: #3C6304;
+  border: 1px solid rgba(143, 211, 26, 0.3);
+  border-bottom: none;
+}
+.folder-saude .mini-folder-card {
+  background-color: #F6FBF0;
+  border: 1px solid rgba(143, 211, 26, 0.25);
+}
+.folder-saude .icon-saude {
+  background-color: #EBF7D4;
+  color: #558704;
+}
+
+
+/* Bento 2: 6 Modalidades em Grid de Stickers (6 colunas) */
+.bento-modalities {
+  grid-column: span 6;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FDF7FD 100%);
+  display: flex;
+  flex-direction: column;
+}
+
+.bento-stickers-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(3, 1fr);
+  gap: 12px;
+  margin-top: 14px;
+  flex: 1;
+}
+
+.modality-sticker {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border-radius: 18px;
+  border: 1px solid rgba(42, 53, 118, 0.08);
+  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.03);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: default;
+  height: 100%;
+}
+
+.modality-sticker:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(42, 53, 118, 0.08);
+}
+
+.sticker-icon-wrap {
+  width: 42px;
+  height: 42px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.sticker-icon-wrap svg {
+  width: 20px;
+  height: 20px;
+}
+
+.icon-cyan   { background-color: #D3F3FA; color: #027A94; }
+.icon-lilac  { background-color: #F6E2F8; color: #8F2B92; }
+.icon-green  { background-color: #E6F7D0; color: #447405; }
+.icon-orange { background-color: #FCE6D6; color: #B3520A; }
+.icon-gold   { background-color: #FEF3D0; color: #9E7404; }
+.icon-purple { background-color: #EAE6FC; color: #4E38A8; }
+
+.modality-info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.modality-title {
+  font-size: 0.90rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modality-sub {
+  font-size: 0.76rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Tons Pastéis Oficiais dos Stickers */
+.mod-ic {
+  background-color: var(--card-ic);
+  border-color: rgba(7, 174, 211, 0.25);
+}
+
+.mod-monitoria {
+  background-color: var(--card-monitoria);
+  border-color: rgba(197, 114, 199, 0.25);
+}
+
+.mod-extensao {
+  background-color: var(--card-extensao);
+  border-color: rgba(143, 211, 26, 0.25);
+}
+
+.mod-estagio {
+  background-color: var(--card-estagio);
+  border-color: rgba(223, 110, 30, 0.25);
+}
+
+.mod-evento {
+  background-color: var(--card-evento);
+  border-color: rgba(223, 180, 20, 0.25);
+}
+
+.mod-grupo {
+  background-color: var(--card-grupo);
+  border-color: rgba(120, 100, 230, 0.2);
+}
+
+/* Bento 3 & 4 (6 colunas cada) */
+.bento-benefits {
+  grid-column: span 6;
+  background: linear-gradient(135deg, #FFFFFF 0%, #F6FCF2 100%);
+}
+
+.bento-governance {
+  grid-column: span 6;
+  background: linear-gradient(135deg, #FFFFFF 0%, #FEF8F4 100%);
+}
+
+
+/* ============================================================
+   4. OS 4 PILARES DO OPORTUNI (Craftsmen)
+   ============================================================ */
+.pilares-section {
+  width: 100%;
+}
+
+.pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  margin-bottom: 40px;
+}
+
+.pilar-card {
+  background-color: #FFFFFF;
+  border-radius: 22px;
+  padding: 26px 22px;
+  border: var(--stroke-brand);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.pilar-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+}
+
+.pilar-icon-box {
+  width: 48px;
+  height: 48px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 4px;
+}
+
+.box-cyan { background-color: #E3F7FC; }
+.box-orange { background-color: #FDEFE5; }
+.box-green { background-color: #EFF9DE; }
+.box-lilac { background-color: #F6E8F8; }
+
+.pilar-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin: 0;
+}
+
+.pilar-text {
+  font-size: 0.86rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}
+
+/* Grande Citação Tipográfica Editorial (Craftsmen) */
+.editorial-quote-block {
+  position: relative;
+  background-color: #FFFFFF;
+  border-radius: 28px;
+  border: 1.5px solid rgba(42, 53, 118, 0.12);
+  padding: 48px 64px;
+  text-align: center;
+  box-shadow: var(--shadow-sm);
+  margin: 0;
+  overflow: hidden;
+}
+
+.quote-mark {
+  position: absolute;
+  font-size: 5.5rem;
+  font-weight: 900;
+  color: rgba(42, 53, 118, 0.12);
+  line-height: 1;
+  user-select: none;
+  font-family: Georgia, serif;
+}
+
+.quote-start {
+  top: 10px;
+  left: 24px;
+}
+
+.quote-end {
+  bottom: -24px;
+  right: 28px;
+}
+
+.quote-text {
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.5;
+  color: var(--brand-navy);
+  max-width: 780px;
+  margin: 0 auto 18px auto;
+  position: relative;
+  z-index: 2;
+}
+
+.quote-author {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-style: normal;
+  position: relative;
+  z-index: 2;
+}
+
+.author-name {
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--brand-orange);
+  letter-spacing: 0.02em;
+}
+
+.author-sub {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+
+/* ============================================================
+   CTA FINAL DE AÇÃO (Conexão ao Mural e Área Docente)
+   ============================================================ */
+.sobre-cta-section {
+  width: 100%;
+}
+
+.sobre-cta-card {
+  position: relative;
+  background: linear-gradient(135deg, var(--brand-navy) 0%, #1E2656 100%);
+  border-radius: 28px;
+  padding: 56px 40px;
+  text-align: center;
+  color: #FFFFFF;
+  box-shadow: 0 20px 48px rgba(42, 53, 118, 0.22);
+  overflow: hidden;
+}
+
+/* Formas decorativas no fundo do CTA */
+.cta-bg-shape {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(50px);
+  pointer-events: none;
+  opacity: 0.45;
+}
+
+.shape-left {
+  width: 220px;
+  height: 220px;
+  background-color: var(--brand-orange);
+  top: -40px;
+  left: -40px;
+}
+
+.shape-right {
+  width: 260px;
+  height: 260px;
+  background-color: var(--brand-cyan);
+  bottom: -50px;
+  right: -50px;
+}
+
+.cta-content {
+  position: relative;
+  z-index: 2;
+  max-width: 680px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.cta-badge {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #FFE6D5;
+  background-color: rgba(223, 110, 30, 0.35);
+  border: 1px solid rgba(223, 110, 30, 0.5);
+  padding: 4px 14px;
+  border-radius: var(--radius-pill);
+}
+
+.cta-title {
+  font-size: clamp(1.75rem, 3.4vw, 2.45rem);
+  font-weight: 800;
+  line-height: 1.22;
+  margin: 0;
+  color: #FFFFFF;
+  letter-spacing: -0.02em;
+}
+
+.cta-subtitle {
+  font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+  line-height: 1.6;
+  color: #E2E0FF;
+  margin: 0 0 12px 0;
+}
+
+/* Grupo de Botões */
+.cta-actions-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.cta-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background-color: var(--brand-orange);
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 700;
+  padding: 14px 26px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: 0 8px 24px rgba(223, 110, 30, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 48px;
+}
+
+.cta-btn-primary:hover {
+  background-color: #C85F15;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(223, 110, 30, 0.45);
+}
+
+.cta-btn-primary svg {
+  transition: transform 0.2s ease;
+}
+
+.cta-btn-primary:hover svg {
+  transform: translateX(4px);
+}
+
+.cta-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  background-color: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+  font-size: 0.95rem;
+  font-weight: 600;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(8px);
+  transition: transform 0.2s ease, background-color 0.2s ease;
+  min-height: 48px;
+}
+
+.cta-btn-secondary:hover {
+  background-color: rgba(255, 255, 255, 0.22);
+  transform: translateY(-2px);
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE (Tablets e Mobile)
+   ============================================================ */
+@media (max-width: 960px) {
+  .bento-axes {
+    grid-column: span 12;
+  }
+  .bento-modalities {
+    grid-column: span 12;
+  }
+  .bento-stickers-grid {
+    grid-template-rows: auto;
+    flex: none;
+  }
+  .bento-benefits {
+    grid-column: span 12;
+  }
+  .bento-governance {
+    grid-column: span 12;
+  }
+
+  .pilares-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .sobre-main {
+    gap: 48px;
+    padding-top: 24px;
+  }
+
+  .binder-notebook {
+    padding: 36px 20px 24px 20px;
+    border-radius: 22px;
+  }
+
+  .comparison-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .editorial-quote-block {
+    padding: 36px 24px;
+    border-radius: 22px;
+  }
+
+  .quote-mark {
+    font-size: 4rem;
+  }
+  .quote-start { left: 12px; top: 4px; }
+  .quote-end { right: 12px; bottom: -18px; }
+
+  .sobre-cta-card {
+    padding: 40px 20px;
+    border-radius: 22px;
+  }
+
+  .cta-actions-group {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .cta-btn-primary,
+  .cta-btn-secondary {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .binder-rings-strip {
+    padding: 0 16px;
+  }
+
+  .binder-hole:nth-child(even) {
+    display: none; /* Reduz furos em telas muito pequenas para não aglomerar */
+  }
+
+  .binder-paperclip {
+    right: 20px;
+    top: -12px;
+    transform: scale(0.85);
+  }
+
+  .pilares-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .bento-stickers-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mini-folder-card {
+    padding: 12px 14px;
+  }
+
+  .inline-keyword-pill {
+    padding: 3px 12px;
+    font-size: 0.82em;
+  }
+}
