@@ -1,1 +1,114 @@
-/* Estilos globais */ body { font-family: sans-serif; }
+/* ============================================================
+   OPORTUNI — Base & Design Tokens
+   Identidade Visual: Poppins + Paleta Oficial
+   ============================================================ */
+
+/* ── Tipografia Oficial ── */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+/* ============================================================
+   1. DESIGN TOKENS (Cores oficiais da ID Visual)
+   ============================================================ */
+:root {
+  /* — Cores Institucionais — */
+  --color-navy:        #2A3576;   /* Azul-marinho principal */
+  --color-navy-dark:   #1B0735;   /* Tom escuro profundo */
+  --color-orange:      #DF6E1E;   /* Laranja vibrante */
+  --color-purple:      #C572C7;   /* Lilás oficial */
+  --color-cyan:        #07AED3;   /* Ciano */
+  --color-green:       #8FD31A;   /* Verde limão */
+  --color-lavender:    #E2E0FF;   /* Lavanda suave */
+
+  /* — Cores das Pastas por Eixo Temático — */
+  --eixo-geral:        #E2E0FF;   /* Geral (Lavanda) */
+  --eixo-exatas:       #6DD4EC;   /* Exatas (Ciano pastel) */
+  --eixo-humanas:      #F0A46B;   /* Humanas (Laranja/Pêssego pastel) */
+  --eixo-saude:        #B5E060;   /* Saúde (Verde pastel) */
+
+  /* — Neutros — */
+  --color-white:       #FFFFFF;
+  --color-bg-page:     #F3F2F8;   /* Fundo geral sutil */
+  --color-text:        #1B0735;   /* Texto principal em contraste com Poppins */
+  --color-text-muted:  #706E88;   /* Texto secundário */
+  --color-border:      #E4E2EE;
+
+  /* — Tipografia — */
+  --font-family:       'Poppins', -apple-system, BlinkMacSystemFont, sans-serif;
+
+  /* — Estilo das Pastas & Fichas (Cantos bem arredondados) — */
+  --radius-tab:        18px 18px 0 0;
+  --radius-card:       24px;
+  --radius-pill:       999px;
+  --radius-sm:         10px;
+
+  /* — Layout — */
+  --container-max:     1160px;
+}
+
+/* ============================================================
+   2. RESET & BASE LIMPOS
+   ============================================================ */
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-family);
+  font-weight: 400;
+  color: var(--color-text);
+  background-color: var(--color-bg-page);
+  line-height: 1.5;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+img, svg {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font-family: var(--font-family);
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+input, select, textarea {
+  font-family: var(--font-family);
+}
+
+/* ============================================================
+   3. UTILITÁRIOS ESTRUTURAIS BÁSICOS
+   ============================================================ */
+.container {
+  width: 100%;
+  max-width: var(--container-max);
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: 0;
+}
+
+.hidden {
+  display: none !important;
+}

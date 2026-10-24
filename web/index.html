@@ -1,1 +1,145 @@
-<!DOCTYPE html><html><head><title>Radar</title></head><body><h1>Radar de Oportunidades</h1></body></html>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OportUni | Mural de Oportunidades Acadêmicas</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/ID visual/icon.svg">
+  
+  <!-- Estilos: Global primeiro, depois o específico -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/index.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação Superior -->
+  <header class="navbar">
+    <div class="container">
+      <a href="index.html" class="navbar-brand">
+        <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni - Radar de Oportunidades Acadêmicas">
+      </a>
+      
+      <button class="navbar-toggle" aria-label="Abrir menu de navegação">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar-nav">
+        <a href="index.html" class="active">Mural</a>
+        <a href="sobre.html">Sobre</a>
+        <a href="login.html" class="btn btn-sm btn-primary">Área do Professor</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="page-content">
+
+    <!-- Seção Hero / Boas-vindas e Busca -->
+    <section class="hero" id="secao-hero">
+      <div class="container">
+        <h1>Radar de Oportunidades Acadêmicas</h1>
+        <p>Encontre bolsas de iniciação científica, projetos de extensão, monitorias e vagas acadêmicas em um só lugar.</p>
+        
+        <!-- Barra de Busca Rápida -->
+        <div class="search-bar">
+          <input type="text" id="campo-busca" placeholder="Buscar por título, área ou palavra-chave..." aria-label="Buscar oportunidades">
+          <button type="button" id="btn-buscar">Buscar</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Seção do Mural: Filtros e Oportunidades -->
+    <section class="container section" id="secao-mural">
+      
+      <!-- Bloco de Filtros -->
+      <div class="filtros-container" id="container-filtros">
+        
+        <!-- Chips dos 7 Tipos de Vagas -->
+        <div class="filter-chips" id="filtros-tipo">
+          <button type="button" class="chip active" data-tipo="TODOS">Todos</button>
+          <button type="button" class="chip" data-tipo="Iniciação Científica">Iniciação Científica</button>
+          <button type="button" class="chip" data-tipo="Monitoria">Monitoria</button>
+          <button type="button" class="chip" data-tipo="Extensão">Extensão</button>
+          <button type="button" class="chip" data-tipo="Estágio/Emprego">Estágio/Emprego</button>
+          <button type="button" class="chip" data-tipo="Intercâmbio">Intercâmbio</button>
+          <button type="button" class="chip" data-tipo="Evento">Evento</button>
+          <button type="button" class="chip" data-tipo="Grupo de Estudo">Grupo de Estudo</button>
+        </div>
+
+        <!-- Filtros Secundários: Curso e Ordenação -->
+        <div class="filtros-secundarios">
+          <div class="filtro-item">
+            <label for="filtro-curso">Curso / Departamento:</label>
+            <select id="filtro-curso" class="form-select">
+              <option value="">Todos os Cursos</option>
+              <option value="Ciência da Computação">Ciência da Computação</option>
+              <option value="Engenharia de Software">Engenharia de Software</option>
+              <option value="Sistemas de Informação">Sistemas de Informação</option>
+            </select>
+          </div>
+
+          <div class="filtro-item">
+            <label for="filtro-ordenacao">Ordenar por:</label>
+            <select id="filtro-ordenacao" class="form-select">
+              <option value="recentes">Mais recentes</option>
+              <option value="prazo">Prazo limite mais próximo</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Grade de Cards de Oportunidades -->
+      <div class="cards-grid" id="grid-oportunidades">
+        <!-- Card Exemplo Estrutural -->
+        <article class="card" id="card-exemplo-1">
+          <header class="card-header">
+            <h2 class="card-title">Pesquisa em IA e PLN</h2>
+            <span class="badge badge-ic">Iniciação Científica</span>
+          </header>
+          <div class="card-body">
+            <p>Desenvolvimento de algoritmos para análise textual e processamento de linguagem natural.</p>
+            <div class="card-meta">
+              <span class="meta-item">📍 Ciência da Computação</span>
+              <span class="meta-item badge-bolsa">💰 Remunerada (R$ 700)</span>
+              <span class="meta-item">⏳ Prazo: 15/11/2026</span>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <span class="badge badge-aberta">Aberta</span>
+            <a href="detalhe.html?id=1" class="btn btn-sm btn-outline">Ver Detalhes</a>
+          </footer>
+        </article>
+      </div>
+
+      <!-- Estado Vazio (exibido caso nenhum resultado seja encontrado) -->
+      <div class="empty-state hidden" id="estado-vazio">
+        <div class="empty-state-icon">🔍</div>
+        <h3>Nenhuma oportunidade encontrada</h3>
+        <p class="text-muted">Tente remover alguns filtros ou buscar por outro termo.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-brand">
+        <img src="assets/img/ID visual/logo-l.svg" alt="Símbolo OportUni">
+        <span class="footer-text">OportUni &copy; 2026 — UCSal POOALAB</span>
+      </div>
+      <div class="footer-links">
+        <a href="sobre.html">Sobre o Projeto</a>
+        <a href="login.html">Acesso Docente</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts: Global primeiro, depois o da página -->
+  <script src="js/script.js"></script>
+  <script src="js/index.js"></script>
+</body>
+</html>
