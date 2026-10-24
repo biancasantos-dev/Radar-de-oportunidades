@@ -6,10 +6,12 @@
    ============================================================ */
 
 /* ── 0. ESTILOS DE NAVBAR COMPARTILHADOS ── */
-.navbar-nav {
-  display: flex;
-  align-items: center;
-  gap: 14px;
+@media (min-width: 769px) {
+  .navbar-nav {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
 }
 
 .nav-btn-nova-vaga {
@@ -364,45 +366,45 @@
   justify-content: space-between;
   gap: 20px;
   margin-bottom: 28px;
-  flex-wrap: wrap;
 }
 
 .candidatos-filter-pills {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  background-color: #F8F8FC;
-  padding: 4px 6px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(42, 53, 118, 0.08);
-  flex-wrap: wrap;
+  gap: 8px;
+  flex-wrap: nowrap;
 }
 
 .filter-pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 7px 14px;
+  padding: 8px 16px;
   border-radius: var(--radius-pill);
-  border: none;
-  background: transparent;
+  border: 1px solid rgba(42, 53, 118, 0.10);
+  background-color: #F8F8FC;
   font-family: var(--font-family);
-  font-size: 12.5px;
+  font-size: 13px;
   font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
   transition: all 0.18s ease;
   line-height: 1;
+  white-space: nowrap;
+  flex-shrink: 0;
 }
 
 .filter-pill:hover {
   color: var(--brand-navy);
+  border-color: rgba(42, 53, 118, 0.22);
+  background-color: #FFFFFF;
 }
 
 .filter-pill.active {
-  background-color: #FFFFFF;
-  color: var(--brand-navy);
-  box-shadow: 0 2px 8px rgba(42, 53, 118, 0.08);
+  background-color: var(--brand-navy);
+  color: #FFFFFF;
+  border-color: var(--brand-navy);
+  box-shadow: 0 4px 12px rgba(42, 53, 118, 0.20);
 }
 
 .pill-count {
@@ -412,15 +414,28 @@
   border-radius: var(--radius-pill);
   background-color: rgba(42, 53, 118, 0.08);
   color: var(--brand-navy);
+  transition: all 0.18s ease;
+}
+
+.filter-pill:hover .pill-count {
+  background-color: rgba(42, 53, 118, 0.12);
 }
 
 .filter-pill.active .pill-count {
-  background-color: var(--brand-lavender);
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
+}
+
+.filter-pill[data-status="Rejeitado"].active {
+  background-color: #D32F2F;
+  color: #FFFFFF;
+  border-color: #D32F2F;
+  box-shadow: 0 4px 12px rgba(211, 47, 47, 0.25);
 }
 
 .filter-pill[data-status="Rejeitado"].active .pill-count {
-  background-color: #FEEEEE;
-  color: #C62828;
+  background-color: rgba(255, 255, 255, 0.25);
+  color: #FFFFFF;
 }
 
 /* Busca alinhada à direita */
@@ -988,14 +1003,35 @@
 }
 
 /* ── 9. RESPONSIVIDADE ── */
-@media (max-width: 900px) {
+/* ── 9. RESPONSIVIDADE ── */
+@media (max-width: 940px) {
   .candidatos-grid {
     grid-template-columns: 1fr;
   }
+
   .candidatos-toolbar {
     flex-direction: column;
     align-items: stretch;
+    gap: 14px;
+    margin-bottom: 20px;
   }
+
+  .candidatos-filter-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    padding: 2px 2px 8px 2px;
+    gap: 8px;
+  }
+
+  .candidatos-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
   .search-wrap {
     width: 100%;
     margin-left: 0;
@@ -1003,35 +1039,257 @@
 }
 
 @media (max-width: 768px) {
+  /* Navbar Mobile: oculto por padrão, aberto ao clicar no botão sanduíche */
+  .navbar-nav {
+    display: none !important;
+    position: absolute;
+    top: calc(100% + 10px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    background-color: #FFFFFF;
+    border-radius: 20px;
+    padding: 20px;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 12px;
+    box-shadow: 0 16px 36px rgba(42, 53, 118, 0.16);
+    border: 1px solid rgba(42, 53, 118, 0.08);
+    z-index: 1000;
+  }
+
+  .navbar-nav.open {
+    display: flex !important;
+    animation: menuSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+  }
+
+  .navbar-nav .nav-link {
+    padding: 12px 16px;
+    border-radius: 12px;
+    font-size: 15px;
+    text-align: center;
+  }
+
+  .navbar-nav .nav-btn-nova-vaga,
+  .navbar-nav .btn-logout {
+    width: 100%;
+    justify-content: center;
+    padding: 12px 20px;
+    font-size: 14px;
+  }
+
+  .nav-breadcrumb {
+    margin: 18px 0 14px 0;
+  }
+
+  /* Banner de Contexto no Mobile */
+  .vaga-context-card {
+    padding: 20px 18px;
+    border-radius: 20px;
+    margin-bottom: 20px;
+  }
+
   .vaga-context-top {
     flex-direction: column;
-    align-items: flex-start;
+    align-items: stretch;
+    gap: 12px;
   }
+
+  .vaga-badges-row {
+    width: 100%;
+  }
+
   .vaga-context-actions {
     width: 100%;
-    justify-content: flex-start;
+    display: flex;
+    gap: 8px;
   }
+
   .btn-banner-action,
   .btn-ver-edital-link {
     flex: 1;
     justify-content: center;
+    height: 38px;
+    font-size: 12.5px;
+    padding: 6px 12px;
   }
+
+  .vaga-meta-row {
+    gap: 12px;
+    font-size: 12px;
+  }
+
+  /* Bento Grid KPIs no Mobile */
   .kpi-grid {
     grid-template-columns: 1fr 1fr;
     gap: 12px;
+    margin-bottom: 20px;
   }
+
+  .kpi-card {
+    padding: 14px 16px;
+    border-radius: 18px;
+    gap: 12px;
+  }
+
+  .kpi-icon-wrap {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+  }
+
+  .kpi-value {
+    font-size: 22px;
+  }
+
+  /* Painel de Candidatos no Mobile */
   .candidatos-card {
     padding: 20px 16px;
     border-radius: 20px;
   }
-  .candidatos-filter-pills {
-    width: 100%;
-    justify-content: space-between;
+
+  .candidatos-toolbar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 14px;
+    margin-bottom: 20px;
   }
+
+  /* Pílulas de Filtro Mobile: Fita de rolagem horizontal nativa fluida (sem quebras de texto) */
+  .candidatos-filter-pills {
+    display: flex;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: calc(100% + 20px);
+    margin: 0 -10px;
+    padding: 4px 10px;
+    background: transparent;
+    border: none;
+    border-radius: 0;
+    gap: 8px;
+  }
+
+  .candidatos-filter-pills::-webkit-scrollbar {
+    display: none;
+  }
+
   .filter-pill {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 8px 16px;
+    font-size: 12.5px;
+    font-weight: 600;
+    border-radius: var(--radius-pill);
+    background-color: #F8F8FC;
+    border: 1px solid rgba(42, 53, 118, 0.10);
+    box-shadow: 0 1px 4px rgba(42, 53, 118, 0.04);
+  }
+
+  .filter-pill.active {
+    background-color: var(--brand-navy);
+    color: #FFFFFF;
+    border-color: var(--brand-navy);
+    box-shadow: 0 4px 14px rgba(42, 53, 118, 0.20);
+  }
+
+  .filter-pill.active .pill-count {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #FFFFFF;
+  }
+
+  .filter-pill[data-status="Rejeitado"].active {
+    background-color: #D32F2F;
+    color: #FFFFFF;
+    border-color: #D32F2F;
+  }
+
+  .filter-pill[data-status="Rejeitado"].active .pill-count {
+    background-color: rgba(255, 255, 255, 0.25);
+    color: #FFFFFF;
+  }
+
+  .search-wrap {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  /* Card do Candidato no Mobile */
+  .candidato-card {
+    padding: 18px 16px;
+    border-radius: 18px;
+  }
+
+  .candidato-actions-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: nowrap;
+  }
+
+  .btn-card-action {
     flex: 1;
-    justify-content: center;
-    padding: 7px 6px;
+    min-width: 0;
+    padding: 0 6px;
     font-size: 11px;
+    gap: 4px;
+    height: 34px;
+  }
+
+  .btn-card-action img {
+    width: 12px;
+    height: 12px;
+  }
+
+  .btn-card-email {
+    width: 34px;
+    height: 34px;
+    flex-shrink: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .vaga-context-card {
+    padding: 18px 14px;
+  }
+
+  .btn-banner-action,
+  .btn-ver-edital-link {
+    font-size: 11.5px;
+    padding: 6px 8px;
+  }
+
+  .kpi-card {
+    padding: 12px 10px;
+    gap: 8px;
+  }
+
+  .kpi-icon-wrap {
+    width: 36px;
+    height: 36px;
+  }
+
+  .kpi-value {
+    font-size: 20px;
+  }
+
+  .candidatos-card {
+    padding: 16px 12px;
+  }
+
+  .candidato-card {
+    padding: 16px 12px;
+  }
+
+  .btn-card-action {
+    font-size: 10.5px;
+    padding: 0 4px;
+    gap: 3px;
+  }
+
+  .btn-card-action span {
+    letter-spacing: -0.2px;
   }
 }

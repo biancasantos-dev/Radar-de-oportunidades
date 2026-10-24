@@ -51,31 +51,65 @@ async function apiFetch(endpoint, options = {}) {
 }
 
 // ── Menu Sanduíche Mobile Interativo ──
-document.addEventListener('DOMContentLoaded', () => {
+function initMobileMenu() {
   const toggleBtn = document.querySelector('.navbar-toggle');
   const navMenu = document.querySelector('.navbar-nav');
 
-  if (toggleBtn && navMenu) {
-    toggleBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      toggleBtn.classList.toggle('active');
-      navMenu.classList.toggle('open');
-    });
+  if (!toggleBtn || !navMenu) return;
 
-    // Fecha o menu ao clicar fora
-    document.addEventListener('click', (e) => {
-      if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
-        toggleBtn.classList.remove('active');
-        navMenu.classList.remove('open');
-      }
-    });
-
-    // Fecha ao clicar em um link interno
-    navMenu.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        toggleBtn.classList.remove('active');
-        navMenu.classList.remove('open');
-      });
-    });
+  function fecharMenu() {
+    toggleBtn.classList.remove('active');
+    navMenu.classList.remove('open');
+    toggleBtn.setAttribute('aria-expanded', 'false');
   }
-});
+
+  function abrirMenu() {
+    toggleBtn.classList.add('active');
+    navMenu.classList.add('open');
+    toggleBtn.setAttribute('aria-expanded', 'true');
+  }
+
+  toggleBtn.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const isOpen = navMenu.classList.contains('open');
+    if (isOpen) {
+      fecharMenu();
+    } else {
+      abrirMenu();
+    }
+  });
+
+  // Fecha o menu ao clicar fora dele
+  document.addEventListener('click', (e) => {
+    if (!navMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
+      fecharMenu();
+    }
+  });
+
+  // Fecha o menu ao clicar em qualquer link ou botão interno (ex: logout, nova vaga, mural)
+  navMenu.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('click', () => {
+      fecharMenu();
+    });
+  });
+
+  // Fecha com a tecla ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      fecharMenu();
+    }
+  });
+
+  // Fecha automaticamente ao expandir a tela para desktop
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 768) {
+      fecharMenu();
+    }
+  });
+}
+
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', initMobileMenu);
+} else {
+  initMobileMenu();
+}

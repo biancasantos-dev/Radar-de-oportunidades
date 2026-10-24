@@ -8,7 +8,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 
 /* ============================================================
-   1. DESIGN TOKENS OFICIAIS (Fiel à Identidade Visual OportUni)
+   1. DESIGN TOKENS OFICIAIS
    ============================================================ */
 :root {
   /* — Cores Mestras da Marca — */
@@ -335,6 +335,7 @@ input, select, textarea {
   background-color: var(--brand-navy);
   border-radius: 2px;
   transition: all 0.25s ease;
+  pointer-events: none;
 }
 
 /* Animação do X quando menu aberto */
@@ -418,8 +419,9 @@ input, select, textarea {
     flex-direction: column;
     align-items: stretch;
     gap: 12px;
-    box-shadow: 0 16px 36px rgba(42, 53, 118, 0.12);
+    box-shadow: 0 16px 36px rgba(42, 53, 118, 0.16);
     border: 1px solid rgba(42, 53, 118, 0.08);
+    z-index: 1000;
   }
 
   .navbar-nav.open {
