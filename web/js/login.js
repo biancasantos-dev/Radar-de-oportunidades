@@ -96,8 +96,47 @@ document.addEventListener('DOMContentLoaded', () => {
         localStorage.removeItem('oportuni_docente_email');
       }
 
+      // Identifica o perfil docente correspondente ao e-mail informado
+      let docenteIdentificado = null;
+      try {
+        const respProf = await fetch('assets/data/professores.json');
+        if (respProf.ok) {
+          const listaProfs = await respProf.json();
+          const emailTrim = email.toLowerCase().trim();
+          docenteIdentificado = listaProfs.find(p => p.email.toLowerCase() === emailTrim);
+
+          if (!docenteIdentificado) {
+            if (emailTrim.includes('carlos') || emailTrim.includes('ads') || emailTrim.includes('ti')) {
+              docenteIdentificado = listaProfs.find(p => p.id === 2);
+            } else if (emailTrim.includes('renata') || emailTrim.includes('psico')) {
+              docenteIdentificado = listaProfs.find(p => p.id === 3);
+            } else if (emailTrim.includes('fernando') || emailTrim.includes('saude') || emailTrim.includes('bio')) {
+              docenteIdentificado = listaProfs.find(p => p.id === 4);
+            } else {
+              docenteIdentificado = listaProfs.find(p => p.id === 1);
+            }
+          }
+        }
+      } catch (errProf) {
+        console.warn('Erro ao consultar professores.json:', errProf);
+      }
+
+      if (!docenteIdentificado) {
+        docenteIdentificado = {
+          id: 1,
+          nome: 'Prof. Dr. Marcelo Ribeiro',
+          email: email,
+          departamento: 'Direito',
+          tag: 'Direito'
+        };
+      }
+
+      // Salva o docente ativo para o painel se adaptar dinamicamente
+      localStorage.setItem('oportuni_docente_ativo', JSON.stringify(docenteIdentificado));
+      sessionStorage.setItem('oportuni_docente_ativo', JSON.stringify(docenteIdentificado));
+
       // Feedback de sucesso e redirecionamento
-      exibirFeedback('success', 'Acesso autorizado! Redirecionando para o painel...');
+      exibirFeedback('success', `Acesso autorizado! Bem-vindo(a), ${docenteIdentificado.nome}...`);
 
       setTimeout(() => {
         window.location.href = 'painel.html';
