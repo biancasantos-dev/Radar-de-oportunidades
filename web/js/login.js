@@ -121,14 +121,8 @@ document.addEventListener('DOMContentLoaded', () => {
         console.warn('Erro ao consultar professores.json:', errProf);
       }
 
-      if (!docenteIdentificado) {
-        docenteIdentificado = {
-          id: 1,
-          nome: 'Prof. Dr. Marcelo Ribeiro',
-          email: email,
-          departamento: 'Direito',
-          tag: 'Direito'
-        };
+      if (!docenteIdentificado && listaProfs && listaProfs.length > 0) {
+        docenteIdentificado = listaProfs[0];
       }
 
       // Salva o docente ativo para o painel se adaptar dinamicamente

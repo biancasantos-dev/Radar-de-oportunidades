@@ -78,15 +78,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // Fallback padrão: Prof. Dr. Marcelo Ribeiro (Direito)
-    if (!docenteAtivo) {
-      docenteAtivo = listaProfessores[0] || {
-        id: 1,
-        nome: 'Prof. Dr. Marcelo Ribeiro',
-        email: 'marcelo.ribeiro@ucsal.br',
-        departamento: 'Direito',
-        tag: 'Direito'
-      };
+    // Fallback dinâmico: utiliza o primeiro professor vindo de professores.json
+    if (!docenteAtivo && listaProfessores.length > 0) {
+      docenteAtivo = listaProfessores[0];
     }
 
     atualizarCabecalhoDocente();

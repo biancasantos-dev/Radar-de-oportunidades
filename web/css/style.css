@@ -253,6 +253,63 @@ input, select, textarea {
   transform: scale(1.08);
 }
 
+.nav-btn-nova-vaga {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px 18px;
+  background-color: var(--brand-teacher);
+  color: #FFFFFF;
+  font-family: var(--font-family);
+  font-size: 13.5px;
+  font-weight: 700;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 14px rgba(199, 116, 202, 0.35);
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.nav-btn-nova-vaga:hover {
+  background-color: var(--brand-teacher-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(199, 116, 202, 0.45);
+  color: #FFFFFF;
+}
+
+.nav-btn-nova-vaga img {
+  filter: brightness(0) invert(1);
+}
+
+.btn-logout {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: var(--radius-pill);
+  background-color: rgba(42, 53, 118, 0.05);
+  border: 1px solid rgba(42, 53, 118, 0.08);
+  color: var(--brand-navy);
+  font-family: var(--font-family);
+  font-size: 13.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.btn-logout:hover {
+  background-color: #FEEEEE;
+  border-color: rgba(211, 47, 47, 0.2);
+  color: #D32F2F;
+}
+
+.btn-logout:hover img {
+  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
+}
+
 .navbar-toggle {
   display: none;
   flex-direction: column;
