@@ -350,8 +350,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <div class="candidato-contato-line">
           <span class="contato-curso">${aluno.curso || ''}</span>
-          ${aluno.telefone ? `<span class="contato-sep">•</span><a href="tel:${aluno.telefone}" class="contato-link">${aluno.telefone}</a>` : ''}
-          ${aluno.email_aluno ? `<span class="contato-sep">•</span><a href="mailto:${aluno.email_aluno}" class="contato-link">${aluno.email_aluno}</a>` : ''}
+          ${aluno.telefone ? `<span class="contato-sep">•</span><span class="contato-item"><a href="tel:${aluno.telefone}" class="contato-link">${aluno.telefone}</a></span>` : ''}
+          ${aluno.email_aluno ? `<span class="contato-sep">•</span><span class="contato-item"><a href="mailto:${aluno.email_aluno}" class="contato-link">${aluno.email_aluno}</a></span>` : ''}
         </div>
 
         <blockquote class="candidato-mensagem-box">

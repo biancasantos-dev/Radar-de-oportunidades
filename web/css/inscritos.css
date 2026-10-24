@@ -118,17 +118,6 @@
   box-shadow: 0 8px 24px rgba(42, 53, 118, 0.04);
   margin-bottom: 28px;
   position: relative;
-  overflow: hidden;
-}
-
-.vaga-context-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 6px;
-  height: 100%;
-  background: linear-gradient(180deg, var(--brand-teacher) 0%, var(--brand-navy) 100%);
 }
 
 .vaga-context-top {
@@ -523,23 +512,23 @@
 
 .candidato-perfil-wrap {
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   gap: 12px;
 }
 
 .candidato-avatar {
-  width: 44px;
-  height: 44px;
+  width: 42px;
+  height: 42px;
   border-radius: 50%;
-  background: linear-gradient(135deg, var(--brand-navy) 0%, var(--brand-teacher) 100%);
+  background-color: var(--brand-navy);
   color: #FFFFFF;
-  font-weight: 800;
-  font-size: 15px;
+  font-weight: 700;
+  font-size: 14px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  box-shadow: 0 2px 8px rgba(42, 53, 118, 0.15);
+  box-shadow: none;
 }
 
 .candidato-nome-wrap {
@@ -602,7 +591,9 @@
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 5px 11px;
+  height: 28px;
+  box-sizing: border-box;
+  padding: 0 10px;
   background-color: #F8F8FC;
   border: 1px solid rgba(42, 53, 118, 0.08);
   border-radius: var(--radius-pill);
@@ -615,23 +606,26 @@
 .candidato-chip img {
   opacity: 0.75;
   flex-shrink: 0;
+  width: 13px;
+  height: 13px;
 }
 
+/* O chip de coeficiente agora tem a MESMA cor e estilo da matrícula e período */
 .candidato-chip.chip-gpa {
-  background-color: #FFF8E8;
-  border-color: rgba(223, 110, 30, 0.25);
-  color: #9C4B08;
+  background-color: #F8F8FC;
+  border-color: rgba(42, 53, 118, 0.08);
+  color: var(--brand-navy);
 }
 
 .candidato-chip.chip-gpa img {
-  opacity: 1;
+  opacity: 0.75;
   width: 13px;
   height: 13px;
 }
 
 .candidato-chip.chip-gpa strong {
-  color: var(--brand-orange);
-  font-weight: 800;
+  color: var(--brand-navy);
+  font-weight: 700;
   margin-left: 2px;
 }
 
@@ -643,18 +637,25 @@
   flex-wrap: wrap;
   font-size: 12px;
   color: var(--text-muted);
-  line-height: 1.4;
+  line-height: 1.5;
 }
 
 .contato-curso {
   font-weight: 700;
   color: var(--brand-navy);
+  white-space: nowrap;
 }
 
 .contato-sep {
-  color: rgba(42, 53, 118, 0.3);
-  font-size: 10px;
+  color: rgba(42, 53, 118, 0.25);
+  font-size: 11px;
   user-select: none;
+}
+
+.contato-item {
+  display: inline-flex;
+  align-items: center;
+  white-space: nowrap;
 }
 
 .contato-link {
@@ -834,6 +835,10 @@
 
 /* ── 6. ESTADO VAZIO ── */
 .empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
   text-align: center;
   padding: 56px 24px;
   border: 1.5px dashed rgba(42, 53, 118, 0.2);
@@ -843,8 +848,10 @@
 }
 
 .empty-icon {
-  margin-bottom: 14px;
+  margin: 0 auto 16px auto;
   opacity: 0.6;
+  width: 48px;
+  height: 48px;
 }
 
 .empty-title {
