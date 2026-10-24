@@ -12,13 +12,15 @@
    ============================================================ */
 :root {
   /* — Cores Mestras da Marca — */
-  --brand-navy:        #2A3576;   /* Azul-marinho oficial (logo e estrutura) */
-  --brand-plum:        #1B0735;   /* Tom escuro profundo */
-  --brand-orange:      #DF6E1E;   /* Laranja do radar (foco / ação / CTA) */
-  --brand-lilac:       #C572C7;   /* Lilás oficial */
-  --brand-cyan:        #07AED3;   /* Ciano oficial */
-  --brand-green:       #8FD31A;   /* Verde limão oficial */
-  --brand-lavender:    #E2E0FF;   /* Lavanda oficial */
+  --brand-navy:          #2A3576;   /* Azul-marinho oficial (logo e estrutura) */
+  --brand-plum:          #1B0735;   /* Tom escuro profundo */
+  --brand-orange:        #DF6E1E;   /* Laranja do radar (foco / ação / CTA) */
+  --brand-lilac:         #C572C7;   /* Lilás oficial */
+  --brand-cyan:          #07AED3;   /* Ciano oficial */
+  --brand-green:         #8FD31A;   /* Verde limão oficial */
+  --brand-lavender:      #E2E0FF;   /* Lavanda oficial */
+  --brand-teacher:       #C774CA;   /* Destaque oficial da Área Docente */
+  --brand-teacher-hover: #B55DBB;   /* Estado ativo/hover docente */
 
   /* — Canvas e Superfícies (Aura Lavanda Luminosa) — */
   --bg-canvas:         #F7F6FD;   /* Fundo banhado em lavanda suave */
@@ -144,6 +146,23 @@ input, select, textarea {
   display: none !important;
 }
 
+/* Spinner Global de Carregamento */
+.spinner {
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #FFFFFF;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  display: inline-block;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
 /* ============================================================
    4. NAVBAR INTEGRADA À MARCA
    ============================================================ */
@@ -205,11 +224,11 @@ input, select, textarea {
   justify-content: center;
   gap: 7px;
   padding: 8px 18px;
-  background-color: #C774CA;
+  background-color: var(--brand-teacher);
   color: #FFFFFF;
   font-size: 13.5px;
   font-weight: 600;
-  border: 1.5px solid #C774CA;
+  border: 1.5px solid var(--brand-teacher);
   border-radius: var(--radius-pill);
   box-shadow: 0 2px 10px rgba(199, 116, 202, 0.25);
   transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
@@ -223,8 +242,8 @@ input, select, textarea {
 }
 
 .nav-btn-professor:hover {
-  background-color: #B55DBB;
-  border-color: #B55DBB;
+  background-color: var(--brand-teacher-hover);
+  border-color: var(--brand-teacher-hover);
   color: #FFFFFF;
   transform: translateY(-2px);
   box-shadow: 0 6px 18px rgba(199, 116, 202, 0.40);

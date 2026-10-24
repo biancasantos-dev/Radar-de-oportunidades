@@ -307,7 +307,7 @@ mark.title-highlight::after {
   box-shadow: 0 -6px 20px rgba(42, 53, 118, 0.05);
 }
 
-/* Ponte branca absoluta que cobre qualquer linha do corpo sem piscar */
+/* Ponte branca pq não consegui fazer a transição de outra forma sem piscar. */
 .folder-tab.active::after {
   content: '';
   position: absolute;
@@ -352,7 +352,7 @@ mark.title-highlight::after {
   border-top-right-radius: 0;
 }
 
-/* ── 5. BARRA DE AÇÕES (FILTROS E BUSCA ALINHADOS) ── */
+/* ── 5. BARRA DE AÇÕES  ── */
 .folder-toolbar {
   display: flex;
   gap: 14px;
@@ -426,7 +426,7 @@ mark.title-highlight::after {
   transform: rotate(180deg);
 }
 
-/* Pontos Indicadores por Tipo de Vaga (Cores Oficiais OportUni) */
+/* Pontos Indicadores por Tipo de Vaga */
 .type-dot {
   width: 9px;
   height: 9px;
@@ -751,6 +751,7 @@ mark.title-highlight::after {
   min-height: 46px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -787,11 +788,12 @@ mark.title-highlight::after {
   min-height: 42px;
   display: -webkit-box;
   -webkit-line-clamp: 2;
+  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
 
-/* ── MINI-BENTO DE DADOS (DESCRIPTION LIST SEMÂNTICA <dl>, <dt>, <dd>) ── */
+/* ── MINI-BENTO DE DADOS  ── */
 .card-footer {
   margin-top: auto;
   padding-top: 4px;
@@ -994,6 +996,7 @@ mark.title-highlight::after {
     font-size: 16px;
     min-height: auto;
     -webkit-line-clamp: 3;
+    line-clamp: 3;
   }
   .card-desc {
     min-height: auto;
