@@ -98,7 +98,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const deptoEl = document.getElementById('painel-docente-depto');
 
     if (tagEl) {
-      tagEl.textContent = `Área Docente • ${docenteAtivo.tag || docenteAtivo.departamento}`;
+      tagEl.textContent = 'Portal do Docente';
     }
     if (userDisplayEmail) {
       userDisplayEmail.textContent = `${docenteAtivo.nome} • ${docenteAtivo.email}`;

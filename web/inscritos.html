@@ -19,13 +19,13 @@
         <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
       </a>
       
-      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação">
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="navbar-nav" aria-label="Navegação principal">
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
         <a href="index.html" class="nav-link">Mural</a>
         <a href="painel.html" class="nav-link active">Painel</a>
         <a href="oportunidade.html" class="nav-btn-nova-vaga">
@@ -85,10 +85,6 @@
           <img src="assets/icons/calendar.svg" alt="" aria-hidden="true" width="15" height="15">
           <span>Inscrições até: <strong id="vaga-prazo">A definir</strong></span>
         </span>
-        <span class="vaga-meta-item">
-          <img src="assets/icons/user.svg" alt="" aria-hidden="true" width="15" height="15">
-          <span id="vaga-docente">Docente Responsável</span>
-        </span>
       </div>
     </header>
 
@@ -145,23 +141,18 @@
         <div class="candidatos-filter-pills" role="tablist" aria-label="Filtrar por status de avaliação">
           <button type="button" class="filter-pill active" data-status="TODOS" role="tab" aria-selected="true">
             <span>Todos</span>
-            <span class="pill-count" id="count-todos">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="Aprovado" role="tab" aria-selected="false">
             <span>Aprovados</span>
-            <span class="pill-count" id="count-aprovados">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="Em Análise" role="tab" aria-selected="false">
             <span>Em Análise</span>
-            <span class="pill-count" id="count-analise">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="Pendente" role="tab" aria-selected="false">
             <span>Pendentes</span>
-            <span class="pill-count" id="count-pendentes">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="Rejeitado" role="tab" aria-selected="false">
             <span>Rejeitados</span>
-            <span class="pill-count" id="count-rejeitados">0</span>
           </button>
         </div>
 

@@ -5,73 +5,9 @@
    Lilás Docente (#C774CA), Verde (#8FD31A), Ciano (#07AED3)
    ============================================================ */
 
-/* ── 0. ESTILOS DE NAVBAR COMPARTILHADOS ── */
-@media (min-width: 769px) {
-  .navbar-nav {
-    display: flex;
-    align-items: center;
-    gap: 14px;
-  }
-}
+/* Estilos de navbar (.navbar-nav, .nav-btn-nova-vaga, .btn-logout)
+   são gerenciados globalmente por style.css */
 
-.nav-btn-nova-vaga {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 8px 18px;
-  background-color: var(--brand-teacher);
-  color: #FFFFFF;
-  font-family: var(--font-family);
-  font-size: 13px;
-  font-weight: 700;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 14px rgba(199, 116, 202, 0.35);
-  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
-  text-decoration: none;
-  cursor: pointer;
-  white-space: nowrap;
-}
-
-.nav-btn-nova-vaga:hover {
-  background-color: var(--brand-teacher-hover);
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(199, 116, 202, 0.45);
-  color: #FFFFFF;
-}
-
-.nav-btn-nova-vaga img {
-  width: 14px;
-  height: 14px;
-  filter: brightness(0) invert(1);
-}
-
-.btn-logout {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  background-color: rgba(42, 53, 118, 0.05);
-  border: 1px solid rgba(42, 53, 118, 0.08);
-  color: var(--brand-navy);
-  font-family: var(--font-family);
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  white-space: nowrap;
-}
-
-.btn-logout:hover {
-  background-color: #FEEEEE;
-  border-color: rgba(211, 47, 47, 0.2);
-  color: #D32F2F;
-}
-
-.btn-logout:hover img {
-  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
-}
 
 /* ── 1. NAVEGAÇÃO DE RETORNO (BREADCRUMB) ── */
 .nav-breadcrumb {
@@ -315,9 +251,16 @@
 }
 
 .icon-purple { background-color: #F8EDF9; color: var(--brand-teacher); }
+.icon-purple img { filter: var(--filter-icon-teacher); }
+
 .icon-green  { background-color: #EDF7DE; color: var(--brand-green); }
+.icon-green img  { filter: var(--filter-icon-green); }
+
 .icon-cyan   { background-color: #E3F7FC; color: var(--brand-cyan); }
+.icon-cyan img   { filter: var(--filter-icon-cyan); }
+
 .icon-orange { background-color: #FDEFE5; color: var(--brand-orange); }
+.icon-orange img { filter: var(--filter-icon-orange); }
 
 .kpi-info {
   display: flex;
@@ -440,8 +383,15 @@
 .search-icon {
   position: absolute;
   left: 14px;
-  opacity: 0.5;
+  filter: var(--filter-icon-muted);
+  opacity: 0.65;
   pointer-events: none;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.search-wrap:focus-within .search-icon {
+  opacity: 1;
+  filter: var(--filter-icon-teacher);
 }
 
 .search-input {
@@ -604,10 +554,11 @@
 }
 
 .candidato-chip img {
-  opacity: 0.75;
+  opacity: 0.85;
   flex-shrink: 0;
   width: 13px;
   height: 13px;
+  filter: var(--filter-icon-navy);
 }
 
 /* O chip de coeficiente agora tem a MESMA cor e estilo da matrícula e período */
@@ -618,9 +569,10 @@
 }
 
 .candidato-chip.chip-gpa img {
-  opacity: 0.75;
+  opacity: 0.95;
   width: 13px;
   height: 13px;
+  filter: var(--filter-icon-orange);
 }
 
 .candidato-chip.chip-gpa strong {
@@ -734,6 +686,11 @@
   border: 1px solid rgba(143, 211, 26, 0.35);
 }
 
+.btn-action-aprovar img {
+  filter: var(--filter-icon-green);
+  transition: filter 0.18s ease;
+}
+
 .btn-action-aprovar:hover {
   background-color: #8FD31A;
   color: #FFFFFF;
@@ -758,6 +715,11 @@
   background-color: #E3F7FC;
   color: #0C3E4F;
   border: 1px solid rgba(7, 174, 211, 0.25);
+}
+
+.btn-action-analise img {
+  filter: var(--filter-icon-cyan);
+  transition: filter 0.18s ease;
 }
 
 .btn-action-analise:hover {
@@ -786,6 +748,11 @@
   border: 1px solid rgba(42, 53, 118, 0.10);
 }
 
+.btn-action-rejeitar img {
+  filter: var(--filter-icon-muted);
+  transition: filter 0.18s ease;
+}
+
 .btn-action-rejeitar:hover {
   background-color: #FEEEEE;
   color: #D32F2F;
@@ -793,7 +760,7 @@
 }
 
 .btn-action-rejeitar:hover img {
-  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
+  filter: var(--filter-icon-red);
 }
 
 .btn-action-rejeitar.is-active {
@@ -822,6 +789,11 @@
   transition: all 0.18s ease;
   flex-shrink: 0;
   text-decoration: none;
+}
+
+.btn-card-email img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.18s ease;
 }
 
 .btn-card-email:hover {
@@ -868,149 +840,7 @@
   margin: 0 auto;
 }
 
-/* ── 7. MODAL DE CONFIRMAÇÃO DE REJEIÇÃO (DEFINITIVA) ── */
-.modal-dialog {
-  border: none;
-  border-radius: 24px;
-  padding: 0;
-  background: transparent;
-  max-width: 440px;
-  width: 90%;
-  margin: auto;
-  box-shadow: 0 24px 60px rgba(42, 53, 118, 0.25);
-}
-
-.modal-dialog::backdrop {
-  background-color: rgba(42, 53, 118, 0.4);
-  backdrop-filter: blur(6px);
-}
-
-.modal-content {
-  background-color: #FFFFFF;
-  border-radius: 24px;
-  padding: 32px 28px;
-  text-align: center;
-  border: 1px solid rgba(42, 53, 118, 0.10);
-  animation: modalScaleIn 0.25s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes modalScaleIn {
-  from { opacity: 0; transform: scale(0.92); }
-  to   { opacity: 1; transform: scale(1); }
-}
-
-.modal-icon-warning {
-  width: 54px;
-  height: 54px;
-  border-radius: 50%;
-  background-color: #FEEEEE;
-  color: #D32F2F;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 16px auto;
-}
-
-.modal-icon-warning img {
-  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
-}
-
-.modal-title {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--brand-navy);
-  margin-bottom: 8px;
-}
-
-.modal-desc {
-  font-size: 13.5px;
-  color: var(--text-muted);
-  line-height: 1.5;
-  margin-bottom: 24px;
-}
-
-.modal-desc strong {
-  color: var(--brand-navy);
-}
-
-.modal-actions {
-  display: flex;
-  gap: 12px;
-}
-
-.btn-modal-cancel {
-  flex: 1;
-  padding: 12px 18px;
-  border-radius: var(--radius-pill);
-  background-color: #F8F8FC;
-  border: 1px solid rgba(42, 53, 118, 0.12);
-  color: var(--brand-navy);
-  font-family: var(--font-family);
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-modal-cancel:hover {
-  background-color: rgba(42, 53, 118, 0.08);
-}
-
-.btn-modal-delete {
-  flex: 1;
-  padding: 12px 18px;
-  border-radius: var(--radius-pill);
-  background-color: #D32F2F;
-  border: none;
-  color: #FFFFFF;
-  font-family: var(--font-family);
-  font-size: 14px;
-  font-weight: 700;
-  cursor: pointer;
-  box-shadow: 0 4px 14px rgba(211, 47, 47, 0.3);
-  transition: all 0.2s ease;
-}
-
-.btn-modal-delete:hover {
-  background-color: #B71C1C;
-  transform: translateY(-1px);
-}
-
-/* ── 8. TOAST NOTIFICATION ── */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: var(--brand-navy);
-  color: #FFFFFF;
-  padding: 14px 22px;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 10px 30px rgba(42, 53, 118, 0.25);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13.5px;
-  font-weight: 600;
-  z-index: 999;
-  animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes toastSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.toast-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--brand-green);
-  box-shadow: 0 0 8px var(--brand-green);
-  flex-shrink: 0;
-}
-
-/* ── 9. RESPONSIVIDADE ── */
-/* ── 9. RESPONSIVIDADE ── */
+/* ── 7. RESPONSIVIDADE ── */
 @media (max-width: 940px) {
   .candidatos-grid {
     grid-template-columns: 1fr;
@@ -1046,44 +876,6 @@
 }
 
 @media (max-width: 768px) {
-  /* Navbar Mobile: oculto por padrão, aberto ao clicar no botão sanduíche */
-  .navbar-nav {
-    display: none !important;
-    position: absolute;
-    top: calc(100% + 10px);
-    left: 0;
-    right: 0;
-    width: 100%;
-    background-color: #FFFFFF;
-    border-radius: 20px;
-    padding: 20px;
-    flex-direction: column;
-    align-items: stretch;
-    gap: 12px;
-    box-shadow: 0 16px 36px rgba(42, 53, 118, 0.16);
-    border: 1px solid rgba(42, 53, 118, 0.08);
-    z-index: 1000;
-  }
-
-  .navbar-nav.open {
-    display: flex !important;
-    animation: menuSlideDown 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-  }
-
-  .navbar-nav .nav-link {
-    padding: 12px 16px;
-    border-radius: 12px;
-    font-size: 15px;
-    text-align: center;
-  }
-
-  .navbar-nav .nav-btn-nova-vaga,
-  .navbar-nav .btn-logout {
-    width: 100%;
-    justify-content: center;
-    padding: 12px 20px;
-    font-size: 14px;
-  }
 
   .nav-breadcrumb {
     margin: 18px 0 14px 0;

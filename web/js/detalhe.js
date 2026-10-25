@@ -32,9 +32,6 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnDuvidaDocente = document.getElementById('btn-duvida-docente');
 
   // Elementos da Sidebar de Candidatura
-  const stickyStatusBadge = document.getElementById('sticky-status-badge');
-  const stickyStatusText = document.getElementById('sticky-status-text');
-  const stickyPrazoDias = document.getElementById('sticky-prazo-dias');
   const stickyCaptionBolsa = document.getElementById('sticky-caption-bolsa');
   const stickyBolsaValor = document.getElementById('sticky-bolsa-valor');
   const stickyDataLimite = document.getElementById('sticky-data-limite');
@@ -283,7 +280,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       itensRequisitos.forEach(req => {
         const li = document.createElement('li');
         li.innerHTML = `
-          <span class="req-check-icon" aria-hidden="true">✓</span>
+          <span class="req-check-icon" aria-hidden="true">
+            <img src="assets/icons/check.svg" alt="" width="12" height="12">
+          </span>
           <span>${req}</span>
         `;
         detalheRequisitosList.appendChild(li);
@@ -342,7 +341,9 @@ document.addEventListener('DOMContentLoaded', async () => {
         const div = document.createElement('div');
         div.className = 'atividade-pill';
         div.innerHTML = `
-          <span class="atividade-check">✓</span>
+          <span class="atividade-check">
+            <img src="assets/icons/check.svg" alt="" width="13" height="13" aria-hidden="true">
+          </span>
           <span>${ativ}</span>
         `;
         atividadesGrid.appendChild(div);
@@ -364,31 +365,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     // Sidebar de Candidatura
-    if (stickyStatusBadge && stickyStatusText) {
-      if (isEncerrada) {
-        stickyStatusBadge.className = 'sticky-badge-status status-encerrada';
-        stickyStatusText.textContent = 'Edital Encerrado';
-        if (stickyPrazoDias) stickyPrazoDias.textContent = 'Prazo Finalizado';
-        if (timelineProgress) timelineProgress.style.width = '100%';
-        if (btnAbrirCandidatura) {
-          btnAbrirCandidatura.disabled = true;
-          btnAbrirCandidatura.innerHTML = `<span>Inscrições Encerradas</span>`;
-        }
-      } else {
-        stickyStatusBadge.className = 'sticky-badge-status status-aberta';
-        stickyStatusText.textContent = 'Edital Aberto';
-        if (stickyPrazoDias) stickyPrazoDias.textContent = 'Inscrições Abertas';
-        if (timelineProgress) timelineProgress.style.width = '65%';
-        if (btnAbrirCandidatura) {
-          btnAbrirCandidatura.disabled = false;
-          btnAbrirCandidatura.innerHTML = `
-            <span>Candidatar-se à Vaga</span>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <line x1="5" y1="12" x2="19" y2="12"></line>
-              <polyline points="12 5 19 12 12 19"></polyline>
-            </svg>
-          `;
-        }
+    if (isEncerrada) {
+      if (timelineProgress) timelineProgress.style.width = '100%';
+      if (btnAbrirCandidatura) {
+        btnAbrirCandidatura.disabled = true;
+        btnAbrirCandidatura.innerHTML = `<span>Inscrições Encerradas</span>`;
+      }
+    } else {
+      if (timelineProgress) timelineProgress.style.width = '65%';
+      if (btnAbrirCandidatura) {
+        btnAbrirCandidatura.disabled = false;
+        btnAbrirCandidatura.innerHTML = `
+          <span>Candidatar-se à Vaga</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="5" y1="12" x2="19" y2="12"></line>
+            <polyline points="12 5 19 12 12 19"></polyline>
+          </svg>
+        `;
       }
     }
 
@@ -610,7 +603,8 @@ document.addEventListener('DOMContentLoaded', async () => {
       // Atualiza visual do botão para indicar candidatura efetuada
       if (btnAbrirCandidatura) {
         btnAbrirCandidatura.innerHTML = `
-          <span>Candidatura Enviada ✓</span>
+          <span>Candidatura Enviada</span>
+          <img src="assets/icons/check.svg" alt="" width="16" height="16" style="filter: brightness(0) invert(1);" aria-hidden="true">
         `;
         btnAbrirCandidatura.style.background = 'linear-gradient(135deg, #2A3576, #8FD31A)';
       }

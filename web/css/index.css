@@ -700,8 +700,8 @@ mark.title-highlight::after {
 }
 
 .btn-action.btn-action-encerrada .btn-action-icon {
-  filter: none;
-  opacity: 0.45;
+  filter: var(--filter-icon-muted);
+  opacity: 0.7;
 }
 
 /* ── 8. ESTADO VAZIO ── */
@@ -715,7 +715,8 @@ mark.title-highlight::after {
 
 .empty-icon {
   margin: 0 auto 16px auto;
-  opacity: 0.6;
+  opacity: 0.65;
+  filter: var(--filter-icon-muted);
 }
 
 .empty-title {

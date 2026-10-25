@@ -19,13 +19,13 @@
         <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
       </a>
       
-      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação">
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="navbar-nav" aria-label="Navegação principal">
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
         <a href="index.html" class="nav-link">Mural</a>
         <a href="sobre.html" class="nav-link">Sobre</a>
         <a href="login.html" class="nav-btn-professor">
@@ -48,7 +48,6 @@
         <header class="cadastro-card-header">
           <div class="cadastro-badge-row">
             <span class="cadastro-badge-role">Portal do Docente</span>
-            <span class="cadastro-badge-uni">Exclusivo UCSal</span>
           </div>
 
           <h1 class="cadastro-title" id="cadastro-title">
@@ -101,7 +100,7 @@
                 id="campo-email" 
                 name="email" 
                 class="form-input" 
-                placeholder="nome.docente@ucsal.br ou @prof.ucsal.br" 
+                placeholder="exemplo.docente@ucsal.br" 
                 required 
                 autocomplete="email"
               >

@@ -122,6 +122,21 @@ body[data-eixo="saude"] .detalhe-hero::before {
   flex-wrap: wrap;
 }
 
+.hero-badges .badge-pill {
+  display: inline-flex;
+  align-items: center;
+  background-color: #FFFFFF;
+  color: var(--brand-navy);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid rgba(42, 53, 118, 0.12);
+  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.05);
+}
+
 .badge-eixo {
   display: inline-flex;
   align-items: center;
@@ -135,6 +150,31 @@ body[data-eixo="saude"] .detalhe-hero::before {
   border-radius: var(--radius-pill);
 }
 
+.hero-badges .badge-status {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 6px 14px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
+}
+
+.hero-badges .badge-status.status-aberta {
+  background-color: rgba(143, 211, 26, 0.15);
+  color: #4C7507;
+  border-color: rgba(143, 211, 26, 0.25);
+}
+
+.hero-badges .badge-status.status-encerrada {
+  background-color: rgba(158, 155, 181, 0.18);
+  color: #6C6985;
+  border-color: rgba(42, 53, 118, 0.10);
+}
+
 .status-pulse-dot {
   width: 8px;
   height: 8px;
@@ -142,6 +182,7 @@ body[data-eixo="saude"] .detalhe-hero::before {
   background-color: var(--brand-green);
   display: inline-block;
   animation: pulseGreen 2s infinite;
+  flex-shrink: 0;
 }
 
 .status-encerrada .status-pulse-dot {
@@ -193,13 +234,16 @@ body[data-eixo="saude"] .detalhe-hero::before {
 }
 
 .depto-icon {
-  color: var(--brand-lilac);
+  width: 18px;
+  height: 18px;
+  filter: var(--filter-icon-orange);
+  vertical-align: middle;
 }
 
 /* Grid de Metadados em Formato Bento */
 .hero-meta-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 16px;
   border-top: 1.5px dashed rgba(42, 53, 118, 0.12);
   padding-top: 24px;
@@ -231,14 +275,26 @@ body[data-eixo="saude"] .detalhe-hero::before {
   color: #5C8C08;
 }
 
+.icon-bolsa img {
+  filter: var(--filter-icon-green);
+}
+
 .icon-prazo {
   background-color: rgba(197, 114, 199, 0.15);
   color: var(--brand-lilac);
 }
 
+.icon-prazo img {
+  filter: var(--filter-icon-teacher);
+}
+
 .icon-docente {
   background-color: rgba(7, 174, 211, 0.14);
   color: var(--brand-cyan);
+}
+
+.icon-docente img {
+  filter: var(--filter-icon-cyan);
 }
 
 .meta-info {
@@ -370,10 +426,14 @@ body[data-eixo="saude"] .detalhe-hero::before {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  font-size: 0.75rem;
-  font-weight: 800;
   flex-shrink: 0;
   margin-top: 2px;
+}
+
+.req-check-icon img {
+  width: 12px;
+  height: 12px;
+  filter: brightness(0) invert(1);
 }
 
 /* Bloco de Atividades */
@@ -403,9 +463,20 @@ body[data-eixo="saude"] .detalhe-hero::before {
 }
 
 .atividade-check {
-  color: var(--brand-green);
-  font-weight: 800;
-  font-size: 1.1rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: rgba(143, 211, 26, 0.16);
+}
+
+.atividade-check img {
+  width: 13px;
+  height: 13px;
+  filter: invert(66%) sepia(85%) saturate(540%) hue-rotate(39deg) brightness(96%) contrast(92%);
 }
 
 /* Card do Docente */
@@ -483,11 +554,20 @@ body[data-eixo="saude"] .detalhe-hero::before {
   transition: all 0.2s ease;
 }
 
+.btn-duvida-docente img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.2s ease;
+}
+
 .btn-duvida-docente:hover {
   background-color: var(--brand-navy);
   color: #FFFFFF;
   border-color: var(--brand-navy);
   transform: translateY(-2px);
+}
+
+.btn-duvida-docente:hover img {
+  filter: brightness(0) invert(1);
 }
 
 /* ── 4. Coluna Lateral: Sticky Sidebar de Candidatura ── */
@@ -510,37 +590,6 @@ body[data-eixo="saude"] .detalhe-hero::before {
   gap: 22px;
   position: relative;
   overflow: hidden;
-}
-
-.sticky-status-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 10px;
-}
-
-.sticky-badge-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  font-size: 0.82rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  background-color: rgba(143, 211, 26, 0.15);
-  color: #4C7507;
-}
-
-.sticky-badge-status.status-encerrada {
-  background-color: rgba(158, 155, 181, 0.18);
-  color: #6C6985;
-}
-
-.sticky-prazo-urgencia {
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--brand-lilac);
 }
 
 .sticky-price-box {
@@ -660,6 +709,10 @@ body[data-eixo="saude"] .detalhe-hero::before {
   transition: all 0.2s ease;
 }
 
+.btn-compartilhar-vaga img {
+  filter: var(--filter-icon-navy);
+}
+
 .btn-compartilhar-vaga:hover {
   background-color: var(--brand-lavender);
   border-color: var(--brand-navy);
@@ -708,9 +761,18 @@ body[data-eixo="saude"] .detalhe-hero::before {
   border: 1px solid rgba(7, 174, 211, 0.25);
 }
 
+.btn-gestao-edit img {
+  filter: var(--filter-icon-cyan);
+  transition: filter 0.15s ease;
+}
+
 .btn-gestao-edit:hover {
   background-color: var(--brand-cyan);
   color: #FFFFFF;
+}
+
+.btn-gestao-edit:hover img {
+  filter: brightness(0) invert(1);
 }
 
 .btn-gestao-inscritos {
@@ -719,9 +781,18 @@ body[data-eixo="saude"] .detalhe-hero::before {
   border: 1px solid rgba(197, 114, 199, 0.25);
 }
 
+.btn-gestao-inscritos img {
+  filter: var(--filter-icon-teacher);
+  transition: filter 0.15s ease;
+}
+
 .btn-gestao-inscritos:hover {
   background-color: var(--brand-lilac);
   color: #FFFFFF;
+}
+
+.btn-gestao-inscritos:hover img {
+  filter: brightness(0) invert(1);
 }
 
 /* Dicas Institucionais */
@@ -737,6 +808,10 @@ body[data-eixo="saude"] .detalhe-hero::before {
 .tip-icon-wrap {
   color: var(--brand-lilac);
   margin-top: 2px;
+}
+
+.tip-icon-wrap img {
+  filter: var(--filter-icon-teacher);
 }
 
 .tip-text {
@@ -987,6 +1062,60 @@ body[data-eixo="saude"] .detalhe-hero::before {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 8px;
+}
+
+.card-relacionada-top .badge-pill {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  background-color: #F8F8FC;
+  color: var(--brand-navy);
+  border: 1px solid rgba(42, 53, 118, 0.08);
+}
+
+.card-relacionada-top .badge-status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.card-relacionada-top .badge-status::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  display: inline-block;
+  flex-shrink: 0;
+}
+
+.card-relacionada-top .badge-status.status-aberta {
+  background-color: rgba(143, 211, 26, 0.15);
+  color: #4C7507;
+}
+
+.card-relacionada-top .badge-status.status-aberta::before {
+  background-color: var(--brand-green);
+  box-shadow: 0 0 6px var(--brand-green);
+}
+
+.card-relacionada-top .badge-status.status-encerrada {
+  background-color: rgba(158, 155, 181, 0.18);
+  color: #6C6985;
+}
+
+.card-relacionada-top .badge-status.status-encerrada::before {
+  background-color: #8C88A8;
+  box-shadow: none;
 }
 
 .card-relacionada-title {

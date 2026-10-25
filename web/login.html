@@ -19,13 +19,13 @@
         <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
       </a>
       
-      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação">
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="navbar-nav" aria-label="Navegação principal">
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
         <a href="index.html" class="nav-link">Mural</a>
         <a href="sobre.html" class="nav-link">Sobre</a>
         <a href="login.html" class="nav-btn-professor" aria-current="page">
@@ -48,7 +48,7 @@
         <header class="login-card-header">
           <div class="login-badge-row">
             <span class="login-badge-role">Portal do Docente</span>
-
+            <span class="login-badge-uni">Exclusivo UCSal</span>
           </div>
 
           <h1 class="login-title" id="login-title">
@@ -87,7 +87,7 @@
           <div class="form-group">
             <div class="form-label-row">
               <label for="senha" class="form-label">Senha de Acesso</label>
-              <a href="#" class="forgot-link" id="link-esqueci-senha" tabindex="0">Esqueceu a senha?</a>
+              <button type="button" class="forgot-link" id="link-esqueci-senha">Esqueceu a senha?</button>
             </div>
             <div class="input-icon-wrap">
               <img src="assets/icons/lock.svg" alt="" class="field-icon" width="18" height="18" aria-hidden="true">

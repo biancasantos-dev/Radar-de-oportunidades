@@ -19,13 +19,13 @@
         <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
       </a>
       
-      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação">
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
         <span></span>
         <span></span>
         <span></span>
       </button>
 
-      <nav class="navbar-nav" aria-label="Navegação principal">
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
         <a href="index.html" class="nav-link">Mural</a>
         <a href="painel.html" class="nav-link active" aria-current="page">Painel</a>
         <a href="oportunidade.html" class="nav-btn-nova-vaga">
@@ -47,7 +47,7 @@
     <header class="painel-header">
       <div class="painel-header-content">
         <p class="painel-badges-row">
-          <strong class="painel-tag" id="painel-docente-tag">Área Docente • Direito</strong>
+          <strong class="painel-tag" id="painel-docente-tag">Portal do Docente</strong>
           <span class="painel-docente-email" id="user-display-email">Prof. Dr. Marcelo Ribeiro</span>
         </p>
         <h1 class="painel-title">
@@ -119,15 +119,12 @@
         <div class="status-filter-pills" role="tablist" aria-label="Filtrar por status da vaga">
           <button type="button" class="filter-pill active" data-status="TODOS" role="tab" aria-selected="true">
             <span>Todas</span>
-            <span class="pill-count" id="count-todos">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="ABERTA" role="tab" aria-selected="false">
             <span>Abertas</span>
-            <span class="pill-count" id="count-abertas">0</span>
           </button>
           <button type="button" class="filter-pill" data-status="ENCERRADA" role="tab" aria-selected="false">
             <span>Encerradas</span>
-            <span class="pill-count" id="count-encerradas">0</span>
           </button>
         </div>
 

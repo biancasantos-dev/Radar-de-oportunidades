@@ -220,7 +220,9 @@ document.addEventListener('DOMContentLoaded', () => {
     vagaDeptoEl.textContent = vagaAtiva.departamento;
     vagaBolsaEl.textContent = vagaAtiva.bolsa || 'Voluntário';
     vagaPrazoEl.textContent = vagaAtiva.data_limite || 'A definir';
-    vagaDocenteEl.textContent = vagaAtiva.professor_nome || docenteAtivo.nome;
+    if (vagaDocenteEl) {
+      vagaDocenteEl.textContent = vagaAtiva.professor_nome || docenteAtivo.nome;
+    }
 
     const linkMural = document.getElementById('link-ver-edital-publico');
     if (linkMural) {

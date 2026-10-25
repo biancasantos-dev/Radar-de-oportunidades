@@ -32,10 +32,12 @@
 }
 
 .btn-back img {
-  transition: transform 0.2s ease;
+  filter: var(--filter-icon-navy);
+  transition: transform 0.2s ease, filter 0.2s ease;
 }
 
 .btn-back:hover img {
+  filter: var(--filter-icon-orange);
   transform: translateX(-2px);
 }
 
@@ -145,84 +147,9 @@
   border-radius: 8px;
 }
 
-/* Grupos de Campos e Labels */
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+/* Controles de formulário (.form-group, .form-label, .form-input, .form-textarea, .form-grid)
+   são herdados diretamente do design system global em style.css */
 
-.form-label {
-  font-size: 0.86rem;
-  font-weight: 600;
-  color: var(--brand-navy);
-  display: flex;
-  align-items: center;
-  gap: 4px;
-}
-
-.required-asterisk {
-  color: var(--brand-orange);
-  font-weight: 700;
-}
-
-.field-hint {
-  font-size: 0.76rem;
-  color: var(--text-muted);
-  line-height: 1.4;
-}
-
-/* Grids Internos do Formulário */
-.form-grid-2 {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-}
-
-.form-grid-3 {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 16px;
-}
-
-/* Controles de Entrada (Inputs, Selects, Textareas) */
-.form-input,
-.form-select,
-.form-textarea {
-  font-family: var(--font-family);
-  font-size: 0.92rem;
-  color: var(--brand-navy);
-  background-color: #FAFAFD;
-  border: 1.5px solid rgba(42, 53, 118, 0.14);
-  border-radius: 12px;
-  padding: 12px 14px;
-  width: 100%;
-  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-  box-sizing: border-box;
-}
-
-.form-input:focus,
-.form-select:focus,
-.form-textarea:focus {
-  outline: none;
-  background-color: #FFFFFF;
-  border-color: var(--brand-navy);
-  box-shadow: 0 0 0 3px rgba(42, 53, 118, 0.12);
-}
-
-.form-input::placeholder,
-.form-textarea::placeholder {
-  color: #A09EBA;
-  font-weight: 400;
-}
-
-.form-textarea {
-  resize: vertical;
-  min-height: 90px;
-  line-height: 1.5;
-}
-
-/* Select customizado utiliza o componente global .custom-select-wrap de style.css */
 
 /* Estado de Erro de Validação */
 .form-input.is-invalid,
@@ -376,39 +303,7 @@
 }
 
 
-/* ============================================================
-   TOAST DE FEEDBACK
-   ============================================================ */
-.toast {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  background-color: var(--brand-navy);
-  color: #FFFFFF;
-  padding: 14px 22px;
-  border-radius: var(--radius-pill);
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 12px 32px rgba(42, 53, 118, 0.25);
-  font-size: 0.9rem;
-  font-weight: 600;
-  z-index: 9999;
-  opacity: 0;
-  transform: translateY(20px);
-  pointer-events: none;
-  transition: opacity 0.3s ease, transform 0.3s ease;
-}
-
-.toast.show {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-.toast-icon {
-  stroke: var(--brand-green);
-  flex-shrink: 0;
-}
+/* Toast de notificação gerenciado globalmente por style.css */
 
 
 /* ============================================================

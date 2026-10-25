@@ -63,6 +63,16 @@
 
   /* — Layout — */
   --container-max:     1160px;
+
+  /* — Filtros Universais para Ícones SVG (<img>) — */
+  --filter-icon-white:   brightness(0) invert(1);
+  --filter-icon-navy:    invert(19%) sepia(50%) saturate(1750%) hue-rotate(215deg) brightness(92%) contrast(94%);
+  --filter-icon-teacher: invert(60%) sepia(35%) saturate(850%) hue-rotate(256deg) brightness(95%) contrast(90%);
+  --filter-icon-orange:  invert(50%) sepia(85%) saturate(1350%) hue-rotate(352deg) brightness(92%) contrast(95%);
+  --filter-icon-cyan:    invert(52%) sepia(80%) saturate(1500%) hue-rotate(152deg) brightness(97%) contrast(95%);
+  --filter-icon-green:   invert(44%) sepia(87%) saturate(632%) hue-rotate(44deg) brightness(91%) contrast(97%);
+  --filter-icon-muted:   invert(45%) sepia(16%) saturate(600%) hue-rotate(205deg) brightness(90%) contrast(88%);
+  --filter-icon-red:     invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
 }
 
 /* ============================================================
@@ -144,6 +154,47 @@ input, select, textarea {
 
 .hidden {
   display: none !important;
+}
+
+/* Badges Globais de Status e Categoria */
+.badge-pill {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  background-color: #FFFFFF;
+  color: var(--brand-navy);
+  border: 1px solid rgba(42, 53, 118, 0.10);
+  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.05);
+  display: inline-flex;
+  align-items: center;
+}
+
+.badge-status {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  padding: 5px 12px;
+  border-radius: var(--radius-pill);
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid transparent;
+}
+
+.badge-status.status-aberta {
+  background-color: #EBF7D4;
+  color: #4D7A04;
+  border-color: rgba(143, 211, 26, 0.25);
+}
+
+.badge-status.status-encerrada {
+  background-color: #F0EFF5;
+  color: #7A7895;
+  border-color: rgba(42, 53, 118, 0.08);
 }
 
 /* Spinner Global de Carregamento */
@@ -300,6 +351,13 @@ input, select, textarea {
   white-space: nowrap;
 }
 
+.btn-logout img {
+  width: 15px;
+  height: 15px;
+  filter: var(--filter-icon-navy);
+  transition: filter 0.2s ease;
+}
+
 .btn-logout:hover {
   background-color: #FEEEEE;
   border-color: rgba(211, 47, 47, 0.2);
@@ -307,7 +365,7 @@ input, select, textarea {
 }
 
 .btn-logout:hover img {
-  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
+  filter: var(--filter-icon-red);
 }
 
 .navbar-toggle {
@@ -765,8 +823,11 @@ input, select, textarea {
     font-size: 15px;
   }
 
-  .navbar-nav .nav-btn-professor {
+  .navbar-nav .nav-btn-professor,
+  .navbar-nav .nav-btn-nova-vaga,
+  .navbar-nav .btn-logout {
     width: 100%;
+    justify-content: center;
     text-align: center;
     padding: 12px 20px;
     margin-top: 4px;
@@ -793,4 +854,66 @@ input, select, textarea {
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ============================================================
+   9. COMPONENTE GLOBAL: TOAST DE NOTIFICAÇÃO
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  background-color: var(--brand-navy);
+  color: #FFFFFF;
+  padding: 14px 22px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 30px rgba(42, 53, 118, 0.25);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  z-index: 9999;
+  pointer-events: none;
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.3s cubic-bezier(0.16, 1, 0.3, 1), transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Variante exibida via classe .show (detalhe.html, oportunidade.html) */
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Variante exibida via remoção da classe .hidden (painel.html, inscritos.html) */
+.toast:not(.hidden):not(.show) {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+  animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes toastSlideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.toast-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--brand-green);
+  box-shadow: 0 0 8px var(--brand-green);
+  flex-shrink: 0;
+}
+
+.toast-icon {
+  stroke: var(--brand-green);
+  flex-shrink: 0;
+}
+
+.toast-msg {
+  color: #FFFFFF;
 }

@@ -74,17 +74,16 @@
   font-weight: 400;
 }
 
-/* Botões da Navbar e Header */
-.nav-btn-nova-vaga,
+/* Botão de Ação do Painel */
 .btn-cta-primary {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
-  padding: 10px 20px;
+  padding: 13px 24px;
   background-color: var(--brand-teacher);
   color: #FFFFFF;
-  font-size: 13.5px;
+  font-size: 14.5px;
   font-weight: 700;
   border-radius: var(--radius-pill);
   box-shadow: 0 4px 14px rgba(199, 116, 202, 0.35);
@@ -93,44 +92,14 @@
   cursor: pointer;
 }
 
-.btn-cta-primary {
-  padding: 13px 24px;
-  font-size: 14.5px;
-}
-
-.nav-btn-nova-vaga:hover,
 .btn-cta-primary:hover {
   background-color: var(--brand-teacher-hover);
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(199, 116, 202, 0.45);
 }
 
-.nav-btn-nova-vaga img,
 .btn-cta-primary img {
   filter: brightness(0) invert(1);
-}
-
-.btn-logout {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  border-radius: var(--radius-pill);
-  background-color: rgba(42, 53, 118, 0.05);
-  color: var(--brand-navy);
-  font-size: 13.5px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-logout:hover {
-  background-color: #FEEEEE;
-  color: #D32F2F;
-}
-
-.btn-logout:hover img {
-  filter: invert(27%) sepia(85%) saturate(3025%) hue-rotate(345deg) brightness(90%) contrast(92%);
 }
 
 /* ── 2. BENTO GRID DE MÉTRICAS (KPIS) ── */
@@ -173,20 +142,32 @@
   background-color: #F8EDF9;
   color: var(--brand-teacher);
 }
+.icon-purple img {
+  filter: var(--filter-icon-teacher);
+}
 
 .icon-green {
   background-color: #EDF7DE;
   color: var(--brand-green);
+}
+.icon-green img {
+  filter: var(--filter-icon-green);
 }
 
 .icon-cyan {
   background-color: #E3F7FC;
   color: var(--brand-cyan);
 }
+.icon-cyan img {
+  filter: var(--filter-icon-cyan);
+}
 
 .icon-gray {
   background-color: #F0EFF5;
   color: #8C88A8;
+}
+.icon-gray img {
+  filter: var(--filter-icon-muted);
 }
 
 .status-beacon-live {
@@ -298,8 +279,15 @@
 .search-input-icon {
   position: absolute;
   left: 16px;
-  opacity: 0.5;
+  filter: var(--filter-icon-muted);
+  opacity: 0.65;
   pointer-events: none;
+  transition: opacity 0.2s ease, filter 0.2s ease;
+}
+
+.painel-search-wrap:focus-within .search-input-icon {
+  opacity: 1;
+  filter: var(--filter-icon-teacher);
 }
 
 .painel-search-input {
@@ -482,6 +470,11 @@
   white-space: nowrap;
 }
 
+.btn-table-inscritos img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.18s ease;
+}
+
 .btn-table-inscritos:hover {
   background-color: var(--brand-teacher);
   border-color: var(--brand-teacher);
@@ -515,6 +508,11 @@
   text-decoration: none;
 }
 
+.btn-table-icon img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.18s ease;
+}
+
 .btn-table-icon:hover {
   background-color: var(--brand-navy);
   color: #FFFFFF;
@@ -526,16 +524,32 @@
   filter: brightness(0) invert(1);
 }
 
+.btn-table-icon.btn-action-delete img {
+  filter: var(--filter-icon-muted);
+}
+
 .btn-table-icon.btn-action-delete:hover {
   background-color: #D32F2F;
   border-color: #D32F2F;
   color: #FFFFFF;
 }
 
+.btn-table-icon.btn-action-delete:hover img {
+  filter: brightness(0) invert(1);
+}
+
+.btn-table-icon.btn-action-toggle img {
+  filter: var(--filter-icon-muted);
+}
+
 .btn-table-icon.btn-action-toggle:hover {
   background-color: var(--brand-orange);
   border-color: var(--brand-orange);
   color: #FFFFFF;
+}
+
+.btn-table-icon.btn-action-toggle:hover img {
+  filter: brightness(0) invert(1);
 }
 
 /* ── 6. ESTADO VAZIO DO PAINEL ── */
@@ -554,7 +568,8 @@
 
 .empty-icon {
   margin: 0 auto 16px auto;
-  opacity: 0.6;
+  opacity: 0.65;
+  filter: var(--filter-icon-muted);
   width: 48px;
   height: 48px;
 }
@@ -678,40 +693,7 @@
   transform: translateY(-1px);
 }
 
-/* ── 8. TOAST NOTIFICATION ── */
-.toast {
-  position: fixed;
-  bottom: 30px;
-  right: 30px;
-  background-color: var(--brand-navy);
-  color: #FFFFFF;
-  padding: 14px 22px;
-  border-radius: var(--radius-pill);
-  box-shadow: 0 10px 30px rgba(42, 53, 118, 0.25);
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 13.5px;
-  font-weight: 600;
-  z-index: 999;
-  animation: toastSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-@keyframes toastSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-
-.toast-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-  background-color: var(--brand-green);
-  box-shadow: 0 0 8px var(--brand-green);
-  flex-shrink: 0;
-}
-
-/* ── 9. RESPONSIVIDADE ── */
+/* ── 8. RESPONSIVIDADE ── */
 @media (max-width: 768px) {
   .painel-header {
     flex-direction: column;
@@ -748,12 +730,5 @@
   }
   .painel-search-wrap {
     min-width: 100%;
-  }
-  .navbar-nav .nav-btn-nova-vaga,
-  .navbar-nav .btn-logout {
-    width: 100%;
-    justify-content: center;
-    padding: 12px 20px;
-    font-size: 14.5px;
   }
 }

@@ -177,6 +177,11 @@
 }
 
 .forgot-link {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
   font-size: 12px;
   font-weight: 500;
   color: var(--brand-teacher);
@@ -202,14 +207,15 @@
   width: 18px;
   height: 18px;
   object-fit: contain;
-  color: #8C88A8;
   pointer-events: none;
   opacity: 0.7;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  filter: var(--filter-icon-muted);
+  transition: opacity 0.2s ease, transform 0.2s ease, filter 0.2s ease;
 }
 
 .input-icon-wrap:focus-within .field-icon {
   opacity: 1;
+  filter: var(--filter-icon-teacher);
 }
 
 .form-input {
@@ -237,10 +243,6 @@
   box-shadow: 0 0 0 3px rgba(199, 116, 202, 0.15);
 }
 
-.input-icon-wrap:focus-within .field-icon {
-  color: var(--brand-teacher);
-}
-
 /* Botão Mostrar/Ocultar Senha */
 .btn-toggle-pass {
   position: absolute;
@@ -251,14 +253,21 @@
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: #8C88A8;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+.btn-toggle-pass img {
+  filter: var(--filter-icon-muted);
+  transition: filter 0.2s ease;
+}
+
 .btn-toggle-pass:hover {
-  color: var(--brand-navy);
   background-color: rgba(42, 53, 118, 0.06);
+}
+
+.btn-toggle-pass:hover img {
+  filter: var(--filter-icon-navy);
 }
 
 /* ── 6. CHECKBOX LEMBRAR-ME ── */
@@ -428,7 +437,7 @@
 .btn-register-docente .btn-reg-icon {
   width: 18px;
   height: 18px;
-  color: currentColor;
+  filter: var(--filter-icon-teacher);
   transition: transform 0.2s ease, filter 0.2s ease;
 }
 
@@ -469,9 +478,18 @@
   transition: all 0.2s ease;
 }
 
+.back-link img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
 .back-link:hover {
   color: var(--brand-orange);
   transform: translateX(-3px);
+}
+
+.back-link:hover img {
+  filter: var(--filter-icon-orange);
 }
 
 /* ── 10. RESPONSIVIDADE ── */
