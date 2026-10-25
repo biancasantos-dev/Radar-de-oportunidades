@@ -136,6 +136,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         listaProfessores = await respProf.json();
       }
 
+      try {
+        const profsLocais = JSON.parse(localStorage.getItem('professores_cadastrados') || '[]');
+        listaProfessores = [...profsLocais, ...listaProfessores];
+      } catch (e) {}
+
       // Carrega Oportunidades
       const respVagas = await fetch('assets/data/oportunidades.json');
       const jsonVagas = respVagas.ok ? await respVagas.json() : [];

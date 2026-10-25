@@ -408,6 +408,10 @@ input, select, textarea {
   width: 100%;
 }
 
+.custom-select-wrap.is-open {
+  z-index: 50;
+}
+
 /* Botão Trigger na Identidade OportUni */
 .custom-select-trigger {
   width: 100%;

@@ -199,9 +199,17 @@
 .field-icon {
   position: absolute;
   left: 18px;
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
   color: #8C88A8;
   pointer-events: none;
-  transition: color 0.2s ease;
+  opacity: 0.7;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.input-icon-wrap:focus-within .field-icon {
+  opacity: 1;
 }
 
 .form-input {
@@ -338,14 +346,110 @@
 }
 
 .btn-login .btn-icon {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
   transition: transform 0.2s ease;
+  filter: brightness(0) invert(1);
 }
 
 .btn-login:hover .btn-icon {
   transform: translateX(4px);
 }
 
+.btn-toggle-pass img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+}
 
+/* ── 8. SEPARADOR E BOTÃO DE CADASTRO DOCENTE ── */
+.login-divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 22px 0 16px 0;
+  color: #A09EBA;
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+
+.login-divider::before,
+.login-divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid rgba(42, 53, 118, 0.1);
+}
+
+.login-divider span {
+  padding: 0 12px;
+}
+
+.login-register-prompt {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.register-prompt-text {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-align: center;
+  margin: 0;
+}
+
+.btn-register-docente {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+  height: 48px;
+  border-radius: var(--radius-pill);
+  border: 1.5px solid var(--brand-teacher);
+  background-color: rgba(197, 114, 199, 0.06);
+  color: var(--brand-teacher);
+  font-size: 14.5px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s cubic-bezier(0.2, 0.8, 0.2, 1);
+  box-sizing: border-box;
+}
+
+.btn-register-docente svg,
+.btn-register-docente img,
+.btn-register-docente .btn-reg-icon {
+  width: 18px;
+  height: 18px;
+  color: currentColor;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-register-docente:hover {
+  background-color: var(--brand-teacher);
+  color: #FFFFFF;
+  border-color: var(--brand-teacher);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(199, 116, 202, 0.32);
+}
+
+.btn-register-docente:hover svg,
+.btn-register-docente:hover img,
+.btn-register-docente:hover .btn-reg-icon {
+  transform: scale(1.1);
+  filter: brightness(0) invert(1);
+}
+
+.btn-register-docente:active {
+  transform: translateY(0);
+}
 
 /* ── 9. RODAPÉ DO CARD ── */
 .login-card-footer {

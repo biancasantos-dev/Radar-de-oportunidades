@@ -60,6 +60,13 @@ document.addEventListener('DOMContentLoaded', () => {
       console.warn('Erro ao carregar lista de professores:', e);
     }
 
+    try {
+      const profsLocais = JSON.parse(localStorage.getItem('professores_cadastrados') || '[]');
+      listaProfessores = [...profsLocais, ...listaProfessores];
+    } catch (e) {
+      console.warn('Erro ao ler professores locais:', e);
+    }
+
     // Tenta obter perfil salvo em sessão de login anterior
     const salvo = localStorage.getItem('oportuni_docente_ativo') || sessionStorage.getItem('oportuni_docente_ativo');
     if (salvo) {

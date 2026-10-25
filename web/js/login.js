@@ -26,6 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (lembrarCheckbox) lembrarCheckbox.checked = true;
   }
 
+  // Verifica se o usuário acabou de se cadastrar via cadastro-professor.html
+  const urlParams = new URLSearchParams(window.location.search);
+  if (urlParams.get('cadastrado') === 'true') {
+    const emailCadastrado = urlParams.get('email');
+    if (emailCadastrado && emailInput) {
+      emailInput.value = decodeURIComponent(emailCadastrado);
+    }
+    exibirFeedback('success', 'Cadastro institucional realizado com sucesso! Digite sua senha para entrar.');
+    if (senhaInput) senhaInput.focus();
+  }
+
   // Alternar visibilidade da senha
   btnTogglePass.addEventListener('click', () => {
     const isPassword = senhaInput.type === 'password';
@@ -98,31 +109,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // Identifica o perfil docente correspondente ao e-mail informado
       let docenteIdentificado = null;
+      let listaProfs = [];
       try {
         const respProf = await fetch('assets/data/professores.json');
         if (respProf.ok) {
-          const listaProfs = await respProf.json();
-          const emailTrim = email.toLowerCase().trim();
-          docenteIdentificado = listaProfs.find(p => p.email.toLowerCase() === emailTrim);
-
-          if (!docenteIdentificado) {
-            if (emailTrim.includes('carlos') || emailTrim.includes('ads') || emailTrim.includes('ti')) {
-              docenteIdentificado = listaProfs.find(p => p.id === 2);
-            } else if (emailTrim.includes('renata') || emailTrim.includes('psico')) {
-              docenteIdentificado = listaProfs.find(p => p.id === 3);
-            } else if (emailTrim.includes('fernando') || emailTrim.includes('saude') || emailTrim.includes('bio')) {
-              docenteIdentificado = listaProfs.find(p => p.id === 4);
-            } else {
-              docenteIdentificado = listaProfs.find(p => p.id === 1);
-            }
-          }
+          listaProfs = await respProf.json();
         }
       } catch (errProf) {
         console.warn('Erro ao consultar professores.json:', errProf);
       }
 
-      if (!docenteIdentificado && listaProfs && listaProfs.length > 0) {
-        docenteIdentificado = listaProfs[0];
+      // Mescla com docentes cadastrados via formulário de cadastro no localStorage
+      let cadastradosLocais = [];
+      try {
+        const dadosLocais = localStorage.getItem('professores_cadastrados');
+        if (dadosLocais) cadastradosLocais = JSON.parse(dadosLocais);
+      } catch (e) {
+        console.warn('Erro ao ler professores_cadastrados:', e);
+      }
+
+      const listaCompletaProfs = [...cadastradosLocais, ...listaProfs];
+      const emailTrim = email.toLowerCase().trim();
+
+      // Procura primeiro pelo e-mail exato
+      docenteIdentificado = listaCompletaProfs.find(p => p.email && p.email.toLowerCase() === emailTrim);
+
+      // Validação de senha caso o docente tenha cadastrado uma senha específica
+      if (docenteIdentificado && docenteIdentificado.senha) {
+        if (docenteIdentificado.senha !== senha) {
+          exibirFeedback('error', 'Senha incorreta para este e-mail institucional.');
+          pararCarregamento();
+          if (senhaInput) senhaInput.focus();
+          return;
+        }
+      }
+
+      if (!docenteIdentificado) {
+        if (emailTrim.includes('carlos') || emailTrim.includes('ads') || emailTrim.includes('ti')) {
+          docenteIdentificado = listaCompletaProfs.find(p => p.id === 2);
+        } else if (emailTrim.includes('renata') || emailTrim.includes('psico')) {
+          docenteIdentificado = listaCompletaProfs.find(p => p.id === 3);
+        } else if (emailTrim.includes('fernando') || emailTrim.includes('saude') || emailTrim.includes('bio')) {
+          docenteIdentificado = listaCompletaProfs.find(p => p.id === 4);
+        } else if (listaCompletaProfs.length > 0) {
+          docenteIdentificado = listaCompletaProfs[0];
+        }
+      }
+
+      if (!docenteIdentificado) {
+        docenteIdentificado = {
+          id: Date.now(),
+          nome: emailTrim.split('@')[0].replace('.', ' '),
+          email: emailTrim,
+          departamento: 'UCSal',
+          tag: 'Docente UCSal',
+          avatar: 'DC'
+        };
       }
 
       // Salva o docente ativo para o painel se adaptar dinamicamente
