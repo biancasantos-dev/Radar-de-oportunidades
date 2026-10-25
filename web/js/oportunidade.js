@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const campoPrazo = document.getElementById('campo-prazo');
   const campoStatus = document.getElementById('campo-status');
   const campoDescricao = document.getElementById('campo-descricao');
+  const campoAtividades = document.getElementById('campo-atividades');
   const campoRequisitos = document.getElementById('campo-requisitos');
 
   // Elementos da Prévia em Tempo Real
@@ -144,6 +145,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         campoBolsa.value = vagaEmEdicao.bolsa || '';
         campoStatus.value = vagaEmEdicao.status || 'ABERTA';
         campoDescricao.value = vagaEmEdicao.descricao || '';
+        campoAtividades.value = vagaEmEdicao.atividades || '';
         campoRequisitos.value = vagaEmEdicao.requisitos || '';
 
         // Converte DD/MM/AAAA para YYYY-MM-DD para o input type="date"
@@ -161,6 +163,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       campoEixo.value = '';
       campoPrazo.value = '';
       campoBolsa.value = '';
+      campoDescricao.value = '';
+      campoAtividades.value = '';
+      campoRequisitos.value = '';
     }
 
     // Sincroniza selects customizados na identidade
@@ -308,6 +313,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         vagaEmEdicao.data_limite = dataFormatada;
         vagaEmEdicao.status = campoStatus.value;
         vagaEmEdicao.descricao = campoDescricao.value.trim();
+        vagaEmEdicao.atividades = campoAtividades.value.trim();
         vagaEmEdicao.requisitos = campoRequisitos.value.trim();
 
         const index = todasVagas.findIndex(v => v.id === editId);
@@ -329,6 +335,7 @@ document.addEventListener('DOMContentLoaded', async () => {
           eixo: campoEixo.value,
           departamento: campoDepto.value.trim(),
           descricao: campoDescricao.value.trim(),
+          atividades: campoAtividades.value.trim(),
           requisitos: campoRequisitos.value.trim(),
           bolsa: campoBolsa.value.trim(),
           data_limite: dataFormatada,

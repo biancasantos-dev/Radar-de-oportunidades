@@ -338,24 +338,38 @@
             </div>
           </fieldset>
 
-          <!-- Seção 3: Descrição e Requisitos -->
+          <!-- Seção 3: Descrição, Atividades e Requisitos -->
           <fieldset class="form-section">
             <legend class="form-section-legend">
               <span class="legend-index">03</span>
-              <span>Detalhamento & Requisitos</span>
+              <span>Detalhamento, Atividades & Requisitos</span>
             </legend>
 
             <div class="form-group">
               <label for="campo-descricao" class="form-label">
-                Descrição da Vaga <span class="required-asterisk">*</span>
+                Descrição da Vaga e Objetivos <span class="required-asterisk">*</span>
               </label>
               <textarea 
                 id="campo-descricao" 
                 class="form-textarea" 
                 rows="4" 
-                placeholder="Descreva as principais atribuições, o projeto no qual o estudante atuará e os objetivos da oportunidade..."
+                placeholder="Descreva o escopo do projeto, os objetivos pedagógicos ou acadêmicos e o contexto da oportunidade..."
                 required
               ></textarea>
+              <span class="field-hint">Apresentação geral da oportunidade exibida no edital.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="campo-atividades" class="form-label">
+                Principais Atividades & Atribuições
+              </label>
+              <textarea 
+                id="campo-atividades" 
+                class="form-textarea" 
+                rows="3" 
+                placeholder="Ex: Apoio pedagógico em aulas práticas; Resolução de dúvidas dos discentes; Elaboração de relatórios quinzenais..."
+              ></textarea>
+              <span class="field-hint">Separe as atividades por linhas ou ponto e vírgula para formatação automática em tópicos.</span>
             </div>
 
             <div class="form-group">
@@ -366,8 +380,9 @@
                 id="campo-requisitos" 
                 class="form-textarea" 
                 rows="3" 
-                placeholder="Ex: Estar cursando a partir do 3º semestre, ter cursado POOA com nota >= 7.0 e disponibilidade de 12h semanais..."
+                placeholder="Ex: Estar cursando a partir do 3º semestre; Média na disciplina superior a 7.0; Disponibilidade de 12h semanais..."
               ></textarea>
+              <span class="field-hint">Separe os requisitos por linhas ou ponto e vírgula para exibição com ícones de verificação.</span>
             </div>
           </fieldset>
 
