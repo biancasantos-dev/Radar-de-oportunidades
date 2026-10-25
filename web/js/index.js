@@ -12,14 +12,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const cardsGrid = document.getElementById('grid-oportunidades');
   const emptyState = document.getElementById('estado-vazio');
 
-  // Elementos do componente de Select Customizado
-  const selectWrap = document.getElementById('wrap-filtro-tipo');
-  const selectTrigger = document.getElementById('select-trigger-tipo');
-  const triggerDot = document.getElementById('trigger-dot');
-  const triggerText = document.getElementById('trigger-text');
-  const selectDropdown = document.getElementById('select-menu-tipo');
-  const selectOptions = document.querySelectorAll('.custom-select-option');
-
   // Dicionário estático para abreviação dos meses (estilo ticket)
   const MESES = {
     '01': 'JAN', '02': 'FEV', '03': 'MAR', '04': 'ABR',
@@ -30,27 +22,33 @@ document.addEventListener('DOMContentLoaded', () => {
   let activeEixo = 'geral';
   let todasOportunidades = [];
 
-  // ── Utilitários do Select Customizado ──
-  function fecharDropdown() {
-    if (selectWrap) {
-      selectWrap.classList.remove('is-open');
-      if (selectTrigger) selectTrigger.setAttribute('aria-expanded', 'false');
-    }
+  function fecharSelects() {
+    document.querySelectorAll('.custom-select-wrap.is-open').forEach(w => {
+      w.classList.remove('is-open');
+      const trg = w.querySelector('.custom-select-trigger');
+      if (trg) trg.setAttribute('aria-expanded', 'false');
+    });
   }
 
-  function abrirDropdown() {
-    if (selectWrap) {
-      selectWrap.classList.add('is-open');
-      if (selectTrigger) selectTrigger.setAttribute('aria-expanded', 'true');
-    }
-  }
-
-  // ── 1. Carregar Oportunidades do JSON ──
+  // ── 1. Carregar Oportunidades do JSON e LocalStorage ──
   async function carregarOportunidades() {
     try {
       const response = await fetch('assets/data/oportunidades.json');
       if (!response.ok) throw new Error('Falha ao carregar dados');
-      todasOportunidades = await response.json();
+      const dadosJson = await response.json();
+
+      const dadosLocais = localStorage.getItem('oportunidades_gestao');
+      if (dadosLocais) {
+        todasOportunidades = JSON.parse(dadosLocais);
+        dadosJson.forEach(item => {
+          if (!todasOportunidades.some(to => to.id === item.id)) {
+            todasOportunidades.push(item);
+          }
+        });
+      } else {
+        todasOportunidades = dadosJson;
+      }
+
       renderizarCards();
     } catch (error) {
       console.error('Erro ao buscar dados:', error);
@@ -153,7 +151,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // ── 3. Alternância das Abas da Pasta ──
   tabs.forEach(tab => {
     tab.addEventListener('click', () => {
-      fecharDropdown();
+      fecharSelects();
       const selectedEixo = tab.getAttribute('data-eixo');
       if (selectedEixo === activeEixo) return;
 
@@ -167,81 +165,15 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ── 4. Filtro Customizado de Tipos na Identidade Visual OportUni ──
-  if (selectTrigger && selectDropdown) {
-    // Abrir/Fechar ao clicar no botão disparador
-    selectTrigger.addEventListener('click', (e) => {
-      e.stopPropagation();
-      const isOpen = selectWrap.classList.contains('is-open');
-      if (isOpen) {
-        fecharDropdown();
-      } else {
-        abrirDropdown();
-      }
-    });
-
-    // Seleção de item
-    selectOptions.forEach(option => {
-      option.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const valor = option.getAttribute('data-value');
-        const dotClass = option.getAttribute('data-dot');
-        const textSpan = option.querySelector('.option-text');
-        const label = textSpan ? textSpan.textContent : valor;
-
-        // Atualiza o select nativo e dispara o evento change
-        tipoSelect.value = valor;
-        tipoSelect.dispatchEvent(new Event('change'));
-
-        // Atualiza o texto e indicador de cor do botão trigger
-        if (triggerText) triggerText.textContent = label;
-        if (triggerDot) triggerDot.className = `type-dot ${dotClass}`;
-
-        // Atualiza marcação visual de seleção e ARIA
-        selectOptions.forEach(opt => {
-          opt.classList.remove('selected');
-          opt.setAttribute('aria-selected', 'false');
-        });
-        option.classList.add('selected');
-        option.setAttribute('aria-selected', 'true');
-
-        fecharDropdown();
-        selectTrigger.focus();
-      });
-
-      // Acessibilidade via teclado (Enter ou Espaço)
-      option.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter' || e.key === ' ') {
-          e.preventDefault();
-          option.click();
-        }
-      });
-    });
-
-    // Fechar ao clicar fora
-    document.addEventListener('click', (e) => {
-      if (selectWrap && !selectWrap.contains(e.target)) {
-        fecharDropdown();
-      }
-    });
-
-    // Fechar ao pressionar a tecla Escape
-    document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') {
-        fecharDropdown();
-      }
-    });
-  }
-
-  // ── 5. Filtro por Tipo e Busca ──
+  // ── 4. Filtro por Tipo e Busca (Filtro por Tipo é sincronizado via script.js global) ──
   tipoSelect.addEventListener('change', renderizarCards);
   searchInput.addEventListener('input', () => {
-    fecharDropdown();
+    fecharSelects();
     renderizarCards();
   });
   searchForm.addEventListener('submit', (e) => {
     e.preventDefault();
-    fecharDropdown();
+    fecharSelects();
     renderizarCards();
   });
 

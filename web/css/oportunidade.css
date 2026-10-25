@@ -1,3 +1,466 @@
 /* ============================================================
-   OPORTUNIDADE (Cadastro/Edição de vaga) — Estilos específicos
+   OPORTUNI — OPORTUNIDADE.CSS
+   Estilos do Formulário de Cadastro e Edição de Vagas
+   Layout em 2 colunas com Pré-visualização em Tempo Real
    ============================================================ */
+
+/* ── Navegação de Retorno (Breadcrumb) ── */
+.nav-breadcrumb {
+  margin-bottom: 24px;
+}
+
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  text-decoration: none;
+  background-color: #FFFFFF;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  border: var(--stroke-brand-sm);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-back:hover {
+  background-color: var(--brand-lavender);
+  transform: translateX(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-back img {
+  transition: transform 0.2s ease;
+}
+
+.btn-back:hover img {
+  transform: translateX(-2px);
+}
+
+/* ── Cabeçalho do Formulário ── */
+.form-header {
+  margin-bottom: 32px;
+}
+
+.form-badges-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+  flex-wrap: wrap;
+}
+
+.form-tag {
+  background-color: var(--brand-lavender);
+  color: var(--brand-navy);
+  font-size: 0.76rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+}
+
+.docente-identificador {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+
+.form-page-title {
+  font-size: clamp(1.8rem, 3.4vw, 2.4rem);
+  font-weight: 800;
+  color: var(--brand-navy);
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  margin: 0 0 8px 0;
+}
+
+.form-page-subtitle {
+  font-size: 0.95rem;
+  color: var(--text-muted);
+  line-height: 1.55;
+  max-width: 680px;
+  margin: 0;
+}
+
+/* ── Layout em 2 Colunas (Formulário + Prévia) ── */
+.form-preview-layout {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 32px;
+  align-items: start;
+}
+
+/* ── Formulário Principal ── */
+.card-form {
+  background-color: #FFFFFF;
+  border-radius: 24px;
+  border: var(--stroke-brand);
+  box-shadow: var(--shadow-sm);
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+/* Seções Fieldset */
+.form-section {
+  border: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-section:not(:last-of-type) {
+  border-bottom: 1.5px dashed rgba(42, 53, 118, 0.12);
+  padding-bottom: 28px;
+}
+
+.form-section-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--brand-navy);
+  margin-bottom: 8px;
+  padding: 0;
+}
+
+.legend-index {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background-color: var(--brand-lavender);
+  color: var(--brand-navy);
+  font-size: 0.76rem;
+  font-weight: 800;
+  border-radius: 8px;
+}
+
+/* Grupos de Campos e Labels */
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.required-asterisk {
+  color: var(--brand-orange);
+  font-weight: 700;
+}
+
+.field-hint {
+  font-size: 0.76rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* Grids Internos do Formulário */
+.form-grid-2 {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.form-grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* Controles de Entrada (Inputs, Selects, Textareas) */
+.form-input,
+.form-select,
+.form-textarea {
+  font-family: var(--font-family);
+  font-size: 0.92rem;
+  color: var(--brand-navy);
+  background-color: #FAFAFD;
+  border: 1.5px solid rgba(42, 53, 118, 0.14);
+  border-radius: 12px;
+  padding: 12px 14px;
+  width: 100%;
+  transition: border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  box-sizing: border-box;
+}
+
+.form-input:focus,
+.form-select:focus,
+.form-textarea:focus {
+  outline: none;
+  background-color: #FFFFFF;
+  border-color: var(--brand-navy);
+  box-shadow: 0 0 0 3px rgba(42, 53, 118, 0.12);
+}
+
+.form-input::placeholder,
+.form-textarea::placeholder {
+  color: #A09EBA;
+  font-weight: 400;
+}
+
+.form-textarea {
+  resize: vertical;
+  min-height: 90px;
+  line-height: 1.5;
+}
+
+/* Select customizado utiliza o componente global .custom-select-wrap de style.css */
+
+/* Estado de Erro de Validação */
+.form-input.is-invalid,
+.form-select.is-invalid,
+.form-textarea.is-invalid {
+  border-color: #E03131;
+  background-color: #FFF5F5;
+  box-shadow: 0 0 0 3px rgba(224, 49, 49, 0.15);
+}
+
+/* Barra de Ações do Formulário */
+.form-actions-bar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 14px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(42, 53, 118, 0.08);
+}
+
+.btn-cancel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 22px;
+  border-radius: var(--radius-pill);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-decoration: none;
+  background-color: transparent;
+  border: 1px solid rgba(42, 53, 118, 0.15);
+  transition: background-color 0.2s ease, color 0.2s ease;
+  min-height: 44px;
+}
+
+.btn-cancel:hover {
+  background-color: rgba(42, 53, 118, 0.05);
+  color: var(--brand-navy);
+}
+
+.btn-submit-vaga {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 26px;
+  border-radius: var(--radius-pill);
+  font-family: var(--font-family);
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  background-color: var(--brand-orange);
+  border: none;
+  cursor: pointer;
+  box-shadow: 0 6px 18px rgba(223, 110, 30, 0.35);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+  min-height: 44px;
+}
+
+.btn-submit-vaga:hover {
+  background-color: #C85F15;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(223, 110, 30, 0.45);
+}
+
+.btn-submit-vaga:active {
+  transform: translateY(0);
+}
+
+
+/* ============================================================
+   COLUNA DE PRÉVIA EM TEMPO REAL (Sticky Preview)
+   ============================================================ */
+.preview-column {
+  width: 100%;
+}
+
+.sticky-preview-box {
+  position: sticky;
+  top: 96px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 4px;
+}
+
+.preview-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--brand-navy);
+  color: #FFFFFF;
+  font-size: 0.74rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 10px rgba(42, 53, 118, 0.2);
+}
+
+.preview-note {
+  font-size: 0.78rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+/* Slot do Card Preview */
+.preview-card-slot {
+  width: 100%;
+}
+
+.preview-card-slot .opportunity-card {
+  margin: 0;
+  box-shadow: 0 12px 32px rgba(42, 53, 118, 0.1);
+  border: 1.5px solid rgba(42, 53, 118, 0.12);
+  pointer-events: none; /* Apenas preview visual */
+}
+
+/* Card de Dicas */
+.preview-tips-card {
+  background-color: #FFFFFF;
+  border: 1px dashed rgba(42, 53, 118, 0.2);
+  border-radius: 16px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tips-title {
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--brand-orange);
+}
+
+.tips-text {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  line-height: 1.45;
+  margin: 0;
+}
+
+
+/* ============================================================
+   TOAST DE FEEDBACK
+   ============================================================ */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background-color: var(--brand-navy);
+  color: #FFFFFF;
+  padding: 14px 22px;
+  border-radius: var(--radius-pill);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 12px 32px rgba(42, 53, 118, 0.25);
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 9999;
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.toast-icon {
+  stroke: var(--brand-green);
+  flex-shrink: 0;
+}
+
+
+/* ============================================================
+   RESPONSIVIDADE (Tablets e Mobile)
+   ============================================================ */
+@media (max-width: 992px) {
+  .form-preview-layout {
+    grid-template-columns: 1fr;
+    gap: 28px;
+  }
+
+  .sticky-preview-box {
+    position: static;
+  }
+
+  .preview-column {
+    order: 2; /* Formulário vem primeiro, prévia logo abaixo */
+  }
+}
+
+@media (max-width: 768px) {
+  .card-form {
+    padding: 24px 20px;
+    border-radius: 20px;
+  }
+
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+
+  .form-actions-bar {
+    flex-direction: column-reverse;
+    width: 100%;
+  }
+
+  .btn-cancel,
+  .btn-submit-vaga {
+    width: 100%;
+  }
+}
+
+@media (max-width: 480px) {
+  .form-page-title {
+    font-size: 1.6rem;
+  }
+
+  .form-input,
+  .form-select,
+  .form-textarea {
+    font-size: 0.88rem;
+    padding: 10px 12px;
+  }
+}

@@ -97,7 +97,7 @@
         <form class="folder-toolbar" role="search">
           
           <!-- Filtro Customizado de Tipos de Vaga na Identidade Visual OportUni -->
-          <div class="custom-select-wrap" id="wrap-filtro-tipo">
+          <div class="custom-select-wrap select-pill" id="wrap-filtro-tipo">
             <label for="filtro-tipo" class="sr-only">Filtrar por tipo de vaga</label>
             <select id="filtro-tipo" class="sr-only" tabindex="-1" aria-hidden="true">
               <option value="TODOS" selected>Todos os Tipos</option>
@@ -117,6 +117,8 @@
               aria-expanded="false" 
               aria-controls="select-menu-tipo"
               aria-label="Filtrar por tipo de vaga"
+              data-placeholder="Todos os Tipos"
+              data-initial-dot="dot-todos"
             >
               <span class="trigger-label">
                 <span class="type-dot dot-todos" id="trigger-dot" aria-hidden="true"></span>
