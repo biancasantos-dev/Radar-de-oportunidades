@@ -1,4 +1,4 @@
--- CriaÁ„o de tabelas do Radar de Oportunidades
+-- Cria√ß√£o de tabelas do Radar de Oportunidades
 CREATE TABLE IF NOT EXISTS professor (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS oportunidade (
     departamento VARCHAR(100) NOT NULL,
     descricao TEXT NOT NULL,
     requisitos TEXT,
-    bolsa VARCHAR(50) DEFAULT 'Volunt·rio',
+    bolsa VARCHAR(50) DEFAULT 'Volunt√°rio',
     data_limite DATE,
     data_publicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     status VARCHAR(20) DEFAULT 'ABERTA',

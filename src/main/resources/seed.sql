@@ -1,9 +1,9 @@
--- Carga inicial com professor padrao: professor@ucsal.br / admin123
+-- Carga inicial com professor padr√£o: professor@ucsal.br / admin123
 INSERT INTO professor (nome, email, senha_hash) VALUES 
 ('Prof. Mario Jorge Pereira', 'professor@ucsal.br', '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9')
 ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO oportunidade (titulo, tipo, departamento, descricao, requisitos, bolsa, professor_id) VALUES
-('Pesquisa em IA e PLN', 'IniciaÁ„o CientÌfica', 'CiÍncia da ComputaÁ„o', 'Desenvolvimento de algoritmos para an·lise textual.', 'Conhecimento em Java e POO', 'Remunerada (R$ 700)', 1),
-('Monitoria de POOA', 'Monitoria', 'Inform·tica', 'Apoio pedagÛgico nos laboratÛrios pr·ticos.', 'AprovaÁ„o com mÈdia >= 7.0', 'Bolsa Institucional', 1),
-('Projeto Conecta Salvador', 'Extens„o', 'Sistemas de InformaÁ„o', 'Oficinas de inclus„o digital.', 'Boa comunicaÁ„o', 'Volunt·rio', 1);
+('Pesquisa em IA e PLN', 'Inicia√ß√£o Cient√≠fica', 'Ci√™ncia da Computa√ß√£o', 'Desenvolvimento de algoritmos para an√°lise textual.', 'Conhecimento em Java e POO', 'Remunerada (R$ 700)', 1),
+('Monitoria de POOA', 'Monitoria', 'Inform√°tica', 'Apoio pedag√≥gico nos laborat√≥rios pr√°ticos.', 'Aprova√ß√£o com m√©dia >= 7.0', 'Bolsa Institucional', 1),
+('Projeto Conecta Salvador', 'Extens√£o', 'Sistemas de Informa√ß√£o', 'Oficinas de inclus√£o digital.', 'Boa comunica√ß√£o', 'Volunt√°rio', 1);

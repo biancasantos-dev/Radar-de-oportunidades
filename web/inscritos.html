@@ -1,1 +1,215 @@
-<!-- Lista de inscritos -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OportUni | Candidatos Inscritos</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/ID visual/icon.svg">
+  
+  <!-- Estilos: Global compartilhado e específico de Inscritos -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/inscritos.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand" aria-label="OportUni - Página Inicial">
+        <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
+      </a>
+      
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
+        <a href="index.html" class="nav-link">Mural</a>
+        <a href="painel.html" class="nav-link active">Painel</a>
+        <a href="oportunidade.html" class="nav-btn-nova-vaga">
+          <img src="assets/icons/plus.svg" alt="" aria-hidden="true" width="14" height="14">
+          <span>Nova Vaga</span>
+        </a>
+        <button type="button" class="btn-logout" id="btn-logout" aria-label="Sair da conta docente">
+          <img src="assets/icons/log-out.svg" alt="" aria-hidden="true" width="15" height="15">
+          <span>Sair</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="page-content container">
+
+    <!-- Navegação de Retorno -->
+    <nav class="nav-breadcrumb" aria-label="Breadcrumb">
+      <a href="painel.html" class="btn-back">
+        <img src="assets/icons/arrow-left.svg" alt="" aria-hidden="true" width="16" height="16">
+        <span>Voltar ao Painel de Vagas</span>
+      </a>
+    </nav>
+
+    <!-- Banner de Contexto da Oportunidade Selecionada -->
+    <header class="vaga-context-card" id="vaga-context-card">
+      <div class="vaga-context-top">
+        <div class="vaga-badges-row">
+          <span class="table-tipo-badge" id="vaga-tipo">Iniciação Científica</span>
+          <span class="table-status-badge status-aberta" id="vaga-status">ABERTA</span>
+          <span class="vaga-depto-tag" id="vaga-depto">Direito</span>
+        </div>
+
+        <div class="vaga-context-actions">
+          <button type="button" class="btn-banner-action" id="btn-export-csv" title="Exportar lista de candidatos em CSV">
+            <img src="assets/icons/download.svg" alt="" aria-hidden="true" width="15" height="15">
+            <span>Exportar CSV</span>
+          </button>
+          <a href="detalhe.html" id="link-ver-edital-publico" class="btn-ver-edital-link" title="Visualizar oportunidade no mural público">
+            <img src="assets/icons/eye.svg" alt="" aria-hidden="true" width="15" height="15">
+            <span>Ver no Mural</span>
+          </a>
+        </div>
+      </div>
+
+      <h1 class="vaga-context-title" id="vaga-titulo">
+        Carregando oportunidade...
+      </h1>
+
+      <div class="vaga-meta-row">
+        <span class="vaga-meta-item">
+          <img src="assets/icons/wallet.svg" alt="" aria-hidden="true" width="15" height="15">
+          <strong id="vaga-bolsa">Bolsa: A definir</strong>
+        </span>
+        <span class="vaga-meta-item">
+          <img src="assets/icons/calendar.svg" alt="" aria-hidden="true" width="15" height="15">
+          <span>Inscrições até: <strong id="vaga-prazo">A definir</strong></span>
+        </span>
+      </div>
+    </header>
+
+    <!-- Bento Grid de Métricas de Candidaturas -->
+    <section class="kpi-grid" aria-label="Estatísticas dos candidatos inscritos">
+      
+      <article class="kpi-card">
+        <div class="kpi-icon-wrap icon-purple">
+          <img src="assets/icons/users.svg" alt="" aria-hidden="true" width="20" height="20">
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Total de Inscritos</span>
+          <strong class="kpi-value" id="kpi-inscritos-total">0</strong>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon-wrap icon-green">
+          <img src="assets/icons/check.svg" alt="" aria-hidden="true" width="20" height="20">
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Candidatos Aprovados</span>
+          <strong class="kpi-value" id="kpi-inscritos-aprovados">0</strong>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon-wrap icon-cyan">
+          <img src="assets/icons/eye.svg" alt="" aria-hidden="true" width="20" height="20">
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Em Análise</span>
+          <strong class="kpi-value" id="kpi-inscritos-analise">0</strong>
+        </div>
+      </article>
+
+      <article class="kpi-card">
+        <div class="kpi-icon-wrap icon-orange">
+          <img src="assets/icons/calendar.svg" alt="" aria-hidden="true" width="20" height="20">
+        </div>
+        <div class="kpi-info">
+          <span class="kpi-label">Pendentes</span>
+          <strong class="kpi-value" id="kpi-inscritos-pendentes">0</strong>
+        </div>
+      </article>
+
+    </section>
+
+    <!-- Painel de Gestão dos Candidatos -->
+    <section class="candidatos-card">
+      
+      <!-- Barra de Ferramentas: Filtros de Status à esquerda e Busca à direita -->
+      <header class="candidatos-toolbar">
+        <div class="candidatos-filter-pills" role="tablist" aria-label="Filtrar por status de avaliação">
+          <button type="button" class="filter-pill active" data-status="TODOS" role="tab" aria-selected="true">
+            <span>Todos</span>
+          </button>
+          <button type="button" class="filter-pill" data-status="Aprovado" role="tab" aria-selected="false">
+            <span>Aprovados</span>
+          </button>
+          <button type="button" class="filter-pill" data-status="Em Análise" role="tab" aria-selected="false">
+            <span>Em Análise</span>
+          </button>
+          <button type="button" class="filter-pill" data-status="Pendente" role="tab" aria-selected="false">
+            <span>Pendentes</span>
+          </button>
+          <button type="button" class="filter-pill" data-status="Rejeitado" role="tab" aria-selected="false">
+            <span>Rejeitados</span>
+          </button>
+        </div>
+
+        <div class="search-wrap">
+          <label for="input-search-candidatos" class="sr-only">Buscar por aluno, matrícula ou período</label>
+          <img src="assets/icons/search.svg" alt="" aria-hidden="true" width="16" height="16" class="search-icon">
+          <input 
+            type="search" 
+            id="input-search-candidatos" 
+            class="search-input" 
+            placeholder="Buscar por nome, matrícula, período..." 
+            autocomplete="off"
+          >
+        </div>
+      </header>
+
+      <!-- Lista / Grid de Cards de Candidatos -->
+      <div class="candidatos-grid" id="candidatos-grid">
+        <!-- Cards gerados dinamicamente via inscritos.js -->
+      </div>
+
+      <!-- Estado Vazio / Nenhum Candidato -->
+      <div id="candidatos-empty-state" class="empty-state hidden">
+        <img src="assets/icons/folder-empty.svg" alt="" aria-hidden="true" width="48" height="48" class="empty-icon">
+        <h2 class="empty-title">Nenhum candidato encontrado</h2>
+        <p class="empty-desc">Nenhum estudante corresponde aos filtros aplicados nesta oportunidade.</p>
+      </div>
+
+    </section>
+
+  </main>
+
+
+
+  <!-- Notificação Toast Flutuante -->
+  <div id="toast" class="toast hidden" role="status" aria-live="polite">
+    <span class="toast-dot" aria-hidden="true"></span>
+    <span class="toast-msg" id="toast-msg">Status atualizado com sucesso!</span>
+  </div>
+
+  <!-- Rodapé Institucional -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <figure class="footer-brand">
+        <img src="assets/img/ID visual/logo-l.svg" alt="" width="26" height="26">
+        <figcaption class="footer-text">OportUni &copy; 2026 — Disciplina POOA | UCSal</figcaption>
+      </figure>
+      <nav class="footer-links" aria-label="Links institucionais">
+        <a href="index.html">Mural de Vagas</a>
+        <a href="painel.html">Painel do Docente</a>
+        <a href="sobre.html">Sobre o Projeto</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script src="js/inscritos.js"></script>
+</body>
+</html>
