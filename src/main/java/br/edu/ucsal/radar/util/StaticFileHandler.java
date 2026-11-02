@@ -1,71 +1,102 @@
 package br.edu.ucsal.radar.util;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.Map;
+
 import com.sun.net.httpserver.HttpExchange;
-import java.io.*;
+import com.sun.net.httpserver.HttpHandler;
 
-public class StaticFileHandler implements com.sun.net.httpserver.HttpHandler {
-    // aqui preciso implementar o método handle que é o método que vai tratar as requisições que chegarem no servidor
-   @Override 
-   public void handle(HttpExchange exchange) throws IOException {
+/**
+ * Entrega os arquivos da pasta web/ (que o Maven copia para dentro do classpath/.jar).
+ * Lê com getResourceAsStream, então funciona tanto no editor quanto no Fat JAR.
+ */
+public class StaticFileHandler implements HttpHandler {
 
-    String caminho = exchange.getRequestURI().getPath();
-    if (caminho.equals("/")){
-        caminho = "/index.html";
+    // URLs "bonitas" -> arquivo real dentro de web/
+    private static final Map<String, String> ATALHOS = Map.of(
+            "/", "/index.html",
+            "/sobre", "/sobre.html",
+            "/login", "/login.html",
+            "/cadastro", "/cadastro-professor.html",
+            "/painel", "/painel.html",
+            "/inscritos", "/inscritos.html",
+            "/oportunidade", "/oportunidade.html",
+            "/detalhe", "/detalhe.html");
+
+    private static final Map<String, String> TIPOS = Map.of(
+            ".html", "text/html; charset=UTF-8",
+            ".css", "text/css; charset=UTF-8",
+            ".js", "application/javascript; charset=UTF-8",
+            ".json", "application/json; charset=UTF-8",
+            ".svg", "image/svg+xml",
+            ".png", "image/png",
+            ".jpg", "image/jpeg",
+            ".webp", "image/webp",
+            ".ico", "image/x-icon",
+            ".woff2", "font/woff2");
+
+    @Override
+    public void handle(HttpExchange exchange) throws IOException {
+        try {
+            String metodo = exchange.getRequestMethod();
+            if (!metodo.equals("GET") && !metodo.equals("HEAD")) {
+                responderTexto(exchange, 405, "405 (Method Not Allowed)");
+                return;
+            }
+
+            String caminho = exchange.getRequestURI().getPath();
+
+            // Segurança: não deixa sair da pasta web/
+            if (caminho.contains("..") || caminho.contains("\\")) {
+                responderTexto(exchange, 400, "400 (Bad Request)");
+                return;
+            }
+
+            caminho = ATALHOS.getOrDefault(caminho, caminho);
+
+            byte[] bytes;
+            try (InputStream is = getClass().getResourceAsStream("/web" + caminho)) {
+                if (is == null) {
+                    responderTexto(exchange, 404, "404 (Not Found)");
+                    return;
+                }
+                bytes = is.readAllBytes();
+            }
+
+            exchange.getResponseHeaders().set("Content-Type", tipoDe(caminho));
+
+            if (metodo.equals("HEAD")) {
+                exchange.sendResponseHeaders(200, -1);
+                return;
+            }
+
+            exchange.sendResponseHeaders(200, bytes.length);
+            try (OutputStream os = exchange.getResponseBody()) {
+                os.write(bytes);
+            }
+        } finally {
+            exchange.close();
+        }
     }
-    else if (caminho.equals("/sobre")){
-        caminho = "/sobre.html";
+
+    private String tipoDe(String caminho) {
+        for (Map.Entry<String, String> e : TIPOS.entrySet()) {
+            if (caminho.endsWith(e.getKey())) {
+                return e.getValue();
+            }
+        }
+        return "application/octet-stream";
     }
 
-    else if (caminho.equals("/contato")){
-        caminho = "/contato.html";
+    private void responderTexto(HttpExchange exchange, int status, String texto) throws IOException {
+        byte[] bytes = texto.getBytes(StandardCharsets.UTF_8);
+        exchange.getResponseHeaders().set("Content-Type", "text/plain; charset=UTF-8");
+        exchange.sendResponseHeaders(status, bytes.length);
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(bytes);
+        }
     }
-    else if (caminho.equals("/login")){
-        caminho = "/login.html";
-    }
-
-    else if (caminho.equals("/cadastro")){
-        caminho = "/cadastro-professor.html";
-    }
-    else if (caminho.equals("/painel")){
-        caminho = "/painel.html";
-    }
-
-    else if (caminho.equals("/inscritos")){
-        caminho = "/inscritos.html";
-    }
-
-    else if (caminho.equals("/oportunidade")){
-        caminho = "/oportunidade.html";
-    }
-   
-
-    InputStream is = getClass().getResourceAsStream("/web" + caminho);
-
-    if (is == null) {
-        String resposta = "404 (Not Found)";
-        exchange.sendResponseHeaders(404, resposta.length());
-        OutputStream os = exchange.getResponseBody();
-        os.write(resposta.getBytes());
-        os.close();
-        return;
-    }
-
-    byte[] bytes = is.readAllBytes();
-
-    if (caminho.endsWith(".html")) {
-        exchange.getResponseHeaders().set("Content-Type", "text/html; charset=UTF-8");
-    } else if (caminho.endsWith(".css")) {
-        exchange.getResponseHeaders().set("Content-Type", "text/css; charset=UTF-8");
-    } else if (caminho.endsWith(".js")) {
-        exchange.getResponseHeaders().set("Content-Type", "application/javascript; charset=UTF-8");
-    } else if (caminho.endsWith(".png")) {
-        exchange.getResponseHeaders().set("Content-Type", "image/png");
-    } else if (caminho.endsWith(".svg")) {
-        exchange.getResponseHeaders().set("Content-Type", "image/svg+xml");
-    }
-
-    exchange.sendResponseHeaders(200, bytes.length);
-    OutputStream os = exchange.getResponseBody();
-    os.write(bytes);
-    os.close();
-}
 }

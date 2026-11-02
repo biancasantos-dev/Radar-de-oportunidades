@@ -3,10 +3,10 @@ package br.edu.ucsal.radar.service;
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.HashMap;
 import java.util.HexFormat;
 import java.util.Map;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 import br.edu.ucsal.radar.dao.ProfessorDAO;
 import br.edu.ucsal.radar.model.Professor;
@@ -14,7 +14,7 @@ import br.edu.ucsal.radar.model.Professor;
 public class ProfessorService {
 
     // Tokens em memória: token -> id do professor
-    private final Map<String, Integer> tokens = new HashMap<>();
+    private static final Map<String, Integer> tokens = new ConcurrentHashMap<>();
 
     // Gera o hash SHA-256 da senha (em hexadecimal)
     public String hashSenha(String senha) {
