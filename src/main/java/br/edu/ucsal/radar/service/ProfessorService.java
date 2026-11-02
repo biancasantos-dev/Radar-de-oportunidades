@@ -8,6 +8,9 @@ import java.util.HexFormat;
 import java.util.Map;
 import java.util.UUID;
 
+import br.edu.ucsal.radar.dao.ProfessorDAO;
+import br.edu.ucsal.radar.model.Professor;
+
 public class ProfessorService {
 
     // Tokens em memória: token -> id do professor
@@ -43,5 +46,15 @@ public class ProfessorService {
 
     public Integer getIdProfessor(String token) {
         return tokens.get(token);
+    }
+
+    public String autenticar(String email, String senha) {
+        Professor professor = new ProfessorDAO().buscarPorEmail(email);
+
+        if (professor == null || !senhaConfere(senha, professor.getSenhaHash())) {
+            return null;
+        }
+
+        return gerarToken(professor.getId());
     }
 }
