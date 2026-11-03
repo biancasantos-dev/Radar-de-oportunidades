@@ -1,4 +1,5 @@
--- CriaÁ„o de tabelas do Radar de Oportunidades
+-- Cria√ß√£o de tabelas do Radar de Oportunidades (PostgreSQL 16)
+-- Banco esperado: radar_oportunidades  ->  psql -U postgres -d radar_oportunidades -f schema.sql
 CREATE TABLE IF NOT EXISTS professor (
     id SERIAL PRIMARY KEY,
     nome VARCHAR(150) NOT NULL,
@@ -9,23 +10,28 @@ CREATE TABLE IF NOT EXISTS professor (
 CREATE TABLE IF NOT EXISTS oportunidade (
     id SERIAL PRIMARY KEY,
     titulo VARCHAR(150) NOT NULL,
-    tipo VARCHAR(50) NOT NULL,
-    departamento VARCHAR(100) NOT NULL,
+    tipo VARCHAR(50) NOT NULL,           -- r√≥tulo do enum TipoOportunidade (ex.: 'Monitoria')
+    eixo VARCHAR(20) NOT NULL,           -- exatas | humanas | saude
+    departamento VARCHAR(100) NOT NULL,  -- curso/√°rea que o aluno filtra no mural
     descricao TEXT NOT NULL,
+    atividades TEXT,
     requisitos TEXT,
-    bolsa VARCHAR(50) DEFAULT 'Volunt·rio',
+    bolsa VARCHAR(50) DEFAULT 'Volunt√°rio',
     data_limite DATE,
     data_publicacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    status VARCHAR(20) DEFAULT 'ABERTA',
+    status VARCHAR(20) DEFAULT 'ABERTA', -- ABERTA | ENCERRADA
     professor_id INT REFERENCES professor(id)
 );
 
+-- Colunas alinhadas com o InteresseDAO (nome, email, curso, semestre, justificativa, id_oportunidade)
 CREATE TABLE IF NOT EXISTS interesse (
     id SERIAL PRIMARY KEY,
-    oportunidade_id INT REFERENCES oportunidade(id),
-    nome_aluno VARCHAR(150) NOT NULL,
-    email_aluno VARCHAR(150) NOT NULL,
+    id_oportunidade INT NOT NULL REFERENCES oportunidade(id) ON DELETE CASCADE,
+    nome VARCHAR(150) NOT NULL,
+    email VARCHAR(150) NOT NULL,
     matricula VARCHAR(50) NOT NULL,
-    mensagem TEXT,
+    curso VARCHAR(100) NOT NULL,
+    semestre VARCHAR(20) NOT NULL,
+    justificativa TEXT NOT NULL,
     data_registro TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

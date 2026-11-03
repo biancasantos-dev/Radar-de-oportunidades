@@ -1,1 +1,495 @@
-<!-- Cadastro de oportunidade -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OportUni | Publicar Oportunidade</title>
+  <link rel="icon" type="image/svg+xml" href="assets/img/ID visual/icon.svg">
+  
+  <!-- Estilos: Global, Mural (para preview) e Específico do Formulário -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/index.css">
+  <link rel="stylesheet" href="css/oportunidade.css">
+</head>
+<body>
+
+  <!-- Barra de Navegação -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand" aria-label="OportUni - Página Inicial">
+        <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
+      </a>
+      
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
+        <a href="index.html" class="nav-link">Mural</a>
+        <a href="painel.html" class="nav-link">Painel</a>
+        <a href="oportunidade.html" class="nav-btn-nova-vaga active" aria-current="page">
+          <img src="assets/icons/plus.svg" alt="" aria-hidden="true" width="14" height="14">
+          <span id="nav-btn-text">Nova Vaga</span>
+        </a>
+        <button type="button" class="btn-logout" id="btn-logout" aria-label="Sair da conta docente">
+          <img src="assets/icons/log-out.svg" alt="" aria-hidden="true" width="15" height="15">
+          <span>Sair</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal -->
+  <main class="page-content container">
+
+    <!-- Navegação de Retorno -->
+    <nav class="nav-breadcrumb" aria-label="Breadcrumb">
+      <a href="painel.html" class="btn-back">
+        <img src="assets/icons/arrow-left.svg" alt="" aria-hidden="true" width="16" height="16">
+        <span>Voltar ao Painel de Vagas</span>
+      </a>
+    </nav>
+
+    <!-- Cabeçalho do Formulário -->
+    <header class="form-header">
+      <div class="form-header-content">
+        <p class="form-badges-row">
+          <strong class="form-tag">Área Docente • UCSal</strong>
+          <span class="docente-identificador" id="docente-nome-badge">Prof. Dr. Marcelo Ribeiro</span>
+        </p>
+        <h1 class="form-page-title" id="form-title">
+          Publicar <mark class="title-highlight">Nova Oportunidade</mark>
+        </h1>
+        <p class="form-page-subtitle" id="form-subtitle">
+          Preencha os detalhes e requisitos do edital para disponibilizá-lo instantaneamente no mural de vagas dos estudantes.
+        </p>
+      </div>
+    </header>
+
+    <!-- Grid Principal: Formulário à Esquerda + Prévia Dinâmica à Direita -->
+    <div class="form-preview-layout">
+      
+      <!-- Formulário de Cadastro / Edição -->
+      <section class="form-column">
+        <form id="form-oportunidade" class="card-form" novalidate>
+          
+          <!-- Seção 1: Informações Gerais -->
+          <fieldset class="form-section">
+            <legend class="form-section-legend">
+              <span class="legend-index">01</span>
+              <span>Informações Básicas da Oportunidade</span>
+            </legend>
+
+            <div class="form-group">
+              <label for="campo-titulo" class="form-label">
+                Título da Vaga <span class="required-asterisk">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-titulo" 
+                class="form-input" 
+                placeholder="Ex: Monitoria de Programação Orientada a Objetos" 
+                required 
+                maxlength="120"
+                autocomplete="off"
+              >
+              <span class="field-hint">Seja claro e específico para atrair os estudantes mais qualificados.</span>
+            </div>
+
+            <div class="form-grid-2">
+              <div class="form-group">
+                <label id="label-campo-tipo" for="campo-tipo" class="form-label">
+                  Modalidade / Tipo <span class="required-asterisk">*</span>
+                </label>
+                <div class="custom-select-wrap" id="wrap-campo-tipo">
+                  <select id="campo-tipo" class="sr-only" required tabindex="-1" aria-hidden="true">
+                    <option value="" disabled selected>Selecione a modalidade...</option>
+                    <option value="Iniciação Científica">Iniciação Científica (IC)</option>
+                    <option value="Monitoria">Monitoria</option>
+                    <option value="Extensão">Extensão</option>
+                    <option value="Estágio/Emprego">Estágio / Emprego</option>
+                    <option value="Evento">Evento Acadêmico</option>
+                    <option value="Grupo de Estudo">Grupo de Estudo</option>
+                  </select>
+
+                  <button 
+                    type="button" 
+                    class="custom-select-trigger" 
+                    id="trigger-campo-tipo" 
+                    aria-haspopup="listbox" 
+                    aria-expanded="false" 
+                    aria-controls="menu-campo-tipo"
+                    aria-labelledby="label-campo-tipo trigger-campo-tipo"
+                    data-placeholder="Selecione a modalidade..."
+                  >
+                    <span class="trigger-label">
+                      <span class="type-dot" style="display: none;" aria-hidden="true"></span>
+                      <span class="trigger-text is-placeholder">Selecione a modalidade...</span>
+                    </span>
+                    <svg class="trigger-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+
+                  <ul 
+                    class="custom-select-dropdown" 
+                    id="menu-campo-tipo" 
+                    role="listbox" 
+                    aria-labelledby="label-campo-tipo" 
+                    tabindex="-1"
+                  >
+                    <li class="custom-select-option" role="option" data-value="Iniciação Científica" data-dot="dot-ic" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-ic" aria-hidden="true"></span>
+                      <span class="option-text">Iniciação Científica (IC)</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="Monitoria" data-dot="dot-monitoria" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-monitoria" aria-hidden="true"></span>
+                      <span class="option-text">Monitoria</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="Extensão" data-dot="dot-extensao" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-extensao" aria-hidden="true"></span>
+                      <span class="option-text">Extensão</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="Estágio/Emprego" data-dot="dot-estagio" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-estagio" aria-hidden="true"></span>
+                      <span class="option-text">Estágio / Emprego</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="Evento" data-dot="dot-evento" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-evento" aria-hidden="true"></span>
+                      <span class="option-text">Evento Acadêmico</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="Grupo de Estudo" data-dot="dot-grupo" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-grupo" aria-hidden="true"></span>
+                      <span class="option-text">Grupo de Estudo</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="form-group">
+                <label id="label-campo-eixo" for="campo-eixo" class="form-label">
+                  Eixo do Conhecimento <span class="required-asterisk">*</span>
+                </label>
+                <div class="custom-select-wrap" id="wrap-campo-eixo">
+                  <select id="campo-eixo" class="sr-only" required tabindex="-1" aria-hidden="true">
+                    <option value="" disabled selected>Selecione o eixo acadêmico...</option>
+                    <option value="exatas">Exatas & Tecnologia</option>
+                    <option value="humanas">Humanas & Sociais</option>
+                    <option value="saude">Saúde & Ciências Biológicas</option>
+                  </select>
+
+                  <button 
+                    type="button" 
+                    class="custom-select-trigger" 
+                    id="trigger-campo-eixo" 
+                    aria-haspopup="listbox" 
+                    aria-expanded="false" 
+                    aria-controls="menu-campo-eixo"
+                    aria-labelledby="label-campo-eixo trigger-campo-eixo"
+                    data-placeholder="Selecione o eixo acadêmico..."
+                  >
+                    <span class="trigger-label">
+                      <span class="type-dot" style="display: none;" aria-hidden="true"></span>
+                      <span class="trigger-text is-placeholder">Selecione o eixo acadêmico...</span>
+                    </span>
+                    <svg class="trigger-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+
+                  <ul 
+                    class="custom-select-dropdown" 
+                    id="menu-campo-eixo" 
+                    role="listbox" 
+                    aria-labelledby="label-campo-eixo" 
+                    tabindex="-1"
+                  >
+                    <li class="custom-select-option" role="option" data-value="exatas" data-dot="dot-exatas" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-exatas" aria-hidden="true"></span>
+                      <span class="option-text">Exatas & Tecnologia</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="humanas" data-dot="dot-humanas" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-humanas" aria-hidden="true"></span>
+                      <span class="option-text">Humanas & Sociais</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="saude" data-dot="dot-saude" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-saude" aria-hidden="true"></span>
+                      <span class="option-text">Saúde & Ciências Biológicas</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+
+            <div class="form-group">
+              <label for="campo-departamento" class="form-label">
+                Curso / Departamento <span class="required-asterisk">*</span>
+              </label>
+              <input 
+                type="text" 
+                id="campo-departamento" 
+                class="form-input" 
+                placeholder="Ex: Engenharia de Software | ADS" 
+                required 
+                maxlength="80"
+                autocomplete="off"
+              >
+            </div>
+          </fieldset>
+
+          <!-- Seção 2: Bolsa, Prazos e Status -->
+          <fieldset class="form-section">
+            <legend class="form-section-legend">
+              <span class="legend-index">02</span>
+              <span>Compensação, Prazos & Status</span>
+            </legend>
+
+            <div class="form-grid-3">
+              <div class="form-group">
+                <label for="campo-bolsa" class="form-label">
+                  Bolsa / Benefício <span class="required-asterisk">*</span>
+                </label>
+                <input 
+                  type="text" 
+                  id="campo-bolsa" 
+                  class="form-input" 
+                  placeholder="Ex: R$ 700 ou 60h (AC)" 
+                  required 
+                  maxlength="40"
+                  autocomplete="off"
+                >
+                <span class="field-hint">Valor em R$ ou carga horária.</span>
+              </div>
+
+              <div class="form-group">
+                <label for="campo-prazo" class="form-label">
+                  Data Limite de Inscrição <span class="required-asterisk">*</span>
+                </label>
+                <input 
+                  type="date" 
+                  id="campo-prazo" 
+                  class="form-input" 
+                  required
+                >
+                <span class="field-hint">Último dia para inscrições.</span>
+              </div>
+
+              <div class="form-group">
+                <label id="label-campo-status" for="campo-status" class="form-label">
+                  Status do Edital <span class="required-asterisk">*</span>
+                </label>
+                <div class="custom-select-wrap" id="wrap-campo-status">
+                  <select id="campo-status" class="sr-only" required tabindex="-1" aria-hidden="true">
+                    <option value="ABERTA" selected>ABERTA</option>
+                    <option value="ENCERRADA">ENCERRADA</option>
+                  </select>
+
+                  <button 
+                    type="button" 
+                    class="custom-select-trigger" 
+                    id="trigger-campo-status" 
+                    aria-haspopup="listbox" 
+                    aria-expanded="false" 
+                    aria-controls="menu-campo-status"
+                    aria-labelledby="label-campo-status trigger-campo-status"
+                    data-placeholder="ABERTA"
+                    data-initial-dot="dot-aberta"
+                  >
+                    <span class="trigger-label">
+                      <span class="type-dot dot-aberta" aria-hidden="true"></span>
+                      <span class="trigger-text">ABERTA</span>
+                    </span>
+                    <svg class="trigger-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                      <polyline points="6 9 12 15 18 9"></polyline>
+                    </svg>
+                  </button>
+
+                  <ul 
+                    class="custom-select-dropdown" 
+                    id="menu-campo-status" 
+                    role="listbox" 
+                    aria-labelledby="label-campo-status" 
+                    tabindex="-1"
+                  >
+                    <li class="custom-select-option selected" role="option" data-value="ABERTA" data-dot="dot-aberta" aria-selected="true" tabindex="0">
+                      <span class="type-dot dot-aberta" aria-hidden="true"></span>
+                      <span class="option-text">ABERTA</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                    <li class="custom-select-option" role="option" data-value="ENCERRADA" data-dot="dot-encerrada" aria-selected="false" tabindex="0">
+                      <span class="type-dot dot-encerrada" aria-hidden="true"></span>
+                      <span class="option-text">ENCERRADA</span>
+                      <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    </li>
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </fieldset>
+
+          <!-- Seção 3: Descrição, Atividades e Requisitos -->
+          <fieldset class="form-section">
+            <legend class="form-section-legend">
+              <span class="legend-index">03</span>
+              <span>Detalhamento, Atividades & Requisitos</span>
+            </legend>
+
+            <div class="form-group">
+              <label for="campo-descricao" class="form-label">
+                Descrição da Vaga e Objetivos <span class="required-asterisk">*</span>
+              </label>
+              <textarea 
+                id="campo-descricao" 
+                class="form-textarea" 
+                rows="4" 
+                placeholder="Descreva o escopo do projeto, os objetivos pedagógicos ou acadêmicos e o contexto da oportunidade..."
+                required
+              ></textarea>
+              <span class="field-hint">Apresentação geral da oportunidade exibida no edital.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="campo-atividades" class="form-label">
+                Principais Atividades & Atribuições
+              </label>
+              <textarea 
+                id="campo-atividades" 
+                class="form-textarea" 
+                rows="3" 
+                placeholder="Ex: Apoio pedagógico em aulas práticas; Resolução de dúvidas dos discentes; Elaboração de relatórios quinzenais..."
+              ></textarea>
+              <span class="field-hint">Separe as atividades por linhas ou ponto e vírgula para formatação automática em tópicos.</span>
+            </div>
+
+            <div class="form-group">
+              <label for="campo-requisitos" class="form-label">
+                Requisitos e Pré-requisitos
+              </label>
+              <textarea 
+                id="campo-requisitos" 
+                class="form-textarea" 
+                rows="3" 
+                placeholder="Ex: Estar cursando a partir do 3º semestre; Média na disciplina superior a 7.0; Disponibilidade de 12h semanais..."
+              ></textarea>
+              <span class="field-hint">Separe os requisitos por linhas ou ponto e vírgula para exibição com ícones de verificação.</span>
+            </div>
+          </fieldset>
+
+          <!-- Botões de Ação do Formulário -->
+          <footer class="form-actions-bar">
+            <a href="painel.html" class="btn-cancel">
+              Cancelar
+            </a>
+            <button type="submit" class="btn-submit-vaga" id="btn-submit">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <polyline points="20 6 9 17 4 12"></polyline>
+              </svg>
+              <span id="btn-submit-text">Salvar e Publicar Vaga</span>
+            </button>
+          </footer>
+
+        </form>
+      </section>
+
+      <!-- Coluna Direita: Pré-visualização ao Vivo -->
+      <aside class="preview-column" aria-label="Pré-visualização do card no mural">
+        <div class="sticky-preview-box">
+          <div class="preview-header">
+            <span class="preview-tag">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.4H22l-6 4.6 2.3 7.2-6.3-4.6-6.3 4.6 2.3-7.2-6-4.6h7.6z"/></svg>
+              Prévia em Tempo Real
+            </span>
+            <span class="preview-note">Visualização no Mural</span>
+          </div>
+
+          <!-- O Card é renderizado e atualizado instantaneamente via JavaScript -->
+          <div class="preview-card-slot" id="preview-card-slot">
+            <article class="opportunity-card" id="preview-card" data-eixo="geral">
+              <header class="card-top">
+                <strong class="badge-pill" id="prev-tipo">Modalidade</strong>
+                <span class="badge-status status-aberta" id="prev-status">ABERTA</span>
+              </header>
+
+              <h2 class="card-heading" id="prev-titulo">Título da Oportunidade</h2>
+              
+              <p class="card-dept">
+                <span id="prev-departamento">Curso / Departamento</span>
+                <span class="arrow-accent" aria-hidden="true">↗</span>
+              </p>
+
+              <p class="card-desc" id="prev-descricao">
+                A descrição informada no formulário aparecerá aqui para os estudantes consultarem os objetivos da vaga.
+              </p>
+
+              <footer class="card-footer">
+                <dl class="card-bento-metrics">
+                  <div class="metric-box bolsa-box">
+                    <dt class="metric-caption" id="prev-caption-bolsa">Remuneração</dt>
+                    <dd class="metric-val" id="prev-bolsa">R$ 0,00</dd>
+                  </div>
+                  <div class="metric-box prazo-box">
+                    <dt class="metric-caption" id="prev-caption-prazo">Inscrições até</dt>
+                    <dd class="metric-val" id="prev-prazo">00/00/00</dd>
+                  </div>
+                </dl>
+                
+                <div class="btn-action">
+                  <span>Ver Oportunidade</span>
+                  <img src="assets/icons/arrow-right.svg" alt="" class="btn-action-icon" aria-hidden="true" width="16" height="16">
+                </div>
+              </footer>
+            </article>
+          </div>
+
+          <div class="preview-tips-card">
+            <strong class="tips-title">Dica Docente</strong>
+            <p class="tips-text">
+              Ao cadastrar uma vaga com carga horária (ex: 60h), o sistema automaticamente classifica o benefício como horas complementares (AC).
+            </p>
+          </div>
+
+        </div>
+      </aside>
+
+    </div>
+
+  </main>
+
+  <!-- Rodapé Institucional -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <figure class="footer-brand">
+        <img src="assets/img/ID visual/logo-l.svg" alt="" width="26" height="26">
+        <figcaption class="footer-text">OportUni &copy; 2026 — Disciplina POOA | UCSal</figcaption>
+      </figure>
+      <nav class="footer-links" aria-label="Links institucionais">
+        <a href="sobre.html">Sobre o Projeto</a>
+        <a href="painel.html">Painel Docente</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Toast de Notificação -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span class="toast-msg" id="toast-msg">Oportunidade salva com sucesso!</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script src="js/oportunidade.js"></script>
+</body>
+</html>

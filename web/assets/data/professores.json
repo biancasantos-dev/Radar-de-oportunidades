@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "nome": "Prof. Dr. Marcelo Ribeiro",
+    "email": "marcelo.ribeiro@ucsal.br",
+    "senha_padrao": "ucsal123",
+    "departamento": "Direito",
+    "tag": "Direito",
+    "avatar": "MR"
+  },
+  {
+    "id": 2,
+    "nome": "Prof. Dr. Carlos Eduardo",
+    "email": "carlos.eduardo@ucsal.br",
+    "senha_padrao": "ucsal123",
+    "departamento": "Engenharias / ADS",
+    "tag": "Exatas & TI",
+    "avatar": "CE"
+  },
+  {
+    "id": 3,
+    "nome": "Profa. Dra. Renata Silveira",
+    "email": "renata.silveira@ucsal.br",
+    "senha_padrao": "ucsal123",
+    "departamento": "Psicologia",
+    "tag": "Psicologia",
+    "avatar": "RS"
+  },
+  {
+    "id": 4,
+    "nome": "Prof. Dr. Fernando Rocha",
+    "email": "fernando.rocha@ucsal.br",
+    "senha_padrao": "ucsal123",
+    "departamento": "Ciências Biológicas e Saúde",
+    "tag": "Saúde",
+    "avatar": "FR"
+  }
+]

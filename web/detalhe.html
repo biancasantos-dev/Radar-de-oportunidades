@@ -1,1 +1,530 @@
-<!-- Detalhes da vaga -->
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OportUni | Detalhes da Oportunidade</title>
+  <meta name="description" content="Consulte o edital completo, requisitos e candidate-se a vagas de pesquisa, monitoria, extensão e estágio na UCSAL.">
+  <link rel="icon" type="image/svg+xml" href="assets/img/ID visual/icon.svg">
+  
+  <!-- Estilos Globais e Específicos -->
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/detalhe.css">
+</head>
+<body data-eixo="geral">
+
+  <!-- Barra de Navegação -->
+  <header class="navbar">
+    <div class="container navbar-inner">
+      <a href="index.html" class="navbar-brand" aria-label="OportUni - Página Inicial">
+        <img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
+      </a>
+      
+      <button type="button" class="navbar-toggle" aria-label="Alternar menu de navegação" aria-expanded="false" aria-controls="navbar-nav">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <nav class="navbar-nav" id="navbar-nav" aria-label="Navegação principal">
+        <a href="index.html" class="nav-link">Mural</a>
+        <a href="sobre.html" class="nav-link">Sobre</a>
+        <a href="painel.html" class="nav-link" id="nav-link-painel" style="display: none;">Painel</a>
+        <a href="oportunidade.html" class="nav-btn-nova-vaga" id="nav-btn-nova-vaga" style="display: none;">
+          <img src="assets/icons/plus.svg" alt="" aria-hidden="true" width="14" height="14">
+          <span>Nova Vaga</span>
+        </a>
+        <a href="login.html" class="nav-btn-professor" id="nav-btn-professor">
+          <img src="assets/icons/user.svg" alt="" aria-hidden="true" width="15" height="15">
+          <span>Área do Professor</span>
+        </a>
+        <button type="button" class="btn-logout" id="btn-logout" aria-label="Sair da conta" style="display: none;">
+          <img src="assets/icons/log-out.svg" alt="" aria-hidden="true" width="15" height="15">
+          <span>Sair</span>
+        </button>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Conteúdo Principal da Página -->
+  <main class="page-content container" id="detalhe-container">
+
+    <!-- Navegação Breadcrumb -->
+    <nav class="detalhe-breadcrumb" aria-label="Navegação estrutural">
+      <div class="breadcrumb-links">
+        <a href="index.html" class="breadcrumb-item">Mural de Oportunidades</a>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        <span class="breadcrumb-item" id="bread-eixo">Eixo Acadêmico</span>
+        <span class="breadcrumb-separator" aria-hidden="true">/</span>
+        <span class="breadcrumb-item active" id="bread-titulo" aria-current="page">Edital</span>
+      </div>
+
+      <a href="index.html" class="btn-voltar-mural">
+        <img src="assets/icons/arrow-left.svg" alt="" aria-hidden="true" width="16" height="16">
+        <span>Voltar ao Mural</span>
+      </a>
+    </nav>
+
+    <!-- Hero do Edital -->
+    <header class="detalhe-hero" id="hero-vaga">
+      <div class="hero-top-row">
+        <div class="hero-badges">
+          <strong class="badge-pill" id="detalhe-tipo">Modalidade</strong>
+          <span class="badge-eixo" id="detalhe-eixo-badge">Eixo</span>
+          <span class="badge-status status-aberta" id="detalhe-status">
+            <span class="status-pulse-dot" aria-hidden="true"></span>
+            <span id="detalhe-status-text">ABERTA</span>
+          </span>
+        </div>
+
+        <div class="hero-id-tag">
+          <span class="id-label">Edital ID #<span id="detalhe-id">--</span></span>
+        </div>
+      </div>
+
+      <h1 class="detalhe-titulo" id="detalhe-titulo">
+        Carregando oportunidade...
+      </h1>
+
+      <p class="detalhe-depto">
+        <img src="assets/icons/map-pin.svg" alt="" aria-hidden="true" width="18" height="18" class="depto-icon">
+        <span id="detalhe-depto">Curso / Departamento</span>
+      </p>
+
+      <!-- Metadados em Formato Pílulas Bento -->
+      <div class="hero-meta-grid">
+        <div class="meta-card">
+          <div class="meta-icon-box icon-bolsa">
+            <img src="assets/icons/wallet.svg" alt="" aria-hidden="true" width="20" height="20">
+          </div>
+          <div class="meta-info">
+            <span class="meta-label" id="detalhe-caption-bolsa">Bolsa / Benefício</span>
+            <strong class="meta-value" id="detalhe-bolsa">Carregando...</strong>
+          </div>
+        </div>
+
+        <div class="meta-card">
+          <div class="meta-icon-box icon-prazo">
+            <img src="assets/icons/calendar.svg" alt="" aria-hidden="true" width="20" height="20">
+          </div>
+          <div class="meta-info">
+            <span class="meta-label" id="detalhe-caption-prazo">Inscrições Até</span>
+            <strong class="meta-value" id="detalhe-prazo">Carregando...</strong>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Layout Dividido em Duas Colunas (Edital + Card de Ação Lateral) -->
+    <div class="detalhe-content-grid">
+      
+      <!-- Coluna Principal (Esquerda): Informações Detalhadas do Edital -->
+      <section class="detalhe-main-col">
+        
+        <!-- Bloco 1: Descrição e Objetivos -->
+        <article class="edital-section-card">
+          <header class="section-card-header">
+            <span class="section-index">01</span>
+            <h2 class="section-card-title">Sobre a Oportunidade & Objetivos</h2>
+          </header>
+          <div class="section-card-body">
+            <p class="detalhe-descricao-text" id="detalhe-descricao">
+              Carregando descrição completa do edital...
+            </p>
+          </div>
+        </article>
+
+        <!-- Bloco 2: Requisitos e Critérios de Participação -->
+        <article class="edital-section-card">
+          <header class="section-card-header">
+            <span class="section-index">02</span>
+            <h2 class="section-card-title">Requisitos & Pré-requisitos</h2>
+          </header>
+          <div class="section-card-body">
+            <div class="requisitos-box" id="detalhe-requisitos-box">
+              <p class="requisitos-lead" id="detalhe-requisitos-lead">
+                Para se candidatar a esta vaga, o estudante deve atender aos seguintes critérios:
+              </p>
+              <ul class="requisitos-list" id="detalhe-requisitos-list">
+                <!-- Itens gerados dinamicamente via JS -->
+              </ul>
+            </div>
+          </div>
+        </article>
+
+        <!-- Bloco 3: Atribuições e Atividades Acadêmicas -->
+        <article class="edital-section-card">
+          <header class="section-card-header">
+            <span class="section-index">03</span>
+            <h2 class="section-card-title">Atividades & Desenvolvimento</h2>
+          </header>
+          <div class="section-card-body">
+            <p class="atividades-intro">
+              Durante o período de atuação no edital, o estudante bolsista ou voluntário terá a oportunidade de praticar:
+            </p>
+            <div class="atividades-grid" id="atividades-grid">
+              <div class="atividade-pill">
+                <span class="atividade-check"><img src="assets/icons/check.svg" alt="" width="13" height="13" aria-hidden="true"></span>
+                <span>Pesquisa e produção acadêmica orientada</span>
+              </div>
+              <div class="atividade-pill">
+                <span class="atividade-check"><img src="assets/icons/check.svg" alt="" width="13" height="13" aria-hidden="true"></span>
+                <span>Apoio pedagógico ou aplicação prática comunitária</span>
+              </div>
+              <div class="atividade-pill">
+                <span class="atividade-check"><img src="assets/icons/check.svg" alt="" width="13" height="13" aria-hidden="true"></span>
+                <span>Participação em reuniões periódicas de alinhamento</span>
+              </div>
+              <div class="atividade-pill">
+                <span class="atividade-check"><img src="assets/icons/check.svg" alt="" width="13" height="13" aria-hidden="true"></span>
+                <span>Emissão de relatório final de atividades</span>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <!-- Bloco 4: Docente Orientador Responsável -->
+        <article class="edital-section-card docente-card-profile">
+          <header class="section-card-header">
+            <span class="section-index">04</span>
+            <h2 class="section-card-title">Docente Responsável</h2>
+          </header>
+          <div class="docente-profile-layout">
+            <div class="docente-avatar-wrap" id="docente-avatar">
+              <span class="avatar-initials" id="docente-initials">PR</span>
+            </div>
+            <div class="docente-profile-info">
+              <h3 class="docente-nome" id="docente-nome">Nome do Professor</h3>
+              <p class="docente-depto-tag" id="docente-depto">Departamento Acadêmico</p>
+              <p class="docente-email-row">
+                <img src="assets/icons/mail.svg" alt="" aria-hidden="true" width="16" height="16">
+                <a href="mailto:suporte@ucsal.br" id="docente-email-link" class="docente-email">professor@ucsal.br</a>
+              </p>
+            </div>
+            <div class="docente-action-wrap">
+              <a href="mailto:suporte@ucsal.br" id="btn-duvida-docente" class="btn-duvida-docente" title="Enviar e-mail para tirar dúvidas sobre o edital">
+                <img src="assets/icons/mail.svg" alt="" aria-hidden="true" width="15" height="15">
+                <span>Tirar Dúvidas</span>
+              </a>
+            </div>
+          </div>
+        </article>
+
+      </section>
+
+      <!-- Coluna Lateral (Direita): Card de Candidatura Fixo (Sticky) -->
+      <aside class="detalhe-sidebar">
+        <div class="card-candidatura-sticky" id="card-candidatura">
+          
+          <div class="sticky-price-box">
+            <span class="sticky-caption" id="sticky-caption-bolsa">Remuneração / Benefício</span>
+            <strong class="sticky-bolsa-valor" id="sticky-bolsa-valor">R$ 0,00</strong>
+          </div>
+
+          <div class="sticky-timeline">
+            <div class="timeline-row">
+              <span class="timeline-label">Encerramento:</span>
+              <strong class="timeline-date" id="sticky-data-limite">--/--/----</strong>
+            </div>
+            <div class="timeline-bar-track">
+              <div class="timeline-bar-fill" id="timeline-progress"></div>
+            </div>
+          </div>
+
+          <!-- Ação Principal de Candidatura -->
+          <div class="sticky-actions">
+            <button type="button" class="btn-candidatar-principal" id="btn-abrir-candidatura">
+              <span>Candidatar-se à Vaga</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+              </svg>
+            </button>
+
+            <button type="button" class="btn-compartilhar-vaga" id="btn-compartilhar" title="Copiar link da oportunidade para compartilhar">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"></path>
+                <polyline points="16 6 12 2 8 6"></polyline>
+                <line x1="12" y1="2" x2="12" y2="15"></line>
+              </svg>
+              <span>Compartilhar Vaga</span>
+            </button>
+          </div>
+
+          <!-- Ações Docentes (visíveis se o usuário logado for professor) -->
+          <div class="sticky-docente-actions" id="sticky-docente-actions" style="display: none;">
+            <p class="docente-gestao-caption">Gestão do Edital:</p>
+            <div class="docente-gestao-buttons">
+              <a href="oportunidade.html" id="btn-docente-editar" class="btn-gestao-edit">
+                <img src="assets/icons/edit.svg" alt="" aria-hidden="true" width="14" height="14">
+                <span>Editar Vaga</span>
+              </a>
+              <a href="inscritos.html" id="btn-docente-inscritos" class="btn-gestao-inscritos">
+                <img src="assets/icons/users.svg" alt="" aria-hidden="true" width="14" height="14">
+                <span>Ver Inscritos</span>
+              </a>
+            </div>
+          </div>
+
+          <!-- Dicas Institucionais para o Estudante -->
+          <footer class="sticky-footer-tips">
+            <div class="tip-icon-wrap">
+              <img src="assets/icons/star.svg" alt="" aria-hidden="true" width="15" height="15">
+            </div>
+            <p class="tip-text">
+              Após submeter sua inscrição, seu perfil acadêmico será avaliado pelo docente responsável. Fique atento ao seu e-mail institucional UCSAL.
+            </p>
+          </footer>
+
+        </div>
+      </aside>
+
+    </div>
+
+    <!-- Seção de Oportunidades Relacionadas -->
+    <section class="secao-relacionadas" aria-labelledby="relacionadas-heading">
+      <header class="relacionadas-header">
+        <div>
+          <span class="relacionadas-tag">EXPLORAR MAIS</span>
+          <h2 class="relacionadas-title" id="relacionadas-heading">
+            Outras Oportunidades no Eixo <mark class="title-highlight" id="relacionadas-eixo-nome">Acadêmico</mark>
+          </h2>
+        </div>
+        <a href="index.html" class="relacionadas-link-todos">
+          <span>Ver todo o mural</span>
+          <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true" width="15" height="15">
+        </a>
+      </header>
+
+      <div class="relacionadas-grid" id="grid-relacionadas">
+        <!-- Cards relacionados preenchidos via JS -->
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Modal Interativo de Candidatura do Estudante -->
+  <div class="modal-backdrop" id="modal-candidatura-backdrop" role="dialog" aria-modal="true" aria-labelledby="modal-titulo" aria-hidden="true">
+    <div class="modal-card">
+      
+      <header class="modal-header">
+        <div class="modal-title-wrap">
+          <span class="modal-kicker">CANDIDATURA ACADÊMICA</span>
+          <h2 class="modal-title" id="modal-titulo">Inscrever-se na Oportunidade</h2>
+          <p class="modal-subtitle" id="modal-subtitulo-vaga">Vaga: Título da Vaga</p>
+        </div>
+        <button type="button" class="btn-modal-close" id="btn-fechar-modal" aria-label="Fechar formulário de candidatura">
+          <img src="assets/icons/x.svg" alt="" aria-hidden="true" width="18" height="18">
+        </button>
+      </header>
+
+      <form id="form-candidatura" class="modal-form" novalidate>
+        
+        <div class="form-group">
+          <label for="cand-nome" class="form-label">
+            Nome Completo do Estudante <span class="required-asterisk">*</span>
+          </label>
+          <input 
+            type="text" 
+            id="cand-nome" 
+            class="form-input" 
+            placeholder="Ex: Lucas Brandão Silveira" 
+            required 
+            maxlength="100"
+            autocomplete="name"
+          >
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="cand-email" class="form-label">
+              E-mail Institucional <span class="required-asterisk">*</span>
+            </label>
+            <input 
+              type="email" 
+              id="cand-email" 
+              class="form-input" 
+              placeholder="seu.nome@ucsal.edu.br" 
+              required 
+              maxlength="100"
+              autocomplete="email"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cand-matricula" class="form-label">
+              Matrícula UCSAL <span class="required-asterisk">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="cand-matricula" 
+              class="form-input" 
+              placeholder="Ex: 202410892" 
+              required 
+              maxlength="20"
+              autocomplete="off"
+            >
+          </div>
+        </div>
+
+        <div class="form-grid-3">
+          <div class="form-group">
+            <label for="cand-curso" class="form-label">
+              Curso <span class="required-asterisk">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="cand-curso" 
+              class="form-input" 
+              placeholder="Ex: ADS, Direito..." 
+              required 
+              maxlength="60"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cand-periodo" class="form-label">
+              Período Atual <span class="required-asterisk">*</span>
+            </label>
+            <input 
+              type="text" 
+              id="cand-periodo" 
+              class="form-input" 
+              placeholder="Ex: 4º Período" 
+              required 
+              maxlength="30"
+            >
+          </div>
+
+          <div class="form-group">
+            <label for="cand-cr" class="form-label">
+              Coeficiente (CR)
+            </label>
+            <input 
+              type="text" 
+              id="cand-cr" 
+              class="form-input" 
+              placeholder="Ex: 8.5" 
+              maxlength="5"
+            >
+          </div>
+        </div>
+
+        <div class="form-grid-2">
+          <div class="form-group">
+            <label for="cand-turno" class="form-label">
+              Turno de Estudo
+            </label>
+            <div class="custom-select-wrap" id="wrap-cand-turno">
+              <select id="cand-turno" class="sr-only" tabindex="-1" aria-hidden="true">
+                <option value="Matutino" selected>Matutino</option>
+                <option value="Vespertino">Vespertino</option>
+                <option value="Noturno">Noturno</option>
+              </select>
+              <button 
+                type="button" 
+                class="custom-select-trigger" 
+                id="trigger-cand-turno" 
+                aria-haspopup="listbox" 
+                aria-expanded="false" 
+                data-placeholder="Matutino"
+              >
+                <span class="trigger-label">
+                  <span class="type-dot dot-ic" aria-hidden="true"></span>
+                  <span class="trigger-text">Matutino</span>
+                </span>
+                <svg class="trigger-chevron" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </button>
+              <ul class="custom-select-dropdown" role="listbox" tabindex="-1">
+                <li class="custom-select-option selected" role="option" data-value="Matutino" data-dot="dot-ic" aria-selected="true" tabindex="0">
+                  <span class="type-dot dot-ic" aria-hidden="true"></span>
+                  <span class="option-text">Matutino</span>
+                  <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </li>
+                <li class="custom-select-option" role="option" data-value="Vespertino" data-dot="dot-evento" aria-selected="false" tabindex="0">
+                  <span class="type-dot dot-evento" aria-hidden="true"></span>
+                  <span class="option-text">Vespertino</span>
+                  <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </li>
+                <li class="custom-select-option" role="option" data-value="Noturno" data-dot="dot-grupo" aria-selected="false" tabindex="0">
+                  <span class="type-dot dot-grupo" aria-hidden="true"></span>
+                  <span class="option-text">Noturno</span>
+                  <svg class="option-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label for="cand-telefone" class="form-label">
+              WhatsApp / Telefone <span class="required-asterisk">*</span>
+            </label>
+            <input 
+              type="tel" 
+              id="cand-telefone" 
+              class="form-input" 
+              placeholder="(71) 99999-9999" 
+              required 
+              maxlength="20"
+              autocomplete="tel"
+            >
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="cand-mensagem" class="form-label">
+            Carta de Motivação / Por que você deseja esta vaga? <span class="required-asterisk">*</span>
+          </label>
+          <textarea 
+            id="cand-mensagem" 
+            class="form-textarea" 
+            rows="3" 
+            placeholder="Conte brevemente sobre seu interesse na área, experiências prévias ou objetivos acadêmicos..." 
+            required
+          ></textarea>
+        </div>
+
+        <footer class="modal-form-actions">
+          <button type="button" class="btn-modal-cancel" id="btn-cancelar-candidatura">
+            Cancelar
+          </button>
+          <button type="submit" class="btn-modal-submit" id="btn-submeter-candidatura">
+            <span>Confirmar Candidatura</span>
+            <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true" width="16" height="16">
+          </button>
+        </footer>
+
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast de Notificação -->
+  <div class="toast" id="toast" role="status" aria-live="polite">
+    <svg class="toast-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+      <polyline points="20 6 9 17 4 12"></polyline>
+    </svg>
+    <span class="toast-msg" id="toast-msg">Operação realizada com sucesso!</span>
+  </div>
+
+  <!-- Rodapé Institucional -->
+  <footer class="footer">
+    <div class="container footer-content">
+      <figure class="footer-brand">
+        <img src="assets/img/ID visual/logo-l.svg" alt="" width="26" height="26">
+        <figcaption class="footer-text">OportUni &copy; 2026 — Disciplina POOA | UCSal</figcaption>
+      </figure>
+      <nav class="footer-links" aria-label="Links institucionais">
+        <a href="index.html">Mural de Vagas</a>
+        <a href="sobre.html">Sobre o Projeto</a>
+        <a href="login.html">Acesso Docente</a>
+      </nav>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/script.js"></script>
+  <script src="js/detalhe.js"></script>
+</body>
+</html>
