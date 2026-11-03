@@ -1,9 +1,18 @@
 // ============================================================
-// OPORTUNI — CADASTRO-PROFESSOR.JS
-// Cadastro de Docentes Exclusivo com E-mail Institucional UCSal
+// OPORTUNI — CADASTRO-PROFESSOR.JS (CADASTRO INSTITUCIONAL DOCENTE)
+// 
+// Esta tela permite que novos professores criem sua conta de acesso ao OportUni.
+// 
+// Principais regras de negócio implementadas neste script:
+// 1. Validação estrita de e-mail institucional da Universidade Católica do Salvador
+//    (aceita apenas domínios @ucsal.br ou @prof.ucsal.br).
+// 2. Prevenção de duplicidade: impede cadastrar duas contas com o mesmo e-mail.
+// 3. Validação em tempo real: orienta o usuário enquanto ele digita a senha e o e-mail.
+// 4. Criação do perfil do docente e autenticação imediata para entrada no painel.
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
+  // ── Elementos do Formulário e Entradas de Dados ──
   const form = document.getElementById('form-cadastro');
   const campoNome = document.getElementById('campo-nome');
   const campoEmail = document.getElementById('campo-email');
@@ -17,7 +26,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   const btnIcon = btnSubmit.querySelector('.btn-icon');
   const spinner = document.getElementById('cadastro-spinner');
 
-  // Elementos de Feedback
+  // ── Elementos Visuais de Feedback e Ajuda ──
   const feedbackBox = document.getElementById('cadastro-feedback');
   const feedbackText = document.getElementById('feedback-text');
   const emailValidationHint = document.getElementById('email-validation-hint');
@@ -26,18 +35,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   const senhaValidationHint = document.getElementById('senha-validation-hint');
   const senhaHintText = document.getElementById('senha-hint-text');
 
-  // Botões de alternância de senha
+  // ── Botões para exibir/ocultar senha ──
   const btnToggleSenha = document.getElementById('btn-toggle-senha');
   const btnToggleConfirmar = document.getElementById('btn-toggle-confirmar');
 
-  // Select customizado de Eixo
+  // ── Componente de seleção do Eixo Acadêmico ──
   const wrapEixo = document.getElementById('wrap-campo-eixo');
   const triggerEixo = document.getElementById('trigger-campo-eixo');
   const menuEixo = document.getElementById('menu-campo-eixo');
 
+  // Armazena a lista de professores já registrados (para evitar e-mails duplicados)
   let listaProfessoresExistentes = [];
 
-  // ── 1. Carregar Professores Existentes para Evitar Duplicidade ──
+  // ── Carregar Professores Existentes para Evitar Duplicidade ──
+  // Lê os dados do arquivo local professores.json e do localStorage.
   async function carregarProfessores() {
     try {
       const resp = await fetch('assets/data/professores.json');
@@ -59,10 +70,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   }
 
-  // Carregamento de professores existentes em segundo plano
+  // Executa o carregamento inicial em segundo plano
   carregarProfessores();
 
-  // ── 2. Alternância de Visibilidade das Senhas ──
+  // ── Alternância de Visibilidade das Senhas (Ver/Ocultar) ──
+  // Troca o atributo type do input entre "password" e "text" quando o usuário clica no ícone do olho.
   function configurarToggleSenha(btn, input) {
     if (!btn || !input) return;
     const eyeShow = btn.querySelector('.eye-show');
@@ -80,20 +92,19 @@ document.addEventListener('DOMContentLoaded', async () => {
   configurarToggleSenha(btnToggleSenha, campoSenha);
   configurarToggleSenha(btnToggleConfirmar, campoConfirmarSenha);
 
-  // ── 3. Sincronização do Select Customizado de Eixo (Gerenciado por script.js) ──
+  // ── Limpeza de Erro ao Selecionar o Eixo ──
   if (campoEixo && wrapEixo) {
     campoEixo.addEventListener('change', () => {
       wrapEixo.classList.remove('is-invalid');
     });
   }
 
-  // Assegura que os selects globais foram inicializados
   if (typeof initCustomSelects === 'function') {
     initCustomSelects();
   }
 
-  // ── 4. Validação Rigorosa de E-mail UCSal ──
-  // CRITÉRIO MANDATÓRIO: Apenas domínios @ucsal.br ou @prof.ucsal.br
+  // ── Validação Rigorosa de E-mail Institucional UCSal ──
+  // Regra fundamental do projeto: somente e-mails com final @ucsal.br ou @prof.ucsal.br são permitidos.
   function checarEmailUcsal(email) {
     const limpo = (email || '').trim().toLowerCase();
     const formatoValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(limpo);
@@ -114,7 +125,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       };
     }
 
-    // Verifica se já existe professor cadastrado com este e-mail
+    // Verifica se já existe outra conta com este mesmo e-mail
     const jaExiste = listaProfessoresExistentes.some(p => p.email && p.email.toLowerCase() === limpo);
     if (jaExiste) {
       return {
@@ -127,7 +138,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return { valido: true, mensagem: 'E-mail institucional UCSal válido e disponível.' };
   }
 
-  // Feedback em tempo real para o campo de e-mail
+  // Feedback visual em tempo real enquanto o usuário digita o e-mail
   campoEmail.addEventListener('input', () => {
     const val = campoEmail.value.trim();
 
@@ -140,7 +151,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // Se o usuário digitou arroba, já checa o domínio
+    // Se o usuário já digitou o caractere '@', faz a validação do domínio
     if (val.includes('@')) {
       const res = checarEmailUcsal(val);
       if (res.valido) {
@@ -148,13 +159,13 @@ document.addEventListener('DOMContentLoaded', async () => {
         emailHintText.textContent = res.mensagem;
         emailStatusIcon.textContent = '';
         emailStatusIcon.className = 'email-status-indicator is-valid';
-        campoEmail.style.borderColor = '#2E7D32';
+        campoEmail.style.borderColor = '#2E7D32'; // Verde para válido
       } else {
         emailValidationHint.className = 'domain-feedback-hint is-invalid';
         emailHintText.textContent = res.mensagem;
         emailStatusIcon.textContent = '';
         emailStatusIcon.className = 'email-status-indicator is-invalid';
-        campoEmail.style.borderColor = '#D32F2F';
+        campoEmail.style.borderColor = '#D32F2F'; // Vermelho para inválido
       }
     } else {
       emailValidationHint.className = 'domain-feedback-hint';
@@ -165,7 +176,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // ── 5. Feedback em Tempo Real para Senhas ──
+  // ── Validação em Tempo Real para Senhas e Confirmação ──
+  // Verifica se a senha tem pelo menos 6 dígitos e se a confirmação confere perfeitamente.
   function checarSenhas() {
     const s1 = campoSenha.value;
     const s2 = campoConfirmarSenha.value;
@@ -199,10 +211,10 @@ document.addEventListener('DOMContentLoaded', async () => {
   campoSenha.addEventListener('input', checarSenhas);
   campoConfirmarSenha.addEventListener('input', checarSenhas);
 
-  // ── 6. Extração de Iniciais para Avatar Editorial ──
+  // ── Extração de Iniciais para o Avatar do Professor ──
+  // Transforma o nome (ex: "Prof. Dr. Marcelo Ribeiro") nas iniciais para o círculo visual ("MR").
   function extrairIniciais(nome) {
     if (!nome) return 'PR';
-    // Remove títulos comuns como Prof., Profa., Dr., Dra., Me.
     const limpo = nome
       .replace(/^(prof\.|profa\.|dr\.|dra\.|me\.|ms\.|doutor|doutora|mestre)\s+/gi, '')
       .trim();
@@ -212,7 +224,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     return 'PR';
   }
 
-  // ── 7. Submissão do Formulário de Cadastro ──
+  // ── Submissão do Formulário de Cadastro ──
   form.addEventListener('submit', async (e) => {
     e.preventDefault();
     limparFeedback();
@@ -225,14 +237,14 @@ document.addEventListener('DOMContentLoaded', async () => {
     const confirmarSenha = campoConfirmarSenha.value;
     const termoAceito = campoTermo.checked;
 
-    // 1. Validação de Nome
+    // 1. Validação do Nome Completo
     if (!nome || nome.length < 3) {
       exibirFeedback('error', 'Por favor, informe seu nome completo e titulação acadêmica.');
       campoNome.focus();
       return;
     }
 
-    // 2. Validação Rigorosa de E-mail UCSal
+    // 2. Validação do E-mail Institucional
     const checkEmail = checarEmailUcsal(email);
     if (!checkEmail.valido) {
       exibirFeedback('error', checkEmail.mensagem);
@@ -240,7 +252,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // 3. Validação de Eixo
+    // 3. Validação do Eixo Acadêmico
     if (!eixo) {
       exibirFeedback('error', 'Selecione o seu Eixo Principal de atuação acadêmica.');
       if (wrapEixo) wrapEixo.classList.add('is-invalid');
@@ -248,14 +260,14 @@ document.addEventListener('DOMContentLoaded', async () => {
       return;
     }
 
-    // 4. Validação de Departamento
+    // 4. Validação do Curso / Departamento
     if (!depto || depto.length < 2) {
       exibirFeedback('error', 'Por favor, informe seu Curso ou Departamento na UCSal.');
       campoDepartamento.focus();
       return;
     }
 
-    // 5. Validação de Senha
+    // 5. Validação de Senha e Confirmação
     if (!senha || senha.length < 6) {
       exibirFeedback('error', 'A senha deve conter no mínimo 6 caracteres para garantir a segurança da conta.');
       campoSenha.focus();
@@ -278,20 +290,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     iniciarCarregamento();
 
     try {
-      // Simulação de processamento seguro
+      // Simula um breve processamento para feedback de interface
       await new Promise(resolve => setTimeout(resolve, 750));
 
-      // Mapeamento de tags por eixo
+      // Mapeia rótulo amigável para exibição nos cabeçalhos
       const tagsPorEixo = {
         'exatas': 'Exatas & TI',
         'humanas': 'Humanas & Sociais',
         'saude': 'Saúde & Biológicas'
       };
 
-      // Determinação de ID único
+      // Gera um ID sequencial para o novo professor
       const maiorId = listaProfessoresExistentes.reduce((max, p) => (p.id > max ? p.id : max), 10);
       const novoId = Math.max(maiorId + 1, Date.now() % 100000);
 
+      // Objeto estruturado do novo professor
       const novoProfessor = {
         id: novoId,
         nome: nome,
@@ -304,7 +317,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         data_cadastro: new Date().toLocaleDateString('pt-BR')
       };
 
-      // Salva na lista de professores cadastrados no localStorage
+      // Salva o novo professor na lista de cadastrados em localStorage
       let cadastradosLocais = [];
       try {
         const dadosLocais = localStorage.getItem('professores_cadastrados');
@@ -316,11 +329,12 @@ document.addEventListener('DOMContentLoaded', async () => {
       cadastradosLocais.unshift(novoProfessor);
       localStorage.setItem('professores_cadastrados', JSON.stringify(cadastradosLocais));
 
-      // Realiza autenticação imediata do novo docente
+      // Realiza a autenticação automática do novo docente na sessão
       localStorage.setItem('oportuni_docente_ativo', JSON.stringify(novoProfessor));
       sessionStorage.setItem('oportuni_docente_ativo', JSON.stringify(novoProfessor));
       localStorage.setItem('oportuni_docente_email', email);
 
+      // Gera token temporário de sessão
       const tokenDemo = `docente_${btoa(email)}_${Date.now()}`;
       if (typeof setToken === 'function') {
         setToken(tokenDemo);
@@ -330,7 +344,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       exibirFeedback('success', `Conta criada com sucesso! Bem-vindo(a), ${novoProfessor.nome}. Entrando no painel...`);
 
-      // Redireciona para o Painel do Docente
+      // Redireciona o docente para seu Painel de Controle
       setTimeout(() => {
         window.location.href = 'painel.html';
       }, 1200);
@@ -342,7 +356,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // ── Funções Utilitárias de Interface ──
+  // ── Funções Auxiliares de Feedback e Estado de Carregamento ──
   function exibirFeedback(tipo, mensagem) {
     feedbackBox.className = `cadastro-feedback feedback-${tipo}`;
     feedbackText.textContent = mensagem;

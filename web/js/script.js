@@ -1,11 +1,17 @@
 // ============================================================
-// OPORTUNI — Utilitários Globais da API
-// Padrão exigido: token Bearer no header + sessionStorage
+// OPORTUNI — Utilitários Globais da Aplicação e Comunicação com API
+// 
+// Este arquivo centraliza funções compartilhadas por todas as páginas:
+// 1. Gerenciamento de Sessão e Token Bearer (armazenado em sessionStorage).
+// 2. apiFetch(): Função padronizada para consumir os endpoints Java (/api/*),
+//    injetando automaticamente o cabeçalho "Authorization: Bearer <token>".
+// 3. Componentes visuais interativos: Menu Mobile e Selects estilizados.
 // ============================================================
 
 const API_BASE = '/api';
 
-// ── Gestão do Token de Autenticação ──
+// ── Gestão do Token de Autenticação (SessionStorage) ──
+// O token identifica o professor logado de forma temporária durante a navegação.
 function getToken() {
   return sessionStorage.getItem('token');
 }
@@ -22,7 +28,9 @@ function isAuthenticated() {
   return !!getToken();
 }
 
-// ── Requisições Assíncronas Padronizadas ──
+// ── Requisições Assíncronas Padronizadas com a API Java ──
+// Envia requisições HTTP para o servidor embutido do projeto.
+// Se houver um token salvo, ele é anexado no cabeçalho Authorization.
 async function apiFetch(endpoint, options = {}) {
   const token = getToken();
 
