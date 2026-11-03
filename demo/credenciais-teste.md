@@ -1,10 +1,10 @@
-# 🔑 Credenciais de Teste — Radar de Oportunidades (OportUni)
+# Credenciais de Teste — Radar de Oportunidades (OportUni)
 
 Este documento contém os dados de acesso para simulação e avaliação do sistema pelos professores e pela banca da disciplina **POOALAB (UCSal 2026.2)**.
 
 ---
 
-## 👨‍🏫 Contas de Professores para Demonstração
+## Contas de Professores para Demonstração
 
 O sistema adapta o **Painel Docente** dinamicamente de acordo com o professor que realiza o login:
 
@@ -15,11 +15,11 @@ O sistema adapta o **Painel Docente** dinamicamente de acordo com o professor qu
 | **Profa. Dra. Renata Silveira** | `renata.silveira@ucsal.br`   |   `ucsal123`   | **Psicologia**                  | 2 vagas (IC Saúde Mental, Grupo de Estudos)  |          2 alunos          |
 | **Prof. Dr. Fernando Rocha**    | `fernando.rocha@ucsal.br`    |   `ucsal123`   | **Ciências Biológicas e Saúde** |         1 vaga (Monitoria Anatomia)          |          1 aluno           |
 
-> 💡 **Nota de Flexibilidade:** Para facilitar os testes durante a apresentação acadêmica, o sistema aceita a senha padrão **`ucsal123`** (ou qualquer senha com 4 ou mais dígitos) para qualquer um dos e-mails institucionais acima.
+> **Nota de Flexibilidade:** Para facilitar os testes durante a apresentação acadêmica, o sistema aceita a senha padrão **`ucsal123`** (ou qualquer senha com 4 ou mais dígitos) para qualquer um dos e-mails institucionais acima.
 
 ---
 
-## 🎯 Roteiro Rápido de Teste por Perfil
+## Roteiro Rápido de Teste por Perfil
 
 ### 1. Cenário Principal: Direito (Prof. Dr. Marcelo Ribeiro)
 
