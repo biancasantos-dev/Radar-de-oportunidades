@@ -16,9 +16,18 @@ public class LoginController implements HttpHandler {
 
     // Validar credenciais, confere senha e retorna o token de acesso Bearer
 
-    private final ProfessorService service = new ProfessorService();
+    private final ProfessorService service;
 
     private final Gson gson = new Gson();
+
+    public LoginController() {
+        this(new ProfessorService());
+    }
+
+    // Ajuste: permite reutilizar a mesma instância de ProfessorService gerenciada no Main
+    public LoginController(ProfessorService service) {
+        this.service = service;
+    }
 
     private static class DadosLogin {
         String email;
@@ -32,10 +41,11 @@ public class LoginController implements HttpHandler {
                 String metodo = exchange.getRequestMethod();
                 String caminho = exchange.getRequestURI().getPath();
 
-                if (!caminho.equals("/login")) { //TODO:verificar depois se no front ta assim
+                // Ajuste: aceita /api/login ou /login para funcionar tanto com o prefixo da API quanto sem
+                if (!caminho.equals("/login") && !caminho.equals("/api/login")) {
                     responder(exchange, 404, Map.of("erro", "Rota não encontrada."));
                     return;
-                };
+                }
 
                 if (metodo.equals("POST")) {
 
@@ -87,7 +97,8 @@ public class LoginController implements HttpHandler {
                 responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
 
             } catch (Exception e) {
-                e.printStackTrace();
+                // Log simplificado de erro
+                System.err.println("Erro no LoginController: " + e.getMessage());
 
                 if (exchange.getResponseCode() == -1) {
                     responder(exchange, 500, Map.of("erro", "Erro interno no servidor"));

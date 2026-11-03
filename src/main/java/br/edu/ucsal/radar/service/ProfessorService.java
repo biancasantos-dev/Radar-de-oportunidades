@@ -16,6 +16,16 @@ public class ProfessorService {
     // Tokens em memória: token -> id do professor
     private static final Map<String, Integer> tokens = new ConcurrentHashMap<>();
 
+    private final ProfessorDAO professorDAO;
+
+    public ProfessorService() {
+        this(new ProfessorDAO());
+    }
+
+    public ProfessorService(ProfessorDAO professorDAO) {
+        this.professorDAO = professorDAO;
+    }
+
     // Gera o hash SHA-256 da senha (em hexadecimal)
     public String hashSenha(String senha) {
         try {
@@ -49,12 +59,22 @@ public class ProfessorService {
     }
 
     public String autenticar(String email, String senha) {
-        Professor professor = new ProfessorDAO().buscarPorEmail(email);
+        Professor professor = professorDAO.buscarPorEmail(email);
 
         if (professor == null || !senhaConfere(senha, professor.getSenhaHash())) {
             return null;
         }
 
         return gerarToken(professor.getId());
+    }
+
+    // Ajuste: método auxiliar para consultar o professor pelo email após login
+    public Professor buscarPorEmail(String email) {
+        return professorDAO.buscarPorEmail(email);
+    }
+
+    // Ajuste: método auxiliar para consultar o professor pelo ID
+    public Professor buscarPorId(int id) {
+        return professorDAO.buscarPorId(id);
     }
 }

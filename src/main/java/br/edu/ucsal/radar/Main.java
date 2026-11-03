@@ -5,8 +5,11 @@ import java.net.InetSocketAddress;
 
 import com.sun.net.httpserver.HttpServer;
 
+import br.edu.ucsal.radar.controller.InteresseController;
+import br.edu.ucsal.radar.controller.LoginController;
 import br.edu.ucsal.radar.controller.OportunidadeController;
 import br.edu.ucsal.radar.dao.OportunidadeDAO;
+import br.edu.ucsal.radar.service.InteresseService;
 import br.edu.ucsal.radar.service.OportunidadeService;
 import br.edu.ucsal.radar.service.ProfessorService;
 import br.edu.ucsal.radar.util.ConexaoBD;
@@ -29,21 +32,24 @@ public class Main {
             // ---- API: Oportunidades (Allan Gonçalves) ----
             ProfessorService autenticacao = new ProfessorService(); // valida o token Bearer
             OportunidadeService oportunidadeService = new OportunidadeService(new OportunidadeDAO());
+            InteresseService interesseService = new InteresseService();
+
+            // Ajuste: repassando interesseService para OportunidadeController atender às rotas de inscritos e CSV da vaga
             servidor.createContext("/api/oportunidades",
-                    new OportunidadeController(oportunidadeService, autenticacao));
+                    new OportunidadeController(oportunidadeService, autenticacao, interesseService));
 
             // ---- API: Login, Interesses e CSV (Allan Maia) -> registrar aqui ----
-            // servidor.createContext("/api/login", new LoginController());
-            // servidor.createContext("/api/interesses", new InteresseController());
-            // GET /api/oportunidades/{id}/inscritos e /exportar-csv: ver nota no README/PR
+            // Ajuste: controllers registrados para permitir autenticação e inscrição reais
+            servidor.createContext("/api/login", new LoginController(autenticacao));
+            servidor.createContext("/api/interesses", new InteresseController(interesseService));
+            // GET /api/oportunidades/{id}/inscritos e /exportar-csv: implementados no OportunidadeController
 
             servidor.setExecutor(null);
             servidor.start();
             System.out.println("Servidor iniciado em http://localhost:" + porta);
 
         } catch (IOException e) {
-            System.out.println("Erro ao iniciar o servidor: " + e.getMessage());
-            e.printStackTrace();
+            System.err.println("Erro ao iniciar o servidor: " + e.getMessage());
         }
     }
 }

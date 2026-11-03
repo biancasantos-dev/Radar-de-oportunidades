@@ -18,9 +18,18 @@ public class InteresseController implements HttpHandler {
     // POST /api/interesses: Recebe os dados da candidatura do aluno e grava no
     // banco.
 
-    private final InteresseService service = new InteresseService();
+    private final InteresseService service;
 
     private final Gson gson = new Gson();
+
+    public InteresseController() {
+        this(new InteresseService());
+    }
+
+    // Ajuste: permite injetar a instância de InteresseService configurada no Main
+    public InteresseController(InteresseService service) {
+        this.service = service;
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -29,10 +38,11 @@ public class InteresseController implements HttpHandler {
             String metodo = exchange.getRequestMethod();
             String caminho = exchange.getRequestURI().getPath();
 
-            if (!caminho.equals("/interesse")) { //verificar depois se no front ta assim
+            // Ajuste: aceita /api/interesses, /api/interesse ou /interesse para compatibilidade com o front
+            if (!caminho.equals("/interesse") && !caminho.equals("/api/interesses") && !caminho.equals("/api/interesse")) {
                 responder(exchange, 404, Map.of("erro", "Rota não encontrada."));
                 return;
-            };
+            }
 
             if (metodo.equals("POST")) {
 
@@ -60,6 +70,12 @@ public class InteresseController implements HttpHandler {
                 return;
             }
 
+            // Ajuste: suporte a GET para listar todas as inscrições caso necessário
+            if (metodo.equals("GET")) {
+                responder(exchange, 200, service.listar());
+                return;
+            }
+
             responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
         } catch (IllegalArgumentException e) {
             if (exchange.getResponseCode() == -1) { //ve se foi enviada uma resposta. (-1) significa que não foi
@@ -67,12 +83,13 @@ public class InteresseController implements HttpHandler {
                 //vai responder com a mensagem de excecao do InteresseService
             }
         } catch (Exception e) {
-            e.printStackTrace(); // imprime no console
+            // Log simplificado de erro
+            System.err.println("Erro no InteresseController: " + e.getMessage());
 
             if (exchange.getResponseCode() == -1) {
                 responder(exchange, 500, Map.of("erro", "Erro interno no servidor"));
             }
-        }finally {
+        } finally {
             exchange.close();
         }
 
@@ -91,6 +108,5 @@ public class InteresseController implements HttpHandler {
         exchange.getResponseBody().write(bytes); // nesse metodo fica o OutputStream(resposta)
 
     }
-
 
 }

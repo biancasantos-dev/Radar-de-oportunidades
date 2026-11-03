@@ -7,10 +7,21 @@ import br.edu.ucsal.radar.model.Interesse;
 
 public class InteresseService {
 
-    private final InteresseDAO interesseDAO = new InteresseDAO();
+    private final InteresseDAO interesseDAO;
+
+    public InteresseService() {
+        this(new InteresseDAO());
+    }
+
+    public InteresseService(InteresseDAO interesseDAO) {
+        this.interesseDAO = interesseDAO;
+    }
 
     // Valida os campos obrigatórios e, se estiver tudo certo, grava
     public void registrar(Interesse interesse) {
+        if (interesse == null) {
+            throw new IllegalArgumentException("Dados de candidatura não enviados.");
+        }
         validarCampo(interesse.getNome(), "nome");
         validarCampo(interesse.getEmail(), "e-mail institucional");
         validarCampo(interesse.getMatricula(), "matrícula");
@@ -18,11 +29,21 @@ public class InteresseService {
         validarCampo(interesse.getSemestre(), "semestre");
         validarCampo(interesse.getJustificativa(), "justificativa");
 
+        // Ajuste: validação preventiva para garantir que a inscrição está vinculada a uma vaga
+        if (interesse.getIdOportunidade() == null || interesse.getIdOportunidade() <= 0) {
+            throw new IllegalArgumentException("O id da oportunidade é obrigatório.");
+        }
+
         interesseDAO.salvar(interesse);
     }
 
     public List<Interesse> listar() {
         return interesseDAO.listarTodos();
+    }
+
+    // Ajuste: método auxiliar para consultar os inscritos de uma vaga específica
+    public List<Interesse> listarPorOportunidade(int idOportunidade) {
+        return interesseDAO.listarPorOportunidade(idOportunidade);
     }
 
     // Campo é inválido se for null ou só espaços

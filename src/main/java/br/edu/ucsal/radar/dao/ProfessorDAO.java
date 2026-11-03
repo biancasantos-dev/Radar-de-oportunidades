@@ -38,6 +38,30 @@ public class ProfessorDAO {
         return null;
     }
 
+    // Ajuste: método auxiliar para buscar o professor por ID (necessário para verificar quem criou a vaga)
+    public Professor buscarPorId(int id) {
+        String sql = "SELECT id, nome, email, senha_hash FROM professor WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+
+            try (ResultSet resultado = ps.executeQuery()) {
+                if (resultado.next()) {
+                    return new Professor(
+                            resultado.getInt("id"),
+                            resultado.getString("nome"),
+                            resultado.getString("email"),
+                            resultado.getString("senha_hash"));
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao buscar professor por id", e);
+        }
+        return null;
+    }
+
     public void salvar(Professor professor) {
     String sql = "INSERT INTO professor (nome, email, senha_hash) VALUES (?, ?, ?)";
 

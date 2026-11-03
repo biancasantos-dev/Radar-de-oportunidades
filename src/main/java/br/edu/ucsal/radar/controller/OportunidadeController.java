@@ -12,9 +12,12 @@ import com.google.gson.JsonSyntaxException;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 
+import br.edu.ucsal.radar.model.Interesse;
 import br.edu.ucsal.radar.model.Oportunidade;
+import br.edu.ucsal.radar.service.InteresseService;
 import br.edu.ucsal.radar.service.OportunidadeService;
 import br.edu.ucsal.radar.service.ProfessorService;
+import br.edu.ucsal.radar.util.CsvWriter;
 import br.edu.ucsal.radar.util.Json;
 
 /**
@@ -29,10 +32,18 @@ public class OportunidadeController implements HttpHandler {
 
     private final OportunidadeService service;
     private final ProfessorService autenticacao;
+    private final InteresseService interesseService;
 
     public OportunidadeController(OportunidadeService service, ProfessorService autenticacao) {
+        this(service, autenticacao, new InteresseService());
+    }
+
+    // Ajuste: permite injetar InteresseService para atender aos inscritos e exportação CSV da vaga
+    public OportunidadeController(OportunidadeService service, ProfessorService autenticacao,
+                                 InteresseService interesseService) {
         this.service = service;
         this.autenticacao = autenticacao;
+        this.interesseService = interesseService;
     }
 
     @Override
@@ -67,6 +78,28 @@ public class OportunidadeController implements HttpHandler {
                 return;
             }
 
+            // Ajuste: GET /api/oportunidades/{id}/inscritos para consultar alunos inscritos da vaga
+            if (sobra.matches("/\\d+/inscritos")) {
+                if (metodo.equals("GET")) {
+                    String[] partes = sobra.substring(1).split("/");
+                    listarInscritos(exchange, Integer.parseInt(partes[0]));
+                } else {
+                    responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
+                }
+                return;
+            }
+
+            // Ajuste: GET /api/oportunidades/{id}/exportar-csv usando CsvWriter com Java Streams API (bônus POOA)
+            if (sobra.matches("/\\d+/exportar-csv")) {
+                if (metodo.equals("GET")) {
+                    String[] partes = sobra.substring(1).split("/");
+                    exportarCsv(exchange, Integer.parseInt(partes[0]));
+                } else {
+                    responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
+                }
+                return;
+            }
+
             responder(exchange, 404, Map.of("erro", "Rota não encontrada."));
 
         } catch (JsonSyntaxException e) {
@@ -74,7 +107,8 @@ public class OportunidadeController implements HttpHandler {
         } catch (IllegalArgumentException | JsonParseException e) {
             responder(exchange, 400, Map.of("erro", e.getMessage()));
         } catch (Exception e) {
-            e.printStackTrace();
+            // Log simplificado de erro
+            System.err.println("Erro no OportunidadeController: " + e.getMessage());
             responder(exchange, 500, Map.of("erro", "Erro interno no servidor"));
         } finally {
             exchange.close();
@@ -97,6 +131,28 @@ public class OportunidadeController implements HttpHandler {
         } else {
             responder(exchange, 404, Map.of("erro", "Vaga não encontrada."));
         }
+    }
+
+    // GET /api/oportunidades/{id}/inscritos
+    private void listarInscritos(HttpExchange exchange, int id) throws IOException {
+        List<Interesse> inscritos = interesseService.listarPorOportunidade(id);
+        responder(exchange, 200, inscritos);
+    }
+
+    // GET /api/oportunidades/{id}/exportar-csv
+    // Processa a lista com CsvWriter (Java Streams) e devolve para download
+    private void exportarCsv(HttpExchange exchange, int id) throws IOException {
+        List<Interesse> inscritos = interesseService.listarPorOportunidade(id);
+        String csv = CsvWriter.gerar(inscritos);
+
+        // Prefixo BOM \uFEFF para correta exibição de acentos no Microsoft Excel
+        byte[] bytes = ("\uFEFF" + csv).getBytes(StandardCharsets.UTF_8);
+
+        exchange.getResponseHeaders().set("Content-Type", "text/csv; charset=UTF-8");
+        exchange.getResponseHeaders().set("Content-Disposition",
+                "attachment; filename=\"inscritos_vaga_" + id + ".csv\"");
+        exchange.sendResponseHeaders(200, bytes.length);
+        exchange.getResponseBody().write(bytes);
     }
 
     // POST /api/oportunidades  (protegida)
