@@ -133,8 +133,26 @@ public class OportunidadeController implements HttpHandler {
         }
     }
 
-    // GET /api/oportunidades/{id}/inscritos
+    // GET /api/oportunidades/{id}/inscritos (Protegida: apenas o docente criador da vaga pode ver os inscritos)
     private void listarInscritos(HttpExchange exchange, int id) throws IOException {
+        Integer professorId = professorLogado(exchange);
+        if (professorId == null) {
+            responder(exchange, 401, Map.of("erro", "Faça login como professor para acessar os inscritos."));
+            return;
+        }
+
+        Optional<Oportunidade> vaga = service.buscarPorId(id);
+        if (vaga.isEmpty()) {
+            responder(exchange, 404, Map.of("erro", "Vaga não encontrada."));
+            return;
+        }
+
+        // Validação estrita de autoria: nenhum docente pode visualizar os inscritos de outro
+        if (vaga.get().getProfessorId() != null && !vaga.get().getProfessorId().equals(professorId)) {
+            responder(exchange, 403, Map.of("erro", "Acesso restrito: Você não possui autorização para visualizar inscritos de uma oportunidade cadastrada por outro professor."));
+            return;
+        }
+
         List<Interesse> inscritos = interesseService.listarPorOportunidade(id);
         responder(exchange, 200, inscritos);
     }
@@ -142,6 +160,15 @@ public class OportunidadeController implements HttpHandler {
     // GET /api/oportunidades/{id}/exportar-csv
     // Processa a lista com CsvWriter (Java Streams) e devolve para download
     private void exportarCsv(HttpExchange exchange, int id) throws IOException {
+        Integer professorId = professorLogado(exchange);
+        if (professorId != null) {
+            Optional<Oportunidade> vaga = service.buscarPorId(id);
+            if (vaga.isPresent() && vaga.get().getProfessorId() != null && !vaga.get().getProfessorId().equals(professorId)) {
+                responder(exchange, 403, Map.of("erro", "Acesso restrito: Você não tem autorização para exportar candidaturas de outro professor."));
+                return;
+            }
+        }
+
         List<Interesse> inscritos = interesseService.listarPorOportunidade(id);
         String csv = CsvWriter.gerar(inscritos);
 

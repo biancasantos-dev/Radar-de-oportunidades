@@ -413,12 +413,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       modalSubtituloVaga.textContent = `Edital: ${titulo} (${tipo})`;
     }
 
-    // Ações Rápidas de Gestão Docente
+    // Ações Rápidas de Gestão Docente: Exibidas apenas se o professor conectado for o autor desta oportunidade
     const isDocente = typeof isAuthenticated === 'function' ? isAuthenticated() : !!sessionStorage.getItem('token');
-    if (isDocente && stickyDocenteActions) {
+    let docenteLogado = null;
+    try {
+      docenteLogado = JSON.parse(localStorage.getItem('oportuni_docente_ativo') || sessionStorage.getItem('oportuni_docente_ativo') || 'null');
+    } catch (e) {}
+
+    const ehDonoDaVaga = isDocente && docenteLogado && vagaAtual && (
+      vagaAtual.professor_id === docenteLogado.id ||
+      (vagaAtual.professor_nome && docenteLogado.nome && vagaAtual.professor_nome.toLowerCase().includes(docenteLogado.nome.toLowerCase())) ||
+      (orientadorNome && docenteLogado.nome && orientadorNome.toLowerCase().includes(docenteLogado.nome.toLowerCase()))
+    );
+
+    if (ehDonoDaVaga && stickyDocenteActions) {
       stickyDocenteActions.style.display = 'flex';
       if (btnDocenteEditar) btnDocenteEditar.href = `oportunidade.html?id=${id}`;
       if (btnDocenteInscritos) btnDocenteInscritos.href = `inscritos.html?id=${id}`;
+    } else if (stickyDocenteActions) {
+      stickyDocenteActions.style.display = 'none';
     }
 
     // Renderiza Vagas Relacionadas

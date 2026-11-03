@@ -111,8 +111,13 @@ document.addEventListener('DOMContentLoaded', async () => {
       if (emailSalvo) {
         docenteAtivo = listaProfessores.find(p => p.email.toLowerCase() === emailSalvo.toLowerCase());
       }
-      // Fallback amigável: se nada for achado, seleciona o primeiro docente cadastrado
-      if (!docenteAtivo) docenteAtivo = listaProfessores[0];
+    }
+
+    // Se o usuário não possui perfil ativo identificado, redireciona com segurança para o login
+    if (!docenteAtivo) {
+      alert('Acesso restrito: Por favor, faça login com sua conta docente para gerenciar oportunidades.');
+      window.location.href = 'login.html';
+      return;
     }
 
     // Atualiza o crachá do professor no topo da tela com o nome dele
@@ -162,6 +167,18 @@ document.addEventListener('DOMContentLoaded', async () => {
       vagaEmEdicao = todasVagas.find(v => v.id === editId);
 
       if (vagaEmEdicao) {
+        // Validação estrita de autoria: apenas o professor que cadastrou a vaga pode editá-la
+        const ehDono = docenteAtivo && (
+          vagaEmEdicao.professor_id === docenteAtivo.id ||
+          (vagaEmEdicao.professor_nome && docenteAtivo.nome && vagaEmEdicao.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase()))
+        );
+
+        if (!ehDono) {
+          alert('Permissão negada: você só tem autorização para editar oportunidades cadastradas por você.');
+          window.location.href = 'painel.html';
+          return;
+        }
+
         document.title = 'OportUni | Editar Oportunidade';
         if (formTitle) {
           formTitle.innerHTML = 'Editar <mark class="title-highlight">Oportunidade</mark>';
@@ -360,6 +377,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     try {
       if (editId && vagaEmEdicao) {
         // --- CENÁRIO A: Atualizar uma vaga já existente ---
+        const ehDono = docenteAtivo && (
+          vagaEmEdicao.professor_id === docenteAtivo.id ||
+          (vagaEmEdicao.professor_nome && docenteAtivo.nome && vagaEmEdicao.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase()))
+        );
+        if (!ehDono) {
+          mostrarToast('Você não tem autorização para editar uma vaga de outro docente.');
+          btnSubmit.disabled = false;
+          btnSubmit.style.opacity = '1';
+          return;
+        }
+
         vagaEmEdicao.titulo = campoTitulo.value.trim();
         vagaEmEdicao.tipo = campoTipo.value;
         vagaEmEdicao.eixo = campoEixo.value;
@@ -397,8 +425,8 @@ document.addEventListener('DOMContentLoaded', async () => {
           bolsa: campoBolsa.value.trim(),
           data_limite: dataFormatada,
           status: campoStatus.value,
-          professor_id: docenteAtivo ? docenteAtivo.id : 1,
-          professor_nome: docenteAtivo ? docenteAtivo.nome : 'Prof. Dr. Marcelo Ribeiro'
+          professor_id: docenteAtivo ? docenteAtivo.id : null,
+          professor_nome: docenteAtivo ? docenteAtivo.nome : 'Docente Responsável'
         };
 
         // Integração com a API Java: envia os dados para /api/oportunidades

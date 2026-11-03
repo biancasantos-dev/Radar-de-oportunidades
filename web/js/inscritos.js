@@ -139,8 +139,9 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    if (!docenteAtivo && listaProfessores.length > 0) {
-      docenteAtivo = listaProfessores[0];
+    if (!docenteAtivo) {
+      window.location.href = 'login.html';
+      return;
     }
   }
 
@@ -170,12 +171,12 @@ document.addEventListener('DOMContentLoaded', () => {
     if (docenteAtivo) {
       vagasDocente = todasVagas.filter(v => 
         v.professor_id === docenteAtivo.id || 
-        (v.departamento && docenteAtivo.departamento && v.departamento.toLowerCase().includes(docenteAtivo.departamento.toLowerCase().split('/')[0].trim()))
+        (v.professor_nome && docenteAtivo.nome && v.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase()))
       );
     }
 
-    if (vagasDocente.length === 0) {
-      vagasDocente = todasVagas;
+    if (!docenteAtivo) {
+      vagasDocente = [];
     }
   }
 
@@ -239,7 +240,20 @@ document.addEventListener('DOMContentLoaded', () => {
     const idParam = parseInt(params.get('id'), 10);
 
     if (idParam) {
-      vagaAtiva = todasVagas.find(v => v.id === idParam);
+      const encontrada = todasVagas.find(v => v.id === idParam);
+      if (encontrada) {
+        // Validação estrita de autoria: apenas o professor responsável pode ver os candidatos
+        const ehDono = docenteAtivo && (
+          encontrada.professor_id === docenteAtivo.id ||
+          (encontrada.professor_nome && docenteAtivo.nome && encontrada.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase()))
+        );
+        if (!ehDono) {
+          alert('Acesso restrito: Você só tem autorização para visualizar as candidaturas das vagas criadas por você.');
+          window.location.href = 'painel.html';
+          return;
+        }
+        vagaAtiva = encontrada;
+      }
     }
 
     // Se o parâmetro não foi informado, seleciona a primeira vaga do professor

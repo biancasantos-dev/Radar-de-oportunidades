@@ -1,5 +1,6 @@
 package br.edu.ucsal.radar.controller;
 
+import br.edu.ucsal.radar.model.Professor;
 import br.edu.ucsal.radar.service.ProfessorService;
 
 import com.google.gson.Gson;
@@ -10,6 +11,7 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController implements HttpHandler {
@@ -88,8 +90,9 @@ public class LoginController implements HttpHandler {
                         return;
                     }
 
-                    // Retorna o token de acesso.
-                    responder(exchange, 200, Map.of("mensagem", "Login realizado com sucesso.", "token", token, "tipo", "Bearer"));
+                    // Ajuste: Retorna o token de acesso e os dados de identificação do professor autenticado
+                    Professor prof = service.buscarPorEmail(login.trim());
+                    responder(exchange, 200, criarRespostaLogin(token, prof));
                     return;
 
                 }
@@ -107,6 +110,20 @@ public class LoginController implements HttpHandler {
             } finally {
                 exchange.close();
             }
+    }
+
+    // Ajuste: método auxiliar para estruturar a resposta do login autenticado
+    private Map<String, Object> criarRespostaLogin(String token, Professor prof) {
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("mensagem", "Login realizado com sucesso.");
+        resposta.put("token", token);
+        resposta.put("tipo", "Bearer");
+        if (prof != null) {
+            resposta.put("id", prof.getId());
+            resposta.put("nome", prof.getNome());
+            resposta.put("email", prof.getEmail());
+        }
+        return resposta;
     }
 
     private void responder(HttpExchange exchange, int status, Object corpo) throws IOException {

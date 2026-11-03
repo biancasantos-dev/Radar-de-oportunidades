@@ -113,6 +113,7 @@ document.addEventListener('DOMContentLoaded', () => {
       // Envia e-mail e senha para o servidor Java validar o hash SHA-256 no banco.
       let tokenApi = null;
       let usuarioApi = null;
+      let docenteIdentificado = null;
       if (typeof apiFetch === 'function') {
         try {
           const respLogin = await apiFetch('/login', {
@@ -122,6 +123,18 @@ document.addEventListener('DOMContentLoaded', () => {
           if (respLogin && respLogin.token) {
             tokenApi = respLogin.token;
             usuarioApi = respLogin;
+            // Se o backend Java retornou os dados completos do professor autenticado, utiliza-os
+            if (respLogin.id && respLogin.nome) {
+              const iniciais = respLogin.nome.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase();
+              docenteIdentificado = {
+                id: respLogin.id,
+                nome: respLogin.nome,
+                email: respLogin.email || email,
+                departamento: respLogin.departamento || 'UCSal',
+                tag: respLogin.departamento || 'Docente UCSal',
+                avatar: iniciais || 'DC'
+              };
+            }
           }
         } catch (errLogin) {
           console.warn('API /api/login indisponível ou credenciais offline, aplicando fallback local:', errLogin);
@@ -144,66 +157,66 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       // ── Identificação do Perfil do Professor ──
-      // Busca o objeto completo do professor para preencher seu nome e departamento no painel.
-      let docenteIdentificado = null;
+      // Se não veio pelo backend Java, busca no catálogo de professores locais
       let listaProfs = [];
-      try {
-        const respProf = await fetch('assets/data/professores.json');
-        if (respProf.ok) {
-          listaProfs = await respProf.json();
-        }
-      } catch (errProf) {
-        console.warn('Erro ao consultar professores.json:', errProf);
-      }
-
-      // Mescla com docentes que foram cadastrados localmente pelo formulário de cadastro
-      let cadastradosLocais = [];
-      try {
-        const dadosLocais = localStorage.getItem('professores_cadastrados');
-        if (dadosLocais) cadastradosLocais = JSON.parse(dadosLocais);
-      } catch (e) {
-        console.warn('Erro ao ler professores_cadastrados:', e);
-      }
-
-      const listaCompletaProfs = [...cadastradosLocais, ...listaProfs];
-      const emailTrim = email.toLowerCase().trim();
-
-      // Busca na lista pelo e-mail informado
-      docenteIdentificado = listaCompletaProfs.find(p => p.email && p.email.toLowerCase() === emailTrim);
-
-      // Validação de senha no modo local (caso o docente tenha cadastrado uma senha específica)
-      if (docenteIdentificado && docenteIdentificado.senha) {
-        if (docenteIdentificado.senha !== senha) {
-          exibirFeedback('error', 'Senha incorreta para este e-mail institucional.');
-          pararCarregamento();
-          if (senhaInput) senhaInput.focus();
-          return;
-        }
-      }
-
-      // Reconhecimento inteligente do professor pelo e-mail caso não tenha achado o objeto exato
       if (!docenteIdentificado) {
-        if (emailTrim.includes('carlos') || emailTrim.includes('ads') || emailTrim.includes('ti')) {
-          docenteIdentificado = listaCompletaProfs.find(p => p.id === 2);
-        } else if (emailTrim.includes('renata') || emailTrim.includes('psico')) {
-          docenteIdentificado = listaCompletaProfs.find(p => p.id === 3);
-        } else if (emailTrim.includes('fernando') || emailTrim.includes('saude') || emailTrim.includes('bio')) {
-          docenteIdentificado = listaCompletaProfs.find(p => p.id === 4);
-        } else if (listaCompletaProfs.length > 0) {
-          docenteIdentificado = listaCompletaProfs[0];
+        try {
+          const respProf = await fetch('assets/data/professores.json');
+          if (respProf.ok) {
+            listaProfs = await respProf.json();
+          }
+        } catch (errProf) {
+          console.warn('Erro ao consultar professores.json:', errProf);
         }
-      }
 
-      // Se mesmo assim não encontrou, cria um perfil padrão para não travar a experiência
-      if (!docenteIdentificado) {
-        docenteIdentificado = {
-          id: Date.now(),
-          nome: emailTrim.split('@')[0].replace('.', ' '),
-          email: emailTrim,
-          departamento: 'UCSal',
-          tag: 'Docente UCSal',
-          avatar: 'DC'
-        };
+        // Mescla com docentes que foram cadastrados localmente pelo formulário de cadastro
+        let cadastradosLocais = [];
+        try {
+          const dadosLocais = localStorage.getItem('professores_cadastrados');
+          if (dadosLocais) cadastradosLocais = JSON.parse(dadosLocais);
+        } catch (e) {
+          console.warn('Erro ao ler professores_cadastrados:', e);
+        }
+
+        const listaCompletaProfs = [...cadastradosLocais, ...listaProfs];
+        const emailTrim = email.toLowerCase().trim();
+
+        // Busca na lista pelo e-mail informado
+        docenteIdentificado = listaCompletaProfs.find(p => p.email && p.email.toLowerCase() === emailTrim);
+
+        // Validação de senha no modo local (caso o docente tenha cadastrado uma senha específica)
+        if (docenteIdentificado && docenteIdentificado.senha) {
+          if (docenteIdentificado.senha !== senha) {
+            exibirFeedback('error', 'Senha incorreta para este e-mail institucional.');
+            pararCarregamento();
+            if (senhaInput) senhaInput.focus();
+            return;
+          }
+        }
+
+        // Se o e-mail não constava nas listas prévias, gera o perfil exclusivo do professor
+        if (!docenteIdentificado) {
+          const partesEmail = emailTrim.split('@')[0].split('.');
+          const nomeFormatado = partesEmail
+            .map(p => p.charAt(0).toUpperCase() + p.slice(1).toLowerCase())
+            .join(' ');
+
+          // Gera um ID numérico determinístico a partir do e-mail informado
+          let hashId = 0;
+          for (let i = 0; i < emailTrim.length; i++) {
+            hashId = ((hashId << 5) - hashId) + emailTrim.charCodeAt(i);
+            hashId |= 0;
+          }
+
+          docenteIdentificado = {
+            id: Math.abs(hashId) || Date.now(),
+            nome: 'Prof(a). ' + nomeFormatado,
+            email: emailTrim,
+            departamento: 'UCSal',
+            tag: 'Docente UCSal',
+            avatar: nomeFormatado.split(' ').map(n => n[0]).slice(0, 2).join('').toUpperCase() || 'DC'
+          };
+        }
       }
 
       // Salva o professor logado em sessão para o painel se adaptar dinamicamente

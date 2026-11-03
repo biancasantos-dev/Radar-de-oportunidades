@@ -111,9 +111,10 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     }
 
-    // 5. Fallback padrão seguro caso nenhum professor esteja autenticado
-    if (!docenteAtivo && listaProfessores.length > 0) {
-      docenteAtivo = listaProfessores[0];
+    // 5. Se nenhum professor estiver autenticado, redireciona com segurança para login
+    if (!docenteAtivo) {
+      window.location.href = 'login.html';
+      return;
     }
 
     // Atualiza a barra de boas-vindas do professor no cabeçalho
@@ -243,21 +244,25 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Regra de associação: a vaga pertence ao professor se o ID dele bater ou se pertencer ao seu departamento
+  // Regra de associação estrita: a vaga pertence ao professor apenas se o ID ou nome baterem exatamente
   function filtrarVagasDoDocente() {
-    if (!docenteAtivo) return;
+    if (!docenteAtivo) {
+      vagas = [];
+      return;
+    }
     vagas = todasVagasSistema.filter(v => 
       v.professor_id === docenteAtivo.id || 
-      (v.departamento && docenteAtivo.departamento && v.departamento.toLowerCase().includes(docenteAtivo.departamento.toLowerCase().split('/')[0].trim()))
+      (v.professor_nome && docenteAtivo.nome && v.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase()))
     );
   }
 
   // Salva no LocalStorage as vagas atualizadas para não perder as alterações
   function salvarVagasLocal() {
     try {
-      // 1. Remove as vagas antigas deste docente da base global
+      // 1. Remove apenas as vagas que pertencem a este professor
       todasVagasSistema = todasVagasSistema.filter(v => 
-        !(v.professor_id === docenteAtivo.id || (v.departamento && docenteAtivo.departamento && v.departamento.toLowerCase().includes(docenteAtivo.departamento.toLowerCase().split('/')[0].trim())))
+        !(v.professor_id === docenteAtivo.id || 
+          (v.professor_nome && docenteAtivo.nome && v.professor_nome.toLowerCase().includes(docenteAtivo.nome.toLowerCase())))
       );
       // 2. Insere as vagas atualizadas
       todasVagasSistema = [...todasVagasSistema, ...vagas];
