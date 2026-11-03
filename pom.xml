@@ -28,6 +28,7 @@
         </dependency>
     </dependencies>
     <build>
+        <finalName>radar-oportunidades</finalName>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
