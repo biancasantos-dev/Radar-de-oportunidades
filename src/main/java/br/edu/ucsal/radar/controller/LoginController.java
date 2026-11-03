@@ -41,7 +41,7 @@ public class LoginController implements HttpHandler {
 
                     String login;
                     String senha;
-                    Integer token;
+                    String token;
 
                     DadosLogin dados;
 
@@ -70,7 +70,7 @@ public class LoginController implements HttpHandler {
                         return;
                     }
 
-                    token = service.autenticar(email.trim(), senha); //TODO: metodo "autenticar()" precisa ser implementado no ProfessorService
+                    token = service.autenticar(login.trim(), senha);
 
                     // Se não houver token, as credenciais são inválidas.
                     if (token == null) {
@@ -80,7 +80,7 @@ public class LoginController implements HttpHandler {
 
                     // Retorna o token de acesso.
                     responder(exchange, 200, Map.of("mensagem", "Login realizado com sucesso.", "token", token, "tipo", "Bearer"));
-
+                    return;
 
                 }
 
