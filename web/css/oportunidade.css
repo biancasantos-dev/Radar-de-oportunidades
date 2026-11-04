@@ -4,41 +4,10 @@
    Layout em 2 colunas com Pré-visualização em Tempo Real
    ============================================================ */
 
-/* ── Navegação de Retorno (Breadcrumb) ── */
+/* ── Navegação de Retorno (Breadcrumb) ──
+   O botão .btn-back é herdado diretamente de style.css para evitar código redundante */
 .nav-breadcrumb {
   margin-bottom: 24px;
-}
-
-.btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 0.88rem;
-  font-weight: 600;
-  color: var(--brand-navy);
-  text-decoration: none;
-  background-color: #FFFFFF;
-  padding: 8px 18px;
-  border-radius: var(--radius-pill);
-  border: var(--stroke-brand-sm);
-  box-shadow: var(--shadow-xs);
-  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.btn-back:hover {
-  background-color: var(--brand-lavender);
-  transform: translateX(-3px);
-  box-shadow: var(--shadow-sm);
-}
-
-.btn-back img {
-  filter: var(--filter-icon-navy);
-  transition: transform 0.2s ease, filter 0.2s ease;
-}
-
-.btn-back:hover img {
-  filter: var(--filter-icon-orange);
-  transform: translateX(-2px);
 }
 
 /* ── Cabeçalho do Formulário ── */
@@ -148,17 +117,7 @@
 }
 
 /* Controles de formulário (.form-group, .form-label, .form-input, .form-textarea, .form-grid)
-   são herdados diretamente do design system global em style.css */
-
-
-/* Estado de Erro de Validação */
-.form-input.is-invalid,
-.form-select.is-invalid,
-.form-textarea.is-invalid {
-  border-color: #E03131;
-  background-color: #FFF5F5;
-  box-shadow: 0 0 0 3px rgba(224, 49, 49, 0.15);
-}
+   e estados de erro (.is-invalid) são herdados de forma centralizada em style.css */
 
 /* Barra de Ações do Formulário */
 .form-actions-bar {
@@ -330,12 +289,6 @@
     border-radius: 20px;
   }
 
-  .form-grid-2,
-  .form-grid-3 {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-
   .form-actions-bar {
     flex-direction: column-reverse;
     width: 100%;
@@ -353,7 +306,6 @@
   }
 
   .form-input,
-  .form-select,
   .form-textarea {
     font-size: 0.88rem;
     padding: 10px 12px;

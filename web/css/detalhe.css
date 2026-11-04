@@ -123,18 +123,9 @@ body[data-eixo="saude"] .detalhe-hero::before {
 }
 
 .hero-badges .badge-pill {
-  display: inline-flex;
-  align-items: center;
-  background-color: #FFFFFF;
-  color: var(--brand-navy);
   font-size: 0.76rem;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid rgba(42, 53, 118, 0.12);
-  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.05);
 }
 
 .badge-eixo {
@@ -151,28 +142,10 @@ body[data-eixo="saude"] .detalhe-hero::before {
 }
 
 .hero-badges .badge-status {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
   font-size: 0.76rem;
-  font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.04em;
   padding: 6px 14px;
-  border-radius: var(--radius-pill);
-  border: 1px solid transparent;
-}
-
-.hero-badges .badge-status.status-aberta {
-  background-color: rgba(143, 211, 26, 0.15);
-  color: #4C7507;
-  border-color: rgba(143, 211, 26, 0.25);
-}
-
-.hero-badges .badge-status.status-encerrada {
-  background-color: rgba(158, 155, 181, 0.18);
-  color: #6C6985;
-  border-color: rgba(42, 53, 118, 0.10);
+  gap: 8px;
 }
 
 .status-pulse-dot {
@@ -1066,27 +1039,13 @@ body[data-eixo="saude"] .detalhe-hero::before {
 }
 
 .card-relacionada-top .badge-pill {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   padding: 4px 10px;
-  border-radius: var(--radius-pill);
   background-color: #F8F8FC;
-  color: var(--brand-navy);
   border: 1px solid rgba(42, 53, 118, 0.08);
 }
 
 .card-relacionada-top .badge-status {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
   padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .card-relacionada-top .badge-status::before {
@@ -1098,19 +1057,9 @@ body[data-eixo="saude"] .detalhe-hero::before {
   flex-shrink: 0;
 }
 
-.card-relacionada-top .badge-status.status-aberta {
-  background-color: rgba(143, 211, 26, 0.15);
-  color: #4C7507;
-}
-
 .card-relacionada-top .badge-status.status-aberta::before {
   background-color: var(--brand-green);
   box-shadow: 0 0 6px var(--brand-green);
-}
-
-.card-relacionada-top .badge-status.status-encerrada {
-  background-color: rgba(158, 155, 181, 0.18);
-  color: #6C6985;
 }
 
 .card-relacionada-top .badge-status.status-encerrada::before {
@@ -1181,12 +1130,7 @@ body[data-eixo="saude"] .detalhe-hero::before {
     padding: 24px;
   }
 
-  .hero-meta-grid {
-    grid-template-columns: 1fr;
-  }
-
-  .form-grid-2,
-  .form-grid-3,
+  .hero-meta-grid,
   .atividades-grid {
     grid-template-columns: 1fr;
   }

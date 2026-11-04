@@ -387,70 +387,14 @@
   font-weight: 500;
 }
 
-/* Badges da Tabela */
-.table-tipo-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  background-color: var(--brand-lavender);
-  color: var(--brand-navy);
-  white-space: nowrap;
-}
-
-.table-tipo-badge.badge-ic        { background-color: #E3F7FC; color: #0C3E4F; }
-.table-tipo-badge.badge-monitoria { background-color: #F6E8F8; color: #4F1857; }
-.table-tipo-badge.badge-extensao  { background-color: #EFF9DE; color: #2D4C06; }
-.table-tipo-badge.badge-estagio   { background-color: #FDEFE5; color: #733005; }
-.table-tipo-badge.badge-evento    { background-color: #FFF6DC; color: #5B4003; }
-.table-tipo-badge.badge-grupo     { background-color: #ECE9FD; color: #231B66; }
+/* Badges da Tabela (.table-tipo-badge e .table-status-badge)
+   são herdados de forma centralizada em style.css */
 
 .table-prazo {
   font-size: 13px;
   font-weight: 600;
   color: var(--brand-navy);
   white-space: nowrap;
-}
-
-.table-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.table-status-badge.status-aberta {
-  background-color: #EDF7DE;
-  color: #2D4C06;
-}
-
-.table-status-badge.status-aberta::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #8FD31A;
-}
-
-.table-status-badge.status-encerrada {
-  background-color: rgba(42, 53, 118, 0.08);
-  color: #72708E;
-}
-
-.table-status-badge.status-encerrada::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #8C88A8;
 }
 
 /* Botão Inscritos */

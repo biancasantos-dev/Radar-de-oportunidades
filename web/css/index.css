@@ -506,36 +506,7 @@ mark.title-highlight::after {
   margin-bottom: 14px;
 }
 
-/* Badge do Tipo de Vaga: Pílula Branca Nítida */
-.badge-pill {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  background-color: #FFFFFF;
-  color: var(--brand-navy);
-  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.05);
-  display: inline-flex;
-  align-items: center;
-}
-
-/* Badge de Status com Dot Radar via ::before */
-.badge-status {
-  font-size: 10.5px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  background-color: rgba(42, 53, 118, 0.08);
-  color: var(--brand-navy);
-  padding: 5px 12px;
-  border-radius: var(--radius-pill);
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-}
-
+/* .badge-pill e .badge-status base são herdados de style.css */
 .badge-status::before {
   content: '';
   width: 6.5px;

@@ -158,11 +158,7 @@
   gap: 18px;
 }
 
-.form-group {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-}
+/* .form-group e controles de formulário são herdados diretamente de style.css */
 
 .form-label-row {
   display: flex;
@@ -243,87 +239,7 @@
   box-shadow: 0 0 0 3px rgba(199, 116, 202, 0.15);
 }
 
-/* Botão Mostrar/Ocultar Senha */
-.btn-toggle-pass {
-  position: absolute;
-  right: 14px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.btn-toggle-pass img {
-  filter: var(--filter-icon-muted);
-  transition: filter 0.2s ease;
-}
-
-.btn-toggle-pass:hover {
-  background-color: rgba(42, 53, 118, 0.06);
-}
-
-.btn-toggle-pass:hover img {
-  filter: var(--filter-icon-navy);
-}
-
-/* ── 6. CHECKBOX LEMBRAR-ME ── */
-.form-checkbox-row {
-  margin: 2px 0 4px 0;
-}
-
-.checkbox-label {
-  display: inline-flex;
-  align-items: center;
-  gap: 9px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-muted);
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.checkbox-custom {
-  width: 18px;
-  height: 18px;
-  border-radius: 6px;
-  border: 1.5px solid rgba(42, 53, 118, 0.2);
-  background-color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.18s ease;
-  flex-shrink: 0;
-}
-
-.checkbox-input:checked + .checkbox-custom {
-  background-color: var(--brand-teacher);
-  border-color: var(--brand-teacher);
-}
-
-.checkbox-input:checked + .checkbox-custom::after {
-  content: '';
-  width: 5px;
-  height: 9px;
-  border: solid #FFFFFF;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-  margin-bottom: 2px;
-}
-
-.checkbox-label:hover .checkbox-custom {
-  border-color: var(--brand-teacher);
-}
+/* .btn-toggle-pass e .form-checkbox-row são herdados diretamente de style.css */
 
 .btn-login {
   width: 100%;
@@ -364,13 +280,6 @@
 
 .btn-login:hover .btn-icon {
   transform: translateX(4px);
-}
-
-.btn-toggle-pass img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  display: block;
 }
 
 /* ── 8. SEPARADOR E BOTÃO DE CADASTRO DOCENTE ── */
@@ -468,29 +377,7 @@
   padding-top: 18px;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--brand-navy);
-  transition: all 0.2s ease;
-}
-
-.back-link img {
-  filter: var(--filter-icon-navy);
-  transition: filter 0.2s ease, transform 0.2s ease;
-}
-
-.back-link:hover {
-  color: var(--brand-orange);
-  transform: translateX(-3px);
-}
-
-.back-link:hover img {
-  filter: var(--filter-icon-orange);
-}
+/* O link .back-link é herdado de forma centralizada em style.css */
 
 /* ── 10. RESPONSIVIDADE ── */
 @media (max-width: 480px) {

@@ -274,92 +274,7 @@
   font-weight: 600;
 }
 
-/* Botão Mostrar/Ocultar Senha */
-.btn-toggle-pass {
-  position: absolute;
-  right: 14px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  cursor: pointer;
-  background: transparent;
-  border: none;
-  transition: all 0.2s ease;
-  z-index: 2;
-}
-
-.btn-toggle-pass img {
-  filter: var(--filter-icon-muted);
-  transition: filter 0.2s ease;
-}
-
-.btn-toggle-pass:hover {
-  background-color: rgba(42, 53, 118, 0.06);
-}
-
-.btn-toggle-pass:hover img {
-  filter: var(--filter-icon-navy);
-}
-
-/* ── 7. CHECKBOX DECLARAÇÃO DE VÍNCULO ── */
-.form-checkbox-row {
-  margin: 6px 0 2px 0;
-}
-
-.checkbox-label {
-  display: inline-flex;
-  align-items: flex-start;
-  gap: 10px;
-  font-size: 13px;
-  font-weight: 500;
-  color: var(--text-secondary);
-  line-height: 1.45;
-  cursor: pointer;
-  user-select: none;
-}
-
-.checkbox-input {
-  position: absolute;
-  opacity: 0;
-  width: 0;
-  height: 0;
-}
-
-.checkbox-custom {
-  width: 19px;
-  height: 19px;
-  border-radius: 6px;
-  border: 1.5px solid rgba(42, 53, 118, 0.25);
-  background-color: #FFFFFF;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.18s ease;
-  flex-shrink: 0;
-  margin-top: 2px;
-}
-
-.checkbox-input:checked + .checkbox-custom {
-  background-color: var(--brand-teacher);
-  border-color: var(--brand-teacher);
-}
-
-.checkbox-input:checked + .checkbox-custom::after {
-  content: '';
-  width: 5px;
-  height: 9px;
-  border: solid #FFFFFF;
-  border-width: 0 2px 2px 0;
-  transform: rotate(45deg);
-  margin-bottom: 2px;
-}
-
-.checkbox-label:hover .checkbox-custom {
-  border-color: var(--brand-teacher);
-}
+/* .btn-toggle-pass e .form-checkbox-row são herdados de forma centralizada em style.css */
 
 /* ── 8. BOTÃO DE SUBMISSÃO ── */
 .btn-cadastro {
@@ -390,13 +305,6 @@
 
 .btn-cadastro:active {
   transform: translateY(0);
-}
-
-.btn-toggle-pass img {
-  width: 18px;
-  height: 18px;
-  object-fit: contain;
-  display: block;
 }
 
 .btn-cadastro .btn-icon {
@@ -441,30 +349,7 @@
   text-decoration: underline;
 }
 
-.back-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--brand-navy);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.back-link img {
-  filter: var(--filter-icon-navy);
-  transition: filter 0.2s ease, transform 0.2s ease;
-}
-
-.back-link:hover {
-  color: var(--brand-orange);
-  transform: translateX(-3px);
-}
-
-.back-link:hover img {
-  filter: var(--filter-icon-orange);
-}
+/* O link .back-link é herdado de forma centralizada em style.css */
 
 /* ── 10. RESPONSIVIDADE ── */
 @media (max-width: 600px) {
@@ -479,10 +364,5 @@
   
   .cadastro-subtitle {
     font-size: 12.5px;
-  }
-
-  .form-grid-2 {
-    grid-template-columns: 1fr;
-    gap: 16px;
   }
 }
