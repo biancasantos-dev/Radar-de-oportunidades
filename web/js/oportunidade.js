@@ -406,6 +406,30 @@ document.addEventListener('DOMContentLoaded', async () => {
 
         // Salva as alterações na memória local do navegador
         localStorage.setItem('oportunidades_gestao', JSON.stringify(todasVagas));
+
+        // Integração com a API Java no PostgreSQL (Bug 2): envia PUT /api/oportunidades/{id}
+        if (typeof apiFetch === 'function') {
+          try {
+            await apiFetch(`/oportunidades/${editId}`, {
+              method: 'PUT',
+              body: JSON.stringify({
+                titulo: campoTitulo.value.trim(),
+                tipo: campoTipo.value,
+                eixo: campoEixo.value,
+                departamento: campoDepto.value.trim(),
+                descricao: campoDescricao.value.trim(),
+                atividades: campoAtividades.value.trim(),
+                requisitos: campoRequisitos.value.trim(),
+                bolsa: campoBolsa.value.trim(),
+                data_limite: dataFormatada,
+                status: campoStatus.value
+              })
+            });
+          } catch (errApi) {
+            console.warn('API offline ou erro ao atualizar vaga via PUT /api/oportunidades:', errApi);
+          }
+        }
+
         mostrarToast('Alterações salvas com sucesso!');
       } else {
         // --- CENÁRIO B: Cadastrar uma nova vaga ---

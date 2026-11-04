@@ -10,10 +10,11 @@ public class CsvWriter {
 
     private static final String CABECALHO = "nome,email,matricula,curso,semestre,justificativa";
 
-    // Monta o CSV inteiro: cabeçalho + uma linha por inscrito
+    // Monta o CSV inteiro: cabeçalho + uma linha por inscrito (protegido contra lista nula)
     public static String gerar(List<Interesse> inscritos) {
-        return Stream.concat(Stream.of(CABECALHO), inscritos.stream().map(CsvWriter::linha))//TRansforma cada aluno numa linha de texto
-                .collect(Collectors.joining("\n")); //Coloca as partes separadas por quebra de linha
+        Stream<Interesse> streamInscritos = (inscritos == null) ? Stream.empty() : inscritos.stream();
+        return Stream.concat(Stream.of(CABECALHO), streamInscritos.map(CsvWriter::linha))
+                .collect(Collectors.joining("\n"));
     }
 
     // Uma linha: os campos do inscrito separados por vírgula
@@ -21,13 +22,13 @@ public class CsvWriter {
         return Stream.of(i.getNome(), i.getEmail(), i.getMatricula(),
                          i.getCurso(), i.getSemestre(), i.getJustificativa())
                 .map(CsvWriter::escapar)
-                .collect(Collectors.joining(",")); //Coloca as partes separadas por quebra de linha
+                .collect(Collectors.joining(","));
     }
 
     // Se o texto tiver vírgula, aspas ou quebra de linha, precisa ir entre aspas
     private static String escapar(String valor) {
         if (valor == null) return "";
-        if (valor.contains(",") || valor.contains("\"") || valor.contains("\n")) {
+        if (valor.contains(",") || valor.contains("\"") || valor.contains("\n") || valor.contains("\r")) {
             return "\"" + valor.replace("\"", "\"\"") + "\"";
         }
         return valor;

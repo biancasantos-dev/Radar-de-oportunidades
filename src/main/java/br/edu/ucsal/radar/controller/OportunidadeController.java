@@ -22,9 +22,12 @@ import br.edu.ucsal.radar.util.Json;
 
 /**
  * Rotas de vagas:
- *   GET  /api/oportunidades        -> lista (aceita ?tipo=&eixo=&curso=)
- *   GET  /api/oportunidades/{id}   -> detalhes de uma vaga
- *   POST /api/oportunidades        -> cadastra vaga (exige token Bearer de professor)
+ *   GET    /api/oportunidades        -> lista (aceita ?tipo=&eixo=&curso=)
+ *   GET    /api/oportunidades/{id}   -> detalhes de uma vaga
+ *   POST   /api/oportunidades        -> cadastra vaga (exige token Bearer de professor)
+ *   PUT    /api/oportunidades/{id}   -> atualiza vaga existente (exige token Bearer do docente criador)
+ *   DELETE /api/oportunidades/{id}   -> exclui vaga (exige token Bearer do docente criador)
+ *   PATCH  /api/oportunidades/{id}   -> alterna status ABERTA/ENCERRADA (exige token Bearer do criador)
  */
 public class OportunidadeController implements HttpHandler {
 
@@ -70,8 +73,26 @@ public class OportunidadeController implements HttpHandler {
             }
 
             if (sobra.matches("/\\d+")) {
+                int id = Integer.parseInt(sobra.substring(1));
                 if (metodo.equals("GET")) {
-                    detalhar(exchange, Integer.parseInt(sobra.substring(1)));
+                    detalhar(exchange, id);
+                } else if (metodo.equals("PUT")) {
+                    atualizar(exchange, id);
+                } else if (metodo.equals("DELETE")) {
+                    excluir(exchange, id);
+                } else if (metodo.equals("PATCH")) {
+                    alternarStatus(exchange, id);
+                } else {
+                    responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
+                }
+                return;
+            }
+
+            // Ajuste: PATCH ou POST /api/oportunidades/{id}/status para alternar status
+            if (sobra.matches("/\\d+/status")) {
+                int id = Integer.parseInt(sobra.substring(1).split("/")[0]);
+                if (metodo.equals("PATCH") || metodo.equals("POST")) {
+                    alternarStatus(exchange, id);
                 } else {
                     responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
                 }
@@ -106,6 +127,8 @@ public class OportunidadeController implements HttpHandler {
             responder(exchange, 400, Map.of("erro", "JSON inválido."));
         } catch (IllegalArgumentException | JsonParseException e) {
             responder(exchange, 400, Map.of("erro", e.getMessage()));
+        } catch (SecurityException e) {
+            responder(exchange, 403, Map.of("erro", e.getMessage()));
         } catch (Exception e) {
             // Log simplificado de erro
             System.err.println("Erro no OportunidadeController: " + e.getMessage());
@@ -196,6 +219,45 @@ public class OportunidadeController implements HttpHandler {
         Oportunidade salva = service.cadastrar(nova, professorId);
         exchange.getResponseHeaders().set("Location", BASE + "/" + salva.getId());
         responder(exchange, 201, salva);
+    }
+
+    // PUT /api/oportunidades/{id} (protegida - Bug 2)
+    private void atualizar(HttpExchange exchange, int id) throws IOException {
+        Integer professorId = professorLogado(exchange);
+        if (professorId == null) {
+            responder(exchange, 401, Map.of("erro", "Faça login como professor para atualizar vagas."));
+            return;
+        }
+
+        Oportunidade dados = Json.GSON.fromJson(
+                new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8), Oportunidade.class);
+
+        Oportunidade atualizada = service.atualizar(id, dados, professorId);
+        responder(exchange, 200, atualizada);
+    }
+
+    // DELETE /api/oportunidades/{id} (protegida - Bug 2)
+    private void excluir(HttpExchange exchange, int id) throws IOException {
+        Integer professorId = professorLogado(exchange);
+        if (professorId == null) {
+            responder(exchange, 401, Map.of("erro", "Faça login como professor para excluir vagas."));
+            return;
+        }
+
+        service.excluir(id, professorId);
+        responder(exchange, 200, Map.of("mensagem", "Oportunidade #" + id + " excluída com sucesso."));
+    }
+
+    // PATCH /api/oportunidades/{id} ou /status (protegida - Bug 2)
+    private void alternarStatus(HttpExchange exchange, int id) throws IOException {
+        Integer professorId = professorLogado(exchange);
+        if (professorId == null) {
+            responder(exchange, 401, Map.of("erro", "Faça login como professor para alterar o status da vaga."));
+            return;
+        }
+
+        Oportunidade atualizada = service.alternarStatus(id, professorId);
+        responder(exchange, 200, atualizada);
     }
 
     // Lê o cabeçalho "Authorization: Bearer <token>" e devolve o id do professor (ou null)

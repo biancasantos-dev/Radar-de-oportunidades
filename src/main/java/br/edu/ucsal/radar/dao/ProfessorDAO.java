@@ -10,7 +10,7 @@ import java.sql.SQLException;
 import br.edu.ucsal.radar.model.Professor;
 import br.edu.ucsal.radar.util.ConexaoBD;
 
-public class ProfessorDAO {
+public class ProfessorDAO implements ProfessorRepository {
 
     // Busca o professor pelo email; retorna null se não existir
     public Professor buscarPorEmail(String email) {

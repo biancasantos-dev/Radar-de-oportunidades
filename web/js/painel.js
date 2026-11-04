@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function anexarEventosAcoes() {
     // Ação: Alternar Status entre ABERTA e ENCERRADA
     document.querySelectorAll('.btn-action-toggle').forEach(btn => {
-      btn.addEventListener('click', () => {
+      btn.addEventListener('click', async () => {
         const id = parseInt(btn.getAttribute('data-id'), 10);
         const index = vagas.findIndex(v => v.id === id);
         if (index !== -1) {
@@ -400,6 +400,16 @@ document.addEventListener('DOMContentLoaded', () => {
           vagas[index].status = novoStatus;
           salvarVagasLocal();
           atualizarInterface();
+
+          // Sincroniza alteração de status com a API Java (Bug 2)
+          if (typeof apiFetch === 'function') {
+            try {
+              await apiFetch(`/oportunidades/${id}`, { method: 'PATCH' });
+            } catch (errApi) {
+              console.warn('API offline ou erro ao alternar status da vaga:', errApi);
+            }
+          }
+
           exibirToast(`Vaga #${id} agora está ${novoStatus}!`);
         }
       });
@@ -423,12 +433,23 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Ação: Confirmou a exclusão dentro do modal
   if (btnConfirmDelete) {
-    btnConfirmDelete.addEventListener('click', () => {
+    btnConfirmDelete.addEventListener('click', async () => {
       if (vagaParaExcluirId !== null) {
-        vagas = vagas.filter(v => v.id !== vagaParaExcluirId);
+        const idExcluir = vagaParaExcluirId;
+        vagas = vagas.filter(v => v.id !== idExcluir);
         salvarVagasLocal();
         atualizarInterface();
         fecharModalDelete();
+
+        // Sincroniza exclusão no banco PostgreSQL via API Java (Bug 2)
+        if (typeof apiFetch === 'function') {
+          try {
+            await apiFetch(`/oportunidades/${idExcluir}`, { method: 'DELETE' });
+          } catch (errApi) {
+            console.warn('API offline ou erro ao excluir vaga via DELETE /api/oportunidades:', errApi);
+          }
+        }
+
         exibirToast('Oportunidade removida com sucesso!');
         vagaParaExcluirId = null;
       }

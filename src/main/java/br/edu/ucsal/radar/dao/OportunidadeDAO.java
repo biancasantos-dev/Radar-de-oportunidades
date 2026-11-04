@@ -17,16 +17,18 @@ import br.edu.ucsal.radar.util.ConexaoBD;
 
 public class OportunidadeDAO implements OportunidadeRepository {
 
-    // LEFT JOIN para trazer o nome do professor junto (o front mostra "professor_nome")
+    // SELECT base: junta oportunidade com professor para trazer o nome do docente
     private static final String SELECT_BASE =
-            "SELECT o.id, o.titulo, o.tipo, o.eixo, o.departamento, o.descricao, o.atividades, "
-          + "o.requisitos, o.bolsa, o.data_limite, o.status, o.professor_id, p.nome AS professor_nome "
-          + "FROM oportunidade o LEFT JOIN professor p ON p.id = o.professor_id";
+            "SELECT o.id, o.titulo, o.tipo, o.eixo, o.departamento, o.descricao, "
+            + "       o.atividades, o.requisitos, o.bolsa, o.data_limite, o.status, "
+            + "       o.professor_id, p.nome AS professor_nome "
+            + "  FROM oportunidade o "
+            + "  LEFT JOIN professor p ON p.id = o.professor_id ";
 
     @Override
     public List<Oportunidade> listarTodas() {
-        String sql = SELECT_BASE + " ORDER BY o.id";
         List<Oportunidade> lista = new ArrayList<>();
+        String sql = SELECT_BASE + "ORDER BY o.data_limite ASC";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql);
@@ -44,13 +46,12 @@ public class OportunidadeDAO implements OportunidadeRepository {
 
     @Override
     public Optional<Oportunidade> buscarPorId(int id) {
-        String sql = SELECT_BASE + " WHERE o.id = ?";
+        String sql = SELECT_BASE + "WHERE o.id = ?";
 
         try (Connection conn = ConexaoBD.getConnection();
              PreparedStatement ps = conn.prepareStatement(sql)) {
 
             ps.setInt(1, id);
-
             try (ResultSet rs = ps.executeQuery()) {
                 if (rs.next()) {
                     return Optional.of(mapear(rs));
@@ -109,6 +110,55 @@ public class OportunidadeDAO implements OportunidadeRepository {
 
         // Relê do banco para devolver também o professor_nome
         return buscarPorId(o.getId()).orElse(o);
+    }
+
+    // Ajuste: persistência da atualização de oportunidade no banco PostgreSQL (PUT)
+    @Override
+    public void atualizar(Oportunidade o) {
+        String sql = "UPDATE oportunidade SET titulo = ?, tipo = ?, eixo = ?, departamento = ?, "
+                + "descricao = ?, atividades = ?, requisitos = ?, bolsa = ?, data_limite = ?, status = ? "
+                + "WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setString(1, o.getTitulo());
+            ps.setString(2, o.getTipo().getRotulo());
+            ps.setString(3, o.getEixo());
+            ps.setString(4, o.getDepartamento());
+            ps.setString(5, o.getDescricao());
+            ps.setString(6, o.getAtividades());
+            ps.setString(7, o.getRequisitos());
+            ps.setString(8, o.getBolsa());
+
+            if (o.getDataLimite() != null) {
+                ps.setDate(9, Date.valueOf(o.getDataLimite()));
+            } else {
+                ps.setNull(9, Types.DATE);
+            }
+
+            ps.setString(10, o.getStatus());
+            ps.setInt(11, o.getId());
+
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao atualizar oportunidade " + o.getId(), e);
+        }
+    }
+
+    // Ajuste: exclusão da oportunidade no banco PostgreSQL (DELETE)
+    @Override
+    public void excluir(int id) {
+        String sql = "DELETE FROM oportunidade WHERE id = ?";
+
+        try (Connection conn = ConexaoBD.getConnection();
+             PreparedStatement ps = conn.prepareStatement(sql)) {
+
+            ps.setInt(1, id);
+            ps.executeUpdate();
+        } catch (SQLException e) {
+            throw new RuntimeException("Erro ao excluir oportunidade " + id, e);
+        }
     }
 
     // Converte uma linha do ResultSet em objeto Oportunidade

@@ -10,7 +10,7 @@ import java.util.List;
 import br.edu.ucsal.radar.model.Interesse;
 import br.edu.ucsal.radar.util.ConexaoBD;
 
-public class InteresseDAO {
+public class InteresseDAO implements InteresseRepository {
 
     // Grava uma inscrição no banco. Então usa INSERT, que não devolve ResultSet, então usa executeUpdate
     public void salvar(Interesse interesse) {

@@ -3,18 +3,20 @@ package br.edu.ucsal.radar.service;
 import java.util.List;
 
 import br.edu.ucsal.radar.dao.InteresseDAO;
+import br.edu.ucsal.radar.dao.InteresseRepository;
 import br.edu.ucsal.radar.model.Interesse;
 
 public class InteresseService {
 
-    private final InteresseDAO interesseDAO;
+    // O service depende da INTERFACE InteresseRepository, não da classe concreta DAO (DIP)
+    private final InteresseRepository interesseRepository;
 
     public InteresseService() {
         this(new InteresseDAO());
     }
 
-    public InteresseService(InteresseDAO interesseDAO) {
-        this.interesseDAO = interesseDAO;
+    public InteresseService(InteresseRepository interesseRepository) {
+        this.interesseRepository = interesseRepository;
     }
 
     // Valida os campos obrigatórios e, se estiver tudo certo, grava
@@ -29,21 +31,26 @@ public class InteresseService {
         validarCampo(interesse.getSemestre(), "semestre");
         validarCampo(interesse.getJustificativa(), "justificativa");
 
+        // Validação de formato de e-mail institucional
+        if (!interesse.getEmail().contains("@") || !interesse.getEmail().contains(".")) {
+            throw new IllegalArgumentException("Por favor, informe um e-mail institucional válido.");
+        }
+
         // Ajuste: validação preventiva para garantir que a inscrição está vinculada a uma vaga
         if (interesse.getIdOportunidade() == null || interesse.getIdOportunidade() <= 0) {
             throw new IllegalArgumentException("O id da oportunidade é obrigatório.");
         }
 
-        interesseDAO.salvar(interesse);
+        interesseRepository.salvar(interesse);
     }
 
     public List<Interesse> listar() {
-        return interesseDAO.listarTodos();
+        return interesseRepository.listarTodos();
     }
 
     // Ajuste: método auxiliar para consultar os inscritos de uma vaga específica
     public List<Interesse> listarPorOportunidade(int idOportunidade) {
-        return interesseDAO.listarPorOportunidade(idOportunidade);
+        return interesseRepository.listarPorOportunidade(idOportunidade);
     }
 
     // Campo é inválido se for null ou só espaços
@@ -57,9 +64,9 @@ public class InteresseService {
     // Vai pegar a lista de inscritos (puxando de listarPorOportunidade),
     // transformar cada inscrito em 1 e somar tudo.
     public int totalInscritos(int idOportunidade) {
-        return interesseDAO.listarPorOportunidade(idOportunidade)
+        return interesseRepository.listarPorOportunidade(idOportunidade)
                 .stream()
-                .mapToInt(i -> 1) // cada inscrito vale 1
-                .sum();           // soma tudo
+                .mapToInt(i -> 1)
+                .sum();
     }
 }

@@ -40,6 +40,19 @@ public class OportunidadeTest {
             vagas.add(o);
             return o;
         }
+
+        public void atualizar(Oportunidade o) {
+            for (int i = 0; i < vagas.size(); i++) {
+                if (vagas.get(i).getId() != null && vagas.get(i).getId().equals(o.getId())) {
+                    vagas.set(i, o);
+                    return;
+                }
+            }
+        }
+
+        public void excluir(int id) {
+            vagas.removeIf(o -> o.getId() != null && o.getId() == id);
+        }
     }
 
     private RepositorioEmMemoria repo;
@@ -65,6 +78,7 @@ public class OportunidadeTest {
         o.setDescricao("descrição");
         o.setDataLimite(limite);
         o.setStatus("ABERTA");
+        o.setProfessorId(1);
         return o;
     }
 
@@ -152,5 +166,51 @@ public class OportunidadeTest {
         assertEquals(TipoOportunidade.ESTAGIO_EMPREGO, TipoOportunidade.deRotulo("Estágio/Emprego"));
         assertEquals(TipoOportunidade.INICIACAO_CIENTIFICA, TipoOportunidade.deRotulo("iniciação científica"));
         assertEquals(7, TipoOportunidade.values().length);
+    }
+
+    @Test
+    void atualizarSucessoQuandoDocenteForCriador() {
+        Oportunidade novosDados = vagaValida();
+        novosDados.setTitulo("Título Atualizado");
+        novosDados.setBolsa("R$ 500,00");
+        novosDados.setStatus("ABERTA");
+
+        Oportunidade atualizada = service.atualizar(1, novosDados, 1);
+        assertEquals("Título Atualizado", atualizada.getTitulo());
+        assertEquals("R$ 500,00", atualizada.getBolsa());
+        assertEquals("Título Atualizado", service.buscarPorId(1).get().getTitulo());
+    }
+
+    @Test
+    void atualizarBloqueadoQuandoDocenteNaoForCriador() {
+        Oportunidade novosDados = vagaValida();
+        assertThrows(SecurityException.class, () -> service.atualizar(1, novosDados, 999));
+    }
+
+    @Test
+    void excluirSucessoQuandoDocenteForCriador() {
+        assertTrue(service.buscarPorId(1).isPresent());
+        service.excluir(1, 1);
+        assertTrue(service.buscarPorId(1).isEmpty());
+    }
+
+    @Test
+    void excluirBloqueadoQuandoDocenteNaoForCriador() {
+        assertThrows(SecurityException.class, () -> service.excluir(1, 999));
+        assertTrue(service.buscarPorId(1).isPresent());
+    }
+
+    @Test
+    void alternarStatusInverteAbertaParaEncerradaEReabre() {
+        Oportunidade fechada = service.alternarStatus(1, 1);
+        assertEquals("ENCERRADA", fechada.getStatus());
+
+        Oportunidade reaberta = service.alternarStatus(1, 1);
+        assertEquals("ABERTA", reaberta.getStatus());
+    }
+
+    @Test
+    void alternarStatusBloqueadoQuandoDocenteNaoForCriador() {
+        assertThrows(SecurityException.class, () -> service.alternarStatus(1, 999));
     }
 }

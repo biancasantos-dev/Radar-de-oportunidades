@@ -5,19 +5,17 @@ import java.time.LocalDate;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 import br.edu.ucsal.radar.dao.OportunidadeRepository;
+import br.edu.ucsal.radar.model.EixoAcademico;
 import br.edu.ucsal.radar.model.Oportunidade;
+import br.edu.ucsal.radar.model.StatusOportunidade;
 import br.edu.ucsal.radar.model.TipoOportunidade;
 
 public class OportunidadeService {
 
-    private static final Set<String> EIXOS = Set.of("exatas", "humanas", "saude");
-    private static final Set<String> STATUS = Set.of("ABERTA", "ENCERRADA");
-
-    // O service depende da INTERFACE, não do DAO (DIP)
+    // O service depende da INTERFACE OportunidadeRepository, não da classe concreta DAO (DIP)
     private final OportunidadeRepository repositorio;
 
     public OportunidadeService(OportunidadeRepository repositorio) {
@@ -62,7 +60,9 @@ public class OportunidadeService {
         if (o.getTipo() == null) {
             throw new IllegalArgumentException("O tipo da vaga é obrigatório.");
         }
-        if (vazio(o.getEixo()) || !EIXOS.contains(o.getEixo().trim().toLowerCase())) {
+
+        // Validação via Enum extensível EixoAcademico (OCP)
+        if (vazio(o.getEixo()) || !EixoAcademico.isValido(o.getEixo())) {
             throw new IllegalArgumentException("O eixo deve ser: exatas, humanas ou saude.");
         }
         if (vazio(o.getDepartamento())) {
@@ -81,8 +81,9 @@ public class OportunidadeService {
             o.setBolsa("Voluntário");
         }
 
+        // Validação via Enum extensível StatusOportunidade (OCP)
         String status = vazio(o.getStatus()) ? "ABERTA" : o.getStatus().trim().toUpperCase();
-        if (!STATUS.contains(status)) {
+        if (!StatusOportunidade.isValido(status)) {
             throw new IllegalArgumentException("O status deve ser ABERTA ou ENCERRADA.");
         }
         o.setStatus(status);
@@ -96,6 +97,96 @@ public class OportunidadeService {
         o.setProfessorNome(null);
         o.setProfessorId(professorId);
         return repositorio.salvar(o);
+    }
+
+    /** Atualiza os dados de uma oportunidade existente garantindo validação de autoria (Bug 2). */
+    public Oportunidade atualizar(int id, Oportunidade dados, int professorId) {
+        if (dados == null) {
+            throw new IllegalArgumentException("Dados da vaga não enviados.");
+        }
+
+        Optional<Oportunidade> existenteOpt = repositorio.buscarPorId(id);
+        if (existenteOpt.isEmpty()) {
+            throw new IllegalArgumentException("Oportunidade #" + id + " não encontrada.");
+        }
+
+        Oportunidade existente = existenteOpt.get();
+
+        // Validação estrita de autoria: nenhum docente altera vaga de outro
+        if (existente.getProfessorId() != null && !existente.getProfessorId().equals(professorId)) {
+            throw new SecurityException("Acesso negado: Você não tem autorização para editar esta oportunidade.");
+        }
+
+        if (vazio(dados.getTitulo())) {
+            throw new IllegalArgumentException("O título é obrigatório.");
+        }
+        if (dados.getTipo() == null) {
+            throw new IllegalArgumentException("O tipo da vaga é obrigatório.");
+        }
+        if (vazio(dados.getEixo()) || !EixoAcademico.isValido(dados.getEixo())) {
+            throw new IllegalArgumentException("O eixo deve ser: exatas, humanas ou saude.");
+        }
+        if (vazio(dados.getDepartamento())) {
+            throw new IllegalArgumentException("O departamento/curso é obrigatório.");
+        }
+        if (vazio(dados.getDescricao())) {
+            throw new IllegalArgumentException("A descrição é obrigatória.");
+        }
+
+        existente.setTitulo(dados.getTitulo().trim());
+        existente.setTipo(dados.getTipo());
+        existente.setEixo(dados.getEixo().trim().toLowerCase());
+        existente.setDepartamento(dados.getDepartamento().trim());
+        existente.setDescricao(dados.getDescricao().trim());
+        existente.setAtividades(dados.getAtividades());
+        existente.setRequisitos(dados.getRequisitos());
+        existente.setBolsa(vazio(dados.getBolsa()) ? "Voluntário" : dados.getBolsa().trim());
+
+        String status = vazio(dados.getStatus()) ? existente.getStatus() : dados.getStatus().trim().toUpperCase();
+        if (!StatusOportunidade.isValido(status)) {
+            throw new IllegalArgumentException("O status deve ser ABERTA ou ENCERRADA.");
+        }
+        existente.setStatus(status);
+
+        if (dados.getDataLimite() != null) {
+            existente.setDataLimite(dados.getDataLimite());
+        }
+
+        repositorio.atualizar(existente);
+        return existente;
+    }
+
+    /** Exclui uma oportunidade garantindo validação de autoria do professor (Bug 2). */
+    public void excluir(int id, int professorId) {
+        Optional<Oportunidade> existenteOpt = repositorio.buscarPorId(id);
+        if (existenteOpt.isEmpty()) {
+            throw new IllegalArgumentException("Oportunidade #" + id + " não encontrada.");
+        }
+
+        Oportunidade existente = existenteOpt.get();
+        if (existente.getProfessorId() != null && !existente.getProfessorId().equals(professorId)) {
+            throw new SecurityException("Acesso negado: Você não tem autorização para excluir esta oportunidade.");
+        }
+
+        repositorio.excluir(id);
+    }
+
+    /** Alterna o status entre ABERTA e ENCERRADA (Bug 2). */
+    public Oportunidade alternarStatus(int id, int professorId) {
+        Optional<Oportunidade> existenteOpt = repositorio.buscarPorId(id);
+        if (existenteOpt.isEmpty()) {
+            throw new IllegalArgumentException("Oportunidade #" + id + " não encontrada.");
+        }
+
+        Oportunidade existente = existenteOpt.get();
+        if (existente.getProfessorId() != null && !existente.getProfessorId().equals(professorId)) {
+            throw new SecurityException("Acesso negado: Você não tem autorização para alterar o status desta oportunidade.");
+        }
+
+        String novoStatus = "ABERTA".equalsIgnoreCase(existente.getStatus()) ? "ENCERRADA" : "ABERTA";
+        existente.setStatus(novoStatus);
+        repositorio.atualizar(existente);
+        return existente;
     }
 
     private static boolean vazio(String s) {
