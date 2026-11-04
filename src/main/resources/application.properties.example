@@ -1,5 +1,1 @@
-# Copie este arquivo para application.properties (que NÃO vai pro Git) e ajuste a senha.
-db.url=jdbc:postgresql://localhost:5432/radar_oportunidades
-db.user=postgres
-db.password=postgres
-server.port=8080
+
