@@ -327,6 +327,17 @@ document.addEventListener('DOMContentLoaded', () => {
     if (countRejeitadosEl) countRejeitadosEl.textContent = rejeitados;
   }
 
+  // Ajuste (Segurança): Função utilitária de sanitização HTML contra ataques de Stored XSS
+  function sanitizarHtml(texto) {
+    if (texto === null || texto === undefined) return '';
+    return String(texto)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   // --------------------------------------------------------------------------
   // Renderizar a Grade de Candidatos Inscritos
   // --------------------------------------------------------------------------
@@ -402,7 +413,7 @@ document.addEventListener('DOMContentLoaded', () => {
           <img src="assets/icons/x.svg" alt="" width="13" height="13">
           <span>${isRejeitado ? 'Rejeitado' : 'Rejeitar'}</span>
         </button>
-        <a href="mailto:${aluno.email_aluno}?subject=Processo Seletivo UCSal - ${encodeURIComponent(vagaAtiva.titulo)}" class="btn-card-email" title="Enviar e-mail para o estudante">
+        <a href="mailto:${encodeURIComponent(aluno.email_aluno || '')}?subject=Processo%20Seletivo%20UCSal%20-%20${encodeURIComponent(vagaAtiva.titulo || '')}" class="btn-card-email" title="Enviar e-mail para o estudante">
           <img src="assets/icons/mail.svg" alt="E-mail" width="15" height="15">
         </a>
       `;
@@ -410,38 +421,38 @@ document.addEventListener('DOMContentLoaded', () => {
       card.innerHTML = `
         <header class="candidato-card-header">
           <div class="candidato-perfil-wrap">
-            <div class="candidato-avatar" aria-hidden="true">${iniciais}</div>
+            <div class="candidato-avatar" aria-hidden="true">${sanitizarHtml(iniciais)}</div>
             <div class="candidato-nome-wrap">
-              <strong class="candidato-nome">${aluno.nome_aluno}</strong>
+              <strong class="candidato-nome">${sanitizarHtml(aluno.nome_aluno)}</strong>
               <span class="candidato-data">Inscrito em ${formatarData(aluno.data_registro)}</span>
             </div>
           </div>
-          <span class="status-badge ${statusBadgeClass}">${statusLabel}</span>
+          <span class="status-badge ${statusBadgeClass}">${sanitizarHtml(statusLabel)}</span>
         </header>
 
         <div class="candidato-chips-row">
           <span class="candidato-chip">
             <img src="assets/icons/user.svg" alt="" width="13" height="13">
-            <span>${aluno.matricula}</span>
+            <span>${sanitizarHtml(aluno.matricula)}</span>
           </span>
           <span class="candidato-chip">
             <img src="assets/icons/calendar.svg" alt="" width="13" height="13">
-            <span>${aluno.periodo || ''}${aluno.periodo && aluno.turno ? ' • ' : ''}${aluno.turno || ''}</span>
+            <span>${sanitizarHtml(aluno.periodo || '')}${aluno.periodo && aluno.turno ? ' • ' : ''}${sanitizarHtml(aluno.turno || '')}</span>
           </span>
           <span class="candidato-chip chip-gpa">
             <img src="assets/icons/star.svg" alt="" width="13" height="13">
-            <span>Coeficiente: <strong>${aluno.coeficiente || '—'}</strong></span>
+            <span>Coeficiente: <strong>${sanitizarHtml(aluno.coeficiente || '—')}</strong></span>
           </span>
         </div>
 
         <div class="candidato-contato-line">
-          <span class="contato-curso">${aluno.curso || ''}</span>
-          ${aluno.telefone ? `<span class="contato-sep">•</span><span class="contato-item"><a href="tel:${aluno.telefone}" class="contato-link">${aluno.telefone}</a></span>` : ''}
-          ${aluno.email_aluno ? `<span class="contato-sep">•</span><span class="contato-item"><a href="mailto:${aluno.email_aluno}" class="contato-link">${aluno.email_aluno}</a></span>` : ''}
+          <span class="contato-curso">${sanitizarHtml(aluno.curso || '')}</span>
+          ${aluno.telefone ? `<span class="contato-sep">•</span><span class="contato-item"><a href="tel:${encodeURIComponent(aluno.telefone)}" class="contato-link">${sanitizarHtml(aluno.telefone)}</a></span>` : ''}
+          ${aluno.email_aluno ? `<span class="contato-sep">•</span><span class="contato-item"><a href="mailto:${encodeURIComponent(aluno.email_aluno)}" class="contato-link">${sanitizarHtml(aluno.email_aluno)}</a></span>` : ''}
         </div>
 
         <blockquote class="candidato-mensagem-box">
-          ${aluno.mensagem || 'Sem mensagem adicional informada.'}
+          ${sanitizarHtml(aluno.mensagem || 'Sem mensagem adicional informada.')}
         </blockquote>
 
         <footer class="candidato-actions-row">
@@ -517,9 +528,13 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!vagaAtiva) return;
 
       // 1. Tenta obter o CSV diretamente do endpoint Java (/api/oportunidades/{id}/exportar-csv)
+      // Ajuste (Segurança): Anexa token de autenticação no cabeçalho e na URL para download seguro
       // Esse endpoint usa a Java Streams API para montar a planilha com alta performance!
       try {
-        const respBackend = await fetch(`/api/oportunidades/${vagaAtiva.id}/exportar-csv`);
+        const token = (typeof getToken === 'function' ? getToken() : null) || sessionStorage.getItem('token') || localStorage.getItem('token');
+        const headers = token ? { 'Authorization': `Bearer ${token}` } : {};
+        const urlCsv = token ? `/api/oportunidades/${vagaAtiva.id}/exportar-csv?token=${encodeURIComponent(token)}` : `/api/oportunidades/${vagaAtiva.id}/exportar-csv`;
+        const respBackend = await fetch(urlCsv, { headers });
         if (respBackend.ok) {
           const blob = await respBackend.blob();
           const url = URL.createObjectURL(blob);

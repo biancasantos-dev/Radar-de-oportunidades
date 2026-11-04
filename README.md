@@ -222,12 +222,14 @@ Abra seu navegador em:
 
 ## Execução dos Testes Automatizados
 
-O projeto conta com **21 testes de unidade automatizados** desenvolvidos com JUnit 5, cobrindo:
+O projeto conta com **27 testes de unidade automatizados** desenvolvidos com JUnit 5, cobrindo:
 
 - Regras de validação e restrições de criação de oportunidades;
-- Atualização, exclusão e alternância de status de oportunidades com validação de autoria docente (Bug 2);
+- Atualização, exclusão e alternância de status de oportunidades com validação de autoria docente;
+- Regras de negócio de candidaturas e proteção contra inscrições em vagas encerradas (`InteresseTest`);
+- Isolamento de dados entre professores para conformidade com a LGPD;
 - Validação, autenticação e hashing de senhas de professores (SHA-256);
-- Geração correta e performance da planilha de candidatos via **Java Streams API** (`CsvWriter`).
+- Geração segura e performance da planilha de candidatos via **Java Streams API** com proteção contra CSV Injection (`CsvWriter`).
 
 Para executar a suíte completa de testes:
 
@@ -246,13 +248,15 @@ Saída esperada:
 [INFO]  T E S T S
 [INFO] -------------------------------------------------------
 [INFO] Running br.edu.ucsal.radar.CsvWriterTest
-[INFO] Tests run: 2, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Running br.edu.ucsal.radar.InteresseTest
+[INFO] Tests run: 5, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Running br.edu.ucsal.radar.OportunidadeTest
 [INFO] Tests run: 16, Failures: 0, Errors: 0, Skipped: 0
 [INFO] Running br.edu.ucsal.radar.ProfessorTest
 [INFO] Tests run: 3, Failures: 0, Errors: 0, Skipped: 0
 [INFO]
-[INFO] Results: Tests run: 21, Failures: 0, Errors: 0, Skipped: 0
+[INFO] Results: Tests run: 27, Failures: 0, Errors: 0, Skipped: 0
 [INFO] BUILD SUCCESS
 ```
 
@@ -262,19 +266,19 @@ Saída esperada:
 
 A aplicação expõe os seguintes endpoints HTTP sob o prefixo `/api`:
 
-| Método | Endpoint                               |    Protegido?    | Descrição                                                                             |
-| :----: | :------------------------------------- | :--------------: | :------------------------------------------------------------------------------------ |
-| `POST` | `/api/login`                           |       Não        | Autentica o professor com e-mail institucional e senha, retornando o token de sessão. |
-| `GET`  | `/api/oportunidades`                   |       Não        | Retorna a lista completa de oportunidades cadastradas.                                |
-| `GET`  | `/api/oportunidades/{id}`              |       Não        | Retorna os detalhes de uma oportunidade específica.                                   |
-| `POST` | `/api/oportunidades`                   | **Sim** (Bearer) | Cadastra uma nova oportunidade vinculada ao professor autenticado.                    |
-| `PUT`  | `/api/oportunidades/{id}`              | **Sim** (Bearer) | Atualiza os dados de uma oportunidade existente (restrito ao docente criador).        |
-| `DELETE`| `/api/oportunidades/{id}`             | **Sim** (Bearer) | Exclui a oportunidade e remove suas candidaturas vinculadas (restrito ao criador).    |
-| `PATCH`| `/api/oportunidades/{id}`              | **Sim** (Bearer) | Alterna o status da oportunidade entre ABERTA e ENCERRADA (restrito ao criador).      |
-| `GET`  | `/api/oportunidades/{id}/inscritos`    | **Sim** (Bearer) | Retorna a relação de discentes inscritos na vaga especificada (restrito ao criador).  |
-| `GET`  | `/api/oportunidades/{id}/exportar-csv` |       Não        | Gera e transmite o relatório de inscritos em formato CSV processado via Java Streams. |
-| `GET`  | `/api/interesses`                      | **Sim** (Bearer) | Retorna todas as candidaturas registradas para o docente.                             |
-| `POST` | `/api/interesses`                      |       Não        | Registra a candidatura de um estudante em uma oportunidade aberta.                    |
+|  Método  | Endpoint                               |    Protegido?    | Descrição                                                                                |
+| :------: | :------------------------------------- | :--------------: | :--------------------------------------------------------------------------------------- |
+|  `POST`  | `/api/login`                           |       Não        | Autentica o professor com e-mail institucional e senha, retornando o token de sessão.    |
+|  `GET`   | `/api/oportunidades`                   |       Não        | Retorna a lista completa de oportunidades cadastradas.                                   |
+|  `GET`   | `/api/oportunidades/{id}`              |       Não        | Retorna os detalhes de uma oportunidade específica.                                      |
+|  `POST`  | `/api/oportunidades`                   | **Sim** (Bearer) | Cadastra uma nova oportunidade vinculada ao professor autenticado.                       |
+|  `PUT`   | `/api/oportunidades/{id}`              | **Sim** (Bearer) | Atualiza os dados de uma oportunidade existente (restrito ao docente criador).           |
+| `DELETE` | `/api/oportunidades/{id}`              | **Sim** (Bearer) | Exclui a oportunidade e remove suas candidaturas vinculadas (restrito ao criador).       |
+| `PATCH`  | `/api/oportunidades/{id}`              | **Sim** (Bearer) | Alterna o status da oportunidade entre ABERTA e ENCERRADA (restrito ao criador).         |
+|  `GET`   | `/api/oportunidades/{id}/inscritos`    | **Sim** (Bearer) | Retorna a relação de discentes inscritos na vaga especificada (restrito ao criador).     |
+|  `GET`   | `/api/oportunidades/{id}/exportar-csv` | **Sim** (Bearer) | Gera e transmite o relatório de inscritos em CSV via Java Streams (restrito ao criador). |
+|  `GET`   | `/api/interesses`                      | **Sim** (Bearer) | Retorna apenas as candidaturas registradas para as vagas do docente logado.              |
+|  `POST`  | `/api/interesses`                      |       Não        | Registra a candidatura de um estudante em uma oportunidade aberta.                       |
 
 ---
 

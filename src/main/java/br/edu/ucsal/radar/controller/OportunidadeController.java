@@ -62,28 +62,22 @@ public class OportunidadeController implements HttpHandler {
             }
 
             if (sobra.isEmpty()) {
-                if (metodo.equals("GET")) {
-                    listar(exchange);
-                } else if (metodo.equals("POST")) {
-                    cadastrar(exchange);
-                } else {
-                    responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
+                switch (metodo) {
+                    case "GET" -> listar(exchange);
+                    case "POST" -> cadastrar(exchange);
+                    default -> responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
                 }
                 return;
             }
 
             if (sobra.matches("/\\d+")) {
                 int id = Integer.parseInt(sobra.substring(1));
-                if (metodo.equals("GET")) {
-                    detalhar(exchange, id);
-                } else if (metodo.equals("PUT")) {
-                    atualizar(exchange, id);
-                } else if (metodo.equals("DELETE")) {
-                    excluir(exchange, id);
-                } else if (metodo.equals("PATCH")) {
-                    alternarStatus(exchange, id);
-                } else {
-                    responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
+                switch (metodo) {
+                    case "GET" -> detalhar(exchange, id);
+                    case "PUT" -> atualizar(exchange, id);
+                    case "DELETE" -> excluir(exchange, id);
+                    case "PATCH" -> alternarStatus(exchange, id);
+                    default -> responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
                 }
                 return;
             }
@@ -180,16 +174,24 @@ public class OportunidadeController implements HttpHandler {
         responder(exchange, 200, inscritos);
     }
 
-    // GET /api/oportunidades/{id}/exportar-csv
+    // Ajuste (Segurança / LGPD): GET /api/oportunidades/{id}/exportar-csv exige token Bearer e autoria da vaga
     // Processa a lista com CsvWriter (Java Streams) e devolve para download
     private void exportarCsv(HttpExchange exchange, int id) throws IOException {
         Integer professorId = professorLogado(exchange);
-        if (professorId != null) {
-            Optional<Oportunidade> vaga = service.buscarPorId(id);
-            if (vaga.isPresent() && vaga.get().getProfessorId() != null && !vaga.get().getProfessorId().equals(professorId)) {
-                responder(exchange, 403, Map.of("erro", "Acesso restrito: Você não tem autorização para exportar candidaturas de outro professor."));
-                return;
-            }
+        if (professorId == null) {
+            responder(exchange, 401, Map.of("erro", "Acesso restrito: Faça login como professor para exportar o relatório de candidatos."));
+            return;
+        }
+
+        Optional<Oportunidade> vaga = service.buscarPorId(id);
+        if (vaga.isEmpty()) {
+            responder(exchange, 404, Map.of("erro", "Vaga não encontrada."));
+            return;
+        }
+
+        if (vaga.get().getProfessorId() != null && !vaga.get().getProfessorId().equals(professorId)) {
+            responder(exchange, 403, Map.of("erro", "Acesso restrito: Você não tem autorização para exportar candidaturas de outro professor."));
+            return;
         }
 
         List<Interesse> inscritos = interesseService.listarPorOportunidade(id);
@@ -221,7 +223,7 @@ public class OportunidadeController implements HttpHandler {
         responder(exchange, 201, salva);
     }
 
-    // PUT /api/oportunidades/{id} (protegida - Bug 2)
+    // Ajuste (Gestão de Vagas): PUT /api/oportunidades/{id} para atualizar dados da vaga com validação estrita de autoria
     private void atualizar(HttpExchange exchange, int id) throws IOException {
         Integer professorId = professorLogado(exchange);
         if (professorId == null) {
@@ -236,7 +238,7 @@ public class OportunidadeController implements HttpHandler {
         responder(exchange, 200, atualizada);
     }
 
-    // DELETE /api/oportunidades/{id} (protegida - Bug 2)
+    // Ajuste (Gestão de Vagas): DELETE /api/oportunidades/{id} para excluir vaga e candidaturas associadas
     private void excluir(HttpExchange exchange, int id) throws IOException {
         Integer professorId = professorLogado(exchange);
         if (professorId == null) {
@@ -248,7 +250,7 @@ public class OportunidadeController implements HttpHandler {
         responder(exchange, 200, Map.of("mensagem", "Oportunidade #" + id + " excluída com sucesso."));
     }
 
-    // PATCH /api/oportunidades/{id} ou /status (protegida - Bug 2)
+    // Ajuste (Gestão de Vagas): PATCH /api/oportunidades/{id} ou /status para alternar entre ABERTA e ENCERRADA
     private void alternarStatus(HttpExchange exchange, int id) throws IOException {
         Integer professorId = professorLogado(exchange);
         if (professorId == null) {
@@ -260,14 +262,19 @@ public class OportunidadeController implements HttpHandler {
         responder(exchange, 200, atualizada);
     }
 
-    // Lê o cabeçalho "Authorization: Bearer <token>" e devolve o id do professor (ou null)
+    // Ajuste (Segurança): Lê o token do cabeçalho "Authorization: Bearer <token>" ou query string "?token=<token>"
     private Integer professorLogado(HttpExchange exchange) {
         String cabecalho = exchange.getRequestHeaders().getFirst("Authorization");
-        if (cabecalho == null || !cabecalho.startsWith("Bearer ")) {
-            return null;
+        String token = null;
+        if (cabecalho != null && cabecalho.startsWith("Bearer ")) {
+            token = cabecalho.substring("Bearer ".length()).trim();
+        } else {
+            Map<String, String> query = lerQuery(exchange.getRequestURI().getRawQuery());
+            if (query.containsKey("token")) {
+                token = query.get("token");
+            }
         }
-        String token = cabecalho.substring("Bearer ".length()).trim();
-        return autenticacao.tokenValido(token) ? autenticacao.getIdProfessor(token) : null;
+        return (token != null && autenticacao.tokenValido(token)) ? autenticacao.getIdProfessor(token) : null;
     }
 
     // "?tipo=Monitoria&curso=ADS" -> {tipo=Monitoria, curso=ADS}

@@ -25,9 +25,13 @@ public class CsvWriter {
                 .collect(Collectors.joining(","));
     }
 
-    // Se o texto tiver vírgula, aspas ou quebra de linha, precisa ir entre aspas
+    // Se o texto tiver vírgula, aspas ou quebra de linha, precisa ir entre aspas.
+    // Ajuste (Segurança): Desarma fórmulas do Excel (Formula Injection) iniciadas com =, +, - ou @ prefixando com apóstrofo
     private static String escapar(String valor) {
         if (valor == null) return "";
+        if (valor.startsWith("=") || valor.startsWith("+") || valor.startsWith("-") || valor.startsWith("@")) {
+            valor = "'" + valor;
+        }
         if (valor.contains(",") || valor.contains("\"") || valor.contains("\n") || valor.contains("\r")) {
             return "\"" + valor.replace("\"", "\"\"") + "\"";
         }

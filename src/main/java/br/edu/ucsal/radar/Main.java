@@ -40,8 +40,9 @@ public class Main {
 
             // ---- API: Login, Interesses e CSV (Allan Maia) -> registrar aqui ----
             // Ajuste: controllers registrados para permitir autenticação e inscrição reais
+            // Ajuste (Segurança): repassando autenticacao para InteresseController proteger a consulta de candidaturas
             servidor.createContext("/api/login", new LoginController(autenticacao));
-            servidor.createContext("/api/interesses", new InteresseController(interesseService));
+            servidor.createContext("/api/interesses", new InteresseController(interesseService, autenticacao));
             // GET /api/oportunidades/{id}/inscritos e /exportar-csv: implementados no OportunidadeController
 
             servidor.setExecutor(null);

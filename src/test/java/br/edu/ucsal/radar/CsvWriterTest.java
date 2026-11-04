@@ -37,4 +37,14 @@ public class CsvWriterTest {
         String csv = CsvWriter.gerar(List.of());
         assertEquals("nome,email,matricula,curso,semestre,justificativa", csv.trim());
     }
+
+    @Test
+    void escaparDesarmaFormulaInjection() {
+        Interesse i = new Interesse("=cmd|' /C calc'!A0", "+557199999", "2023103",
+                "ADS", "3", "@SUM(1+1)", 1);
+        String csv = CsvWriter.gerar(List.of(i));
+        assertTrue(csv.contains("'=cmd|' /C calc'!A0"));
+        assertTrue(csv.contains("'+557199999"));
+        assertTrue(csv.contains("'@SUM(1+1)"));
+    }
 }
