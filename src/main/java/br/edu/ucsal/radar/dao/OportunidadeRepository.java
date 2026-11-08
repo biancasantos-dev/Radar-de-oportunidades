@@ -17,4 +17,9 @@ public interface OportunidadeRepository {
 
     // Grava a vaga e devolve ela já com o id gerado pelo banco.
     Oportunidade salvar(Oportunidade oportunidade);
+
+    // Ajuste: métodos de atualização e exclusão para suportar PUT e DELETE na API REST
+    void atualizar(Oportunidade oportunidade);
+
+    void excluir(int id);
 }

@@ -9,40 +9,10 @@
    são gerenciados globalmente por style.css */
 
 
-/* ── 1. NAVEGAÇÃO DE RETORNO (BREADCRUMB) ── */
+/* ── 1. NAVEGAÇÃO DE RETORNO (BREADCRUMB) ──
+   O botão .btn-back é herdado de forma centralizada em style.css */
 .nav-breadcrumb {
   margin: 32px 0 20px 0;
-}
-
-.btn-back {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 18px;
-  border-radius: var(--radius-pill);
-  background-color: #FFFFFF;
-  border: 1px solid rgba(42, 53, 118, 0.10);
-  color: var(--brand-navy);
-  font-size: 13px;
-  font-weight: 600;
-  box-shadow: 0 2px 6px rgba(42, 53, 118, 0.04);
-  transition: all 0.2s ease;
-  text-decoration: none;
-}
-
-.btn-back:hover {
-  background-color: var(--brand-lavender);
-  border-color: var(--brand-lavender);
-  color: var(--brand-navy);
-  transform: translateX(-3px);
-}
-
-.btn-back img {
-  transition: transform 0.2s ease;
-}
-
-.btn-back:hover img {
-  transform: translateX(-2px);
 }
 
 /* ── 2. BANNER DE CONTEXTO DA OPORTUNIDADE ── */
@@ -72,63 +42,8 @@
   flex-wrap: wrap;
 }
 
-.table-tipo-badge {
-  display: inline-flex;
-  align-items: center;
-  font-size: 11.5px;
-  font-weight: 700;
-  padding: 4px 12px;
-  border-radius: var(--radius-pill);
-  background-color: var(--brand-lavender);
-  color: var(--brand-navy);
-  white-space: nowrap;
-}
-
-.table-tipo-badge.badge-ic        { background-color: #E3F7FC; color: #0C3E4F; }
-.table-tipo-badge.badge-monitoria { background-color: #F6E8F8; color: #4F1857; }
-.table-tipo-badge.badge-extensao  { background-color: #EFF9DE; color: #2D4C06; }
-.table-tipo-badge.badge-estagio   { background-color: #FDEFE5; color: #733005; }
-.table-tipo-badge.badge-evento    { background-color: #FFF6DC; color: #5B4003; }
-.table-tipo-badge.badge-grupo     { background-color: #ECE9FD; color: #231B66; }
-
-.table-status-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 700;
-  padding: 4px 10px;
-  border-radius: var(--radius-pill);
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  white-space: nowrap;
-}
-
-.table-status-badge.status-aberta {
-  background-color: #EDF7DE;
-  color: #2D4C06;
-}
-
-.table-status-badge.status-aberta::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #8FD31A;
-}
-
-.table-status-badge.status-encerrada {
-  background-color: rgba(42, 53, 118, 0.08);
-  color: #72708E;
-}
-
-.table-status-badge.status-encerrada::before {
-  content: '';
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background-color: #8C88A8;
-}
+/* Badges da vaga (.table-tipo-badge e .table-status-badge)
+   são herdados de forma centralizada em style.css */
 
 .vaga-depto-tag {
   font-size: 11.5px;
@@ -947,72 +862,11 @@
     border-radius: 20px;
   }
 
-  .candidatos-toolbar {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 14px;
-    margin-bottom: 20px;
-  }
-
-  /* Pílulas de Filtro Mobile: Fita de rolagem horizontal nativa fluida (sem quebras de texto) */
+  /* Pílulas de Filtro Mobile: rolagem horizontal de borda a borda */
   .candidatos-filter-pills {
-    display: flex;
-    flex-wrap: nowrap;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-    -ms-overflow-style: none;
     width: calc(100% + 20px);
     margin: 0 -10px;
     padding: 4px 10px;
-    background: transparent;
-    border: none;
-    border-radius: 0;
-    gap: 8px;
-  }
-
-  .candidatos-filter-pills::-webkit-scrollbar {
-    display: none;
-  }
-
-  .filter-pill {
-    flex-shrink: 0;
-    white-space: nowrap;
-    padding: 8px 16px;
-    font-size: 12.5px;
-    font-weight: 600;
-    border-radius: var(--radius-pill);
-    background-color: #F8F8FC;
-    border: 1px solid rgba(42, 53, 118, 0.10);
-    box-shadow: 0 1px 4px rgba(42, 53, 118, 0.04);
-  }
-
-  .filter-pill.active {
-    background-color: var(--brand-navy);
-    color: #FFFFFF;
-    border-color: var(--brand-navy);
-    box-shadow: 0 4px 14px rgba(42, 53, 118, 0.20);
-  }
-
-  .filter-pill.active .pill-count {
-    background-color: rgba(255, 255, 255, 0.25);
-    color: #FFFFFF;
-  }
-
-  .filter-pill[data-status="Rejeitado"].active {
-    background-color: #D32F2F;
-    color: #FFFFFF;
-    border-color: #D32F2F;
-  }
-
-  .filter-pill[data-status="Rejeitado"].active .pill-count {
-    background-color: rgba(255, 255, 255, 0.25);
-    color: #FFFFFF;
-  }
-
-  .search-wrap {
-    width: 100%;
-    margin-left: 0;
   }
 
   /* Card do Candidato no Mobile */

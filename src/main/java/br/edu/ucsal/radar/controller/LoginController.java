@@ -1,5 +1,6 @@
 package br.edu.ucsal.radar.controller;
 
+import br.edu.ucsal.radar.model.Professor;
 import br.edu.ucsal.radar.service.ProfessorService;
 
 import com.google.gson.Gson;
@@ -10,15 +11,25 @@ import com.sun.net.httpserver.HttpHandler;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
+import java.util.HashMap;
 import java.util.Map;
 
 public class LoginController implements HttpHandler {
 
     // Validar credenciais, confere senha e retorna o token de acesso Bearer
 
-    private final ProfessorService service = new ProfessorService();
+    private final ProfessorService service;
 
     private final Gson gson = new Gson();
+
+    public LoginController() {
+        this(new ProfessorService());
+    }
+
+    // Ajuste: permite reutilizar a mesma instância de ProfessorService gerenciada no Main
+    public LoginController(ProfessorService service) {
+        this.service = service;
+    }
 
     private static class DadosLogin {
         String email;
@@ -32,10 +43,11 @@ public class LoginController implements HttpHandler {
                 String metodo = exchange.getRequestMethod();
                 String caminho = exchange.getRequestURI().getPath();
 
-                if (!caminho.equals("/login")) { //TODO:verificar depois se no front ta assim
+                // Ajuste: aceita /api/login ou /login para funcionar tanto com o prefixo da API quanto sem
+                if (!caminho.equals("/login") && !caminho.equals("/api/login")) {
                     responder(exchange, 404, Map.of("erro", "Rota não encontrada."));
                     return;
-                };
+                }
 
                 if (metodo.equals("POST")) {
 
@@ -78,8 +90,9 @@ public class LoginController implements HttpHandler {
                         return;
                     }
 
-                    // Retorna o token de acesso.
-                    responder(exchange, 200, Map.of("mensagem", "Login realizado com sucesso.", "token", token, "tipo", "Bearer"));
+                    // Ajuste: Retorna o token de acesso e os dados de identificação do professor autenticado
+                    Professor prof = service.buscarPorEmail(login.trim());
+                    responder(exchange, 200, criarRespostaLogin(token, prof));
                     return;
 
                 }
@@ -87,7 +100,8 @@ public class LoginController implements HttpHandler {
                 responder(exchange, 405, Map.of("erro", "Método HTTP não permitido"));
 
             } catch (Exception e) {
-                e.printStackTrace();
+                // Log simplificado de erro
+                System.err.println("Erro no LoginController: " + e.getMessage());
 
                 if (exchange.getResponseCode() == -1) {
                     responder(exchange, 500, Map.of("erro", "Erro interno no servidor"));
@@ -96,6 +110,20 @@ public class LoginController implements HttpHandler {
             } finally {
                 exchange.close();
             }
+    }
+
+    // Ajuste: método auxiliar para estruturar a resposta do login autenticado
+    private Map<String, Object> criarRespostaLogin(String token, Professor prof) {
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("mensagem", "Login realizado com sucesso.");
+        resposta.put("token", token);
+        resposta.put("tipo", "Bearer");
+        if (prof != null) {
+            resposta.put("id", prof.getId());
+            resposta.put("nome", prof.getNome());
+            resposta.put("email", prof.getEmail());
+        }
+        return resposta;
     }
 
     private void responder(HttpExchange exchange, int status, Object corpo) throws IOException {

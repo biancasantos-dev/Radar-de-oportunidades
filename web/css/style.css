@@ -197,6 +197,213 @@ input, select, textarea {
   border-color: rgba(42, 53, 118, 0.08);
 }
 
+/* Centralização no Design System global (Princípio DRY/SOLID):
+   Evita duplicações de badges em tabelas e painéis entre painel.css e inscritos.css */
+.table-tipo-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 11.5px;
+  font-weight: 700;
+  padding: 4px 12px;
+  border-radius: var(--radius-pill);
+  background-color: var(--brand-lavender);
+  color: var(--brand-navy);
+  white-space: nowrap;
+}
+
+.table-tipo-badge.badge-ic        { background-color: var(--card-ic); color: #0C3E4F; }
+.table-tipo-badge.badge-monitoria { background-color: var(--card-monitoria); color: #4F1857; }
+.table-tipo-badge.badge-extensao  { background-color: var(--card-extensao); color: #2D4C06; }
+.table-tipo-badge.badge-estagio   { background-color: var(--card-estagio); color: #733005; }
+.table-tipo-badge.badge-evento    { background-color: var(--card-evento); color: #5B4003; }
+.table-tipo-badge.badge-grupo     { background-color: var(--card-grupo); color: #231B66; }
+
+.table-status-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
+  border-radius: var(--radius-pill);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  white-space: nowrap;
+}
+
+.table-status-badge.status-aberta {
+  background-color: #EDF7DE;
+  color: #2D4C06;
+}
+
+.table-status-badge.status-aberta::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: var(--brand-green);
+}
+
+.table-status-badge.status-encerrada {
+  background-color: rgba(42, 53, 118, 0.08);
+  color: #72708E;
+}
+
+.table-status-badge.status-encerrada::before {
+  content: '';
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background-color: #8C88A8;
+}
+
+/* Botão Universal de Retorno / Breadcrumb (usado em oportunidade.html e inscritos.html) */
+.btn-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--brand-navy);
+  text-decoration: none;
+  background-color: #FFFFFF;
+  padding: 8px 18px;
+  border-radius: var(--radius-pill);
+  border: var(--stroke-brand-sm);
+  box-shadow: var(--shadow-xs);
+  transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn-back:hover {
+  background-color: var(--brand-lavender);
+  transform: translateX(-3px);
+  box-shadow: var(--shadow-sm);
+}
+
+.btn-back img {
+  filter: var(--filter-icon-navy);
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.btn-back:hover img {
+  filter: var(--filter-icon-orange);
+  transform: translateX(-2px);
+}
+
+/* Link de Retorno Padrão (usado em login.html e cadastro-professor.html) */
+.back-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--brand-navy);
+  transition: all 0.2s ease;
+}
+
+.back-link img {
+  filter: var(--filter-icon-navy);
+  transition: filter 0.2s ease, transform 0.2s ease;
+}
+
+.back-link:hover {
+  color: var(--brand-orange);
+  transform: translateX(-3px);
+}
+
+.back-link:hover img {
+  filter: var(--filter-icon-orange);
+}
+
+/* Componente Universal de Checkbox Acessível (formulários de auth e termos) */
+.form-checkbox-row {
+  margin: 4px 0;
+}
+
+.checkbox-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
+  user-select: none;
+}
+
+.checkbox-input {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.checkbox-custom {
+  width: 18px;
+  height: 18px;
+  border-radius: 6px;
+  border: 1.5px solid rgba(42, 53, 118, 0.2);
+  background-color: #FFFFFF;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s ease;
+  flex-shrink: 0;
+}
+
+.checkbox-input:checked + .checkbox-custom {
+  background-color: var(--brand-teacher);
+  border-color: var(--brand-teacher);
+}
+
+.checkbox-input:checked + .checkbox-custom::after {
+  content: '';
+  width: 5px;
+  height: 9px;
+  border: solid #FFFFFF;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  margin-bottom: 2px;
+}
+
+.checkbox-label:hover .checkbox-custom {
+  border-color: var(--brand-teacher);
+}
+
+/* Botão Universal de Visibilidade de Senha */
+.btn-toggle-pass {
+  position: absolute;
+  right: 14px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.btn-toggle-pass img {
+  width: 18px;
+  height: 18px;
+  object-fit: contain;
+  display: block;
+  filter: var(--filter-icon-muted);
+  transition: filter 0.2s ease;
+}
+
+.btn-toggle-pass:hover {
+  background-color: rgba(42, 53, 118, 0.06);
+}
+
+.btn-toggle-pass:hover img {
+  filter: var(--filter-icon-navy);
+}
+
 /* Spinner Global de Carregamento */
 .spinner {
   width: 18px;
@@ -842,6 +1049,13 @@ input, select, textarea {
 
   .footer-links {
     justify-content: center;
+  }
+
+  /* Colapso responsivo inteligente de grades de formulário (elimina duplicação em telas filhas) */
+  .form-grid-2,
+  .form-grid-3 {
+    grid-template-columns: 1fr;
+    gap: 16px;
   }
 }
 

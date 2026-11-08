@@ -1,60 +1,76 @@
 package br.edu.ucsal.radar.service;
 
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.HexFormat;
-import java.util.Map;
-import java.util.UUID;
-import java.util.concurrent.ConcurrentHashMap;
-
 import br.edu.ucsal.radar.dao.ProfessorDAO;
+import br.edu.ucsal.radar.dao.ProfessorRepository;
 import br.edu.ucsal.radar.model.Professor;
+import br.edu.ucsal.radar.util.HashUtil;
+import br.edu.ucsal.radar.util.TokenManager;
 
 public class ProfessorService {
 
-    // Tokens em memória: token -> id do professor
-    private static final Map<String, Integer> tokens = new ConcurrentHashMap<>();
+    // O service depende da INTERFACE ProfessorRepository, não da classe concreta DAO (DIP)
+    private final ProfessorRepository professorRepository;
 
-    // Gera o hash SHA-256 da senha (em hexadecimal)
+    // Gerenciador dedicado para tokens e sessões em memória (SRP)
+    private final TokenManager tokenManager;
+
+    public ProfessorService() {
+        this(new ProfessorDAO(), new TokenManager());
+    }
+
+    public ProfessorService(ProfessorRepository professorRepository) {
+        this(professorRepository, new TokenManager());
+    }
+
+    public ProfessorService(ProfessorRepository professorRepository, TokenManager tokenManager) {
+        this.professorRepository = professorRepository;
+        this.tokenManager = tokenManager;
+    }
+
+    // Delegação para HashUtil (SRP - Responsabilidade Única de Criptografia)
     public String hashSenha(String senha) {
-        try {
-            MessageDigest digest = MessageDigest.getInstance("SHA-256");
-            return HexFormat.of().formatHex(digest.digest(senha.getBytes(StandardCharsets.UTF_8)));
-        } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
-        }
+        return HashUtil.sha256(senha);
     }
 
-    // Confere a senha digitada com o hash salvo no banco
+    // Confere a senha digitada com o hash salvo no banco via HashUtil
     public boolean senhaConfere(String senhaDigitada, String hashSalvo) {
-        return hashSenha(senhaDigitada).equals(hashSalvo);
+        return HashUtil.confere(senhaDigitada, hashSalvo);
     }
 
-    // gerarToken(): Gera um token UUID e associa ao id do professor
-    // tokenValido(): Verifica se o token existe
-    // getIdProfessor(): Retorna o id do professor dono do token
+    // Delegação para TokenManager (SRP - Responsabilidade Única de Gestão de Sessão)
     public String gerarToken(int idProfessor) {
-        String token = UUID.randomUUID().toString();
-        tokens.put(token, idProfessor);
-        return token;
+        return tokenManager.gerarToken(idProfessor);
     }
 
     public boolean tokenValido(String token) {
-        return tokens.containsKey(token);
+        return tokenManager.tokenValido(token);
     }
 
     public Integer getIdProfessor(String token) {
-        return tokens.get(token);
+        return tokenManager.getIdProfessor(token);
+    }
+
+    public void revogarToken(String token) {
+        tokenManager.revogarToken(token);
     }
 
     public String autenticar(String email, String senha) {
-        Professor professor = new ProfessorDAO().buscarPorEmail(email);
+        Professor professor = professorRepository.buscarPorEmail(email);
 
         if (professor == null || !senhaConfere(senha, professor.getSenhaHash())) {
             return null;
         }
 
         return gerarToken(professor.getId());
+    }
+
+    // Ajuste: método auxiliar para consultar o professor pelo email após login
+    public Professor buscarPorEmail(String email) {
+        return professorRepository.buscarPorEmail(email);
+    }
+
+    // Ajuste: método auxiliar para consultar o professor pelo ID
+    public Professor buscarPorId(int id) {
+        return professorRepository.buscarPorId(id);
     }
 }

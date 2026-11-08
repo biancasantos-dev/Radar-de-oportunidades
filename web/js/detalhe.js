@@ -1,6 +1,15 @@
 // ============================================================
-// OPORTUNI — DETALHE.JS
-// Lógica de Apresentação do Edital, Candidatura e Vagas Relacionadas
+// OPORTUNI — DETALHE.JS (EDITAL DA VAGA & CANDIDATURA DE ALUNO)
+// 
+// Responsabilidades desta tela:
+// 1. Obter o identificador da vaga via URL (?id=...) e consultar seus detalhes
+//    na API Java (/api/oportunidades ou fallback oportunidades.json).
+// 2. Apresentar os dados estruturados do edital (tipo, bolsa, prazos, orientador,
+//    atividades e requisitos formatados).
+// 3. Modal de Inscrição: coleta nome, e-mail institucional, matrícula, curso,
+//    semestre e carta de justificativa do estudante.
+// 4. Integração com a API Java (POST /api/interesses): grava a inscrição diretamente
+//    no banco PostgreSQL, permitindo visualização imediata no painel do docente.
 // ============================================================
 
 document.addEventListener('DOMContentLoaded', async () => {
@@ -138,9 +147,23 @@ document.addEventListener('DOMContentLoaded', async () => {
         listaProfessores = [...profsLocais, ...listaProfessores];
       } catch (e) {}
 
-      // Carrega Oportunidades
-      const respVagas = await fetch('assets/data/oportunidades.json');
-      const jsonVagas = respVagas.ok ? await respVagas.json() : [];
+      // Ajuste: tenta consultar os dados atualizados das vagas via backend Java (/api/oportunidades)
+      let jsonVagas = [];
+      if (typeof apiFetch === 'function') {
+        try {
+          const vagasApi = await apiFetch('/oportunidades');
+          if (Array.isArray(vagasApi) && vagasApi.length > 0) {
+            jsonVagas = vagasApi;
+          }
+        } catch (apiErr) {
+          console.warn('API /api/oportunidades indisponível, usando fallback local:', apiErr);
+        }
+      }
+
+      if (jsonVagas.length === 0) {
+        const respVagas = await fetch('assets/data/oportunidades.json');
+        jsonVagas = respVagas.ok ? await respVagas.json() : [];
+      }
 
       const vagasLocais = localStorage.getItem('oportunidades_gestao');
       if (vagasLocais) {
@@ -390,12 +413,25 @@ document.addEventListener('DOMContentLoaded', async () => {
       modalSubtituloVaga.textContent = `Edital: ${titulo} (${tipo})`;
     }
 
-    // Ações Rápidas de Gestão Docente
+    // Ações Rápidas de Gestão Docente: Exibidas apenas se o professor conectado for o autor desta oportunidade
     const isDocente = typeof isAuthenticated === 'function' ? isAuthenticated() : !!sessionStorage.getItem('token');
-    if (isDocente && stickyDocenteActions) {
+    let docenteLogado = null;
+    try {
+      docenteLogado = JSON.parse(localStorage.getItem('oportuni_docente_ativo') || sessionStorage.getItem('oportuni_docente_ativo') || 'null');
+    } catch (e) {}
+
+    const ehDonoDaVaga = isDocente && docenteLogado && vagaAtual && (
+      vagaAtual.professor_id === docenteLogado.id ||
+      (vagaAtual.professor_nome && docenteLogado.nome && vagaAtual.professor_nome.toLowerCase().includes(docenteLogado.nome.toLowerCase())) ||
+      (orientadorNome && docenteLogado.nome && orientadorNome.toLowerCase().includes(docenteLogado.nome.toLowerCase()))
+    );
+
+    if (ehDonoDaVaga && stickyDocenteActions) {
       stickyDocenteActions.style.display = 'flex';
       if (btnDocenteEditar) btnDocenteEditar.href = `oportunidade.html?id=${id}`;
       if (btnDocenteInscritos) btnDocenteInscritos.href = `inscritos.html?id=${id}`;
+    } else if (stickyDocenteActions) {
+      stickyDocenteActions.style.display = 'none';
     }
 
     // Renderiza Vagas Relacionadas
@@ -515,12 +551,13 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
   });
 
-  // ── 8. Envio da Candidatura pelo Formulário ──
+  // ── Envio da Candidatura pelo Formulário Modal ──
+  // Valida os dados do aluno e dispara a gravação no Back-end Java (/api/interesses).
   if (formCandidatura) {
     formCandidatura.addEventListener('submit', async (e) => {
       e.preventDefault();
 
-      // Validação de campos obrigatórios
+      // 1. Validação dos campos obrigatórios do estudante
       let valido = true;
       const obrigatorios = [candNome, candEmail, candMatricula, candCurso, candPeriodo, candTelefone, candMensagem];
 
@@ -532,7 +569,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
       });
 
-      // Validação simples de email institucional
+      // 2. Validação simples de formato de e-mail
       if (candEmail.value && !candEmail.value.includes('@')) {
         candEmail.classList.add('is-invalid');
         valido = false;
@@ -548,7 +585,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       btnSubmeterCandidatura.disabled = true;
       btnSubmeterCandidatura.style.opacity = '0.7';
 
-      // Criação da candidatura
+      // 3. Montagem do objeto de candidatura
       const novaCandidatura = {
         id: Date.now(),
         oportunidade_id: vagaAtual.id,
@@ -565,7 +602,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         data_registro: new Date().toISOString().replace('T', ' ').substring(0, 16)
       };
 
-      // Salva no perfil local do estudante para auto-completar na próxima candidatura
+      // 4. Salva os dados no cache do navegador para facilitar futuras inscrições do mesmo aluno
       localStorage.setItem('oportuni_estudante_cache', JSON.stringify({
         nome: candNome.value.trim(),
         email: candEmail.value.trim(),
@@ -576,8 +613,28 @@ document.addEventListener('DOMContentLoaded', async () => {
         telefone: candTelefone.value.trim()
       }));
 
-      // Adiciona à lista de inscritos do sistema (usada em inscritos.html)
+      // 5. Integração com a API Java (POST /api/interesses) + Fallback local
       try {
+        if (typeof apiFetch === 'function') {
+          try {
+            await apiFetch('/interesses', {
+              method: 'POST',
+              body: JSON.stringify({
+                id_oportunidade: vagaAtual.id,
+                nome: candNome.value.trim(),
+                email: candEmail.value.trim(),
+                matricula: candMatricula.value.trim(),
+                curso: candCurso.value.trim(),
+                semestre: candPeriodo.value.trim(),
+                justificativa: candMensagem.value.trim()
+              })
+            });
+          } catch (apiErr) {
+            console.warn('API /api/interesses indisponível, registrando localmente no navegador:', apiErr);
+          }
+        }
+
+        // Mantém a sincronia na lista local de inscritos (usada em inscritos.html)
         let todosInscritos = [];
         const salvoInscritos = localStorage.getItem('todos_inscritos') || localStorage.getItem('inscritos_gestao');
         if (salvoInscritos) {
@@ -600,7 +657,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
       mostrarToast('Candidatura submetida com sucesso! Boa sorte no processo.');
 
-      // Atualiza visual do botão para indicar candidatura efetuada
+      // 6. Atualização visual do botão principal para confirmar a candidatura ao aluno
       if (btnAbrirCandidatura) {
         btnAbrirCandidatura.innerHTML = `
           <span>Candidatura Enviada</span>

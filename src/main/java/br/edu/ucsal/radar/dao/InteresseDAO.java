@@ -10,10 +10,15 @@ import java.util.List;
 import br.edu.ucsal.radar.model.Interesse;
 import br.edu.ucsal.radar.util.ConexaoBD;
 
-public class InteresseDAO {
+public class InteresseDAO implements InteresseRepository {
 
     // Grava uma inscrição no banco. Então usa INSERT, que não devolve ResultSet, então usa executeUpdate
     public void salvar(Interesse interesse) {
+        // Ajuste: validação preventiva para evitar NullPointerException caso a oportunidade venha nula
+        if (interesse.getIdOportunidade() == null) {
+            throw new IllegalArgumentException("O id da oportunidade é obrigatório para registrar interesse.");
+        }
+
         String sql = "INSERT INTO interesse (nome, email, matricula, curso, semestre, justificativa, id_oportunidade) "
            + "VALUES (?, ?, ?, ?, ?, ?, ?)";
 
@@ -37,7 +42,8 @@ public class InteresseDAO {
 
     // Consulta todas as inscrições
     public List<Interesse> listarTodos() {
-        String sql = "SELECT id, nome, email, matricula, curso, semestre, justificativa FROM interesse";
+        // Ajuste: incluído id_oportunidade no SELECT para a linha 55 poder ler o campo sem disparar erro de coluna não encontrada
+        String sql = "SELECT id, nome, email, matricula, curso, semestre, justificativa, id_oportunidade FROM interesse";
         List<Interesse> lista = new ArrayList<>();
 
         try (Connection conn = ConexaoBD.getConnection();
@@ -68,7 +74,7 @@ public class InteresseDAO {
     //preenche o "?" com o id da oportunidade.
     public List<Interesse> listarPorOportunidade(int idOportunidade) {
         String sql = "SELECT id, nome, email, matricula, curso, semestre, justificativa, id_oportunidade "
-                + "FROM interesse WHERE id_oportunidade = ?";
+                + "FROM interesse WHERE id_oportunidade = ? ORDER BY data_registro DESC";
         List<Interesse> lista = new ArrayList<>();
 
         try (Connection conn = ConexaoBD.getConnection();
