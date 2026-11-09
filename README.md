@@ -8,6 +8,36 @@
 
 ---
 
+## Sumário
+
+1. [Equipe de Desenvolvimento](#equipe-de-desenvolvimento)
+2. [Resumo, Problema e Proposta de Valor](#resumo-problema-e-proposta-de-valor)
+3. [Visão Geral e Propósito](#visão-geral-e-propósito)
+4. [Principais Funcionalidades](#principais-funcionalidades)
+   - [Para os Estudantes (Mural Público)](#para-os-estudantes-mural-público)
+   - [Para os Professores (Portal Restrito)](#para-os-professores-portal-restrito)
+5. [Arquitetura e Tecnologias](#arquitetura-e-tecnologias)
+   - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+6. [Estrutura do Projeto](#estrutura-do-projeto)
+7. [Pré-requisitos](#pré-requisitos)
+8. [Instalação e Execução](#instalação-e-execução)
+   - [1. Clonar o Repositório](#1-clonar-o-repositório)
+   - [2. Configurar o Banco de Dados (PostgreSQL)](#2-configurar-o-banco-de-dados-postgresql)
+   - [3. Compilar e Gerar o Pacote Executável](#3-compilar-e-gerar-o-pacote-executável)
+   - [4. Iniciar o Servidor HTTP](#4-iniciar-o-servidor-http)
+   - [5. Acessar no Navegador](#5-acessar-no-navegador)
+9. [Roteiro Rápido do Fluxo Principal](#roteiro-rápido-do-fluxo-principal)
+10. [Execução dos Testes Automatizados](#execução-dos-testes-automatizados)
+11. [Documentação da API REST](#documentação-da-api-rest)
+12. [Credenciais de Teste para Avaliação](#credenciais-de-teste-para-avaliação)
+13. [Destaques Técnicos e Relação com POOA](#destaques-técnicos-e-relação-com-pooa)
+14. [Privacidade, Segurança e Acessibilidade](#privacidade-segurança-e-acessibilidade)
+15. [Limitações Conhecidas e Próximos Passos](#limitações-conhecidas-e-próximos-passos)
+16. [Fontes, Licenças, Terceiros e Uso de IA](#fontes-licenças-terceiros-e-uso-de-ia)
+17. [Documentação Complementar (Anexos)](#documentação-complementar-anexos)
+
+---
+
 ## Equipe de Desenvolvimento
 
 Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avançada e Laboratório (POOALAB)** do curso de graduação da **Universidade Católica do Salvador (UCSal)** — Semestre 2026.2.
@@ -19,28 +49,6 @@ Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avan�
 - **Allan Maia** — Back-End 2 (autenticação, candidaturas, métricas e CSV)
 - **Bianca Santos** — Front-End e Desenvolvedora Líder
 - **Isabel Motta** — Scrum Master
-
----
-
-## Sumário
-
-1. [Resumo, Problema e Proposta de Valor](#resumo-problema-e-proposta-de-valor)
-2. [Visão Geral e Propósito](#visão-geral-e-propósito)
-3. [Principais Funcionalidades](#principais-funcionalidades)
-4. [Arquitetura e Tecnologias](#arquitetura-e-tecnologias)
-5. [Estrutura do Projeto](#estrutura-do-projeto)
-6. [Pré-requisitos](#pré-requisitos)
-7. [Instalação e Execução](#instalação-e-execução)
-8. [Roteiro Rápido do Fluxo Principal](#roteiro-rápido-do-fluxo-principal)
-9. [Execução dos Testes Automatizados](#execução-dos-testes-automatizados)
-10. [Documentação da API REST](#documentação-da-api-rest)
-11. [Credenciais de Teste para Avaliação](#credenciais-de-teste-para-avaliação)
-12. [Destaques Técnicos e Relação com POOA](#destaques-técnicos-e-relação-com-pooa)
-13. [Privacidade, Segurança e Acessibilidade](#privacidade-segurança-e-acessibilidade)
-14. [Limitações Conhecidas e Próximos Passos](#limitações-conhecidas-e-próximos-passos)
-15. [Fontes, Licenças, Terceiros e Uso de IA](#fontes-licenças-terceiros-e-uso-de-ia)
-16. [Documentação Complementar (Anexos)](#documentação-complementar-anexos)
-17. [Equipe de Desenvolvimento](#equipe-de-desenvolvimento)
 
 ---
 
