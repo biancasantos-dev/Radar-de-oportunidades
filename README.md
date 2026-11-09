@@ -8,20 +8,54 @@
 
 ---
 
+## Equipe de Desenvolvimento
+
+Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avançada e Laboratório (POOALAB)** do curso de graduação da **Universidade Católica do Salvador (UCSal)** — Semestre 2026.2.
+
+**Turma:** ADS- T1
+
+- **Adryan Andrade** — Product Owner
+- **Allan Gonçalves** — Back-End 1 (infraestrutura, banco, vagas e executável)
+- **Allan Maia** — Back-End 2 (autenticação, candidaturas, métricas e CSV)
+- **Bianca Santos** — Front-End e Desenvolvedora Líder
+- **Isabel Motta** — Scrum Master
+
+---
+
 ## Sumário
 
-1. [Visão Geral e Propósito](#visao-geral-e-proposito)
-2. [Principais Funcionalidades](#principais-funcionalidades)
-3. [Arquitetura e Tecnologias](#arquitetura-e-tecnologias)
-4. [Estrutura do Projeto](#estrutura-do-projeto)
-5. [Pré-requisitos](#pre-requisitos)
-6. [Instalação e Execução](#instalacao-e-execucao)
-7. [Execução dos Testes Automatizados](#execucao-dos-testes-automatizados)
-8. [Documentação da API REST](#documentacao-da-api-rest)
-9. [Credenciais de Teste para Avaliação](#credenciais-de-teste-para-avaliacao)
-10. [Destaques Técnicos do Projeto](#destaques-tecnicos-do-projeto)
-11. [Documentação Complementar (Anexos)](#documentacao-complementar-anexos)
-12. [Equipe de Desenvolvimento](#equipe-de-desenvolvimento)
+1. [Resumo, Problema e Proposta de Valor](#resumo-problema-e-proposta-de-valor)
+2. [Visão Geral e Propósito](#visão-geral-e-propósito)
+3. [Principais Funcionalidades](#principais-funcionalidades)
+4. [Arquitetura e Tecnologias](#arquitetura-e-tecnologias)
+5. [Estrutura do Projeto](#estrutura-do-projeto)
+6. [Pré-requisitos](#pré-requisitos)
+7. [Instalação e Execução](#instalação-e-execução)
+8. [Roteiro Rápido do Fluxo Principal](#roteiro-rápido-do-fluxo-principal)
+9. [Execução dos Testes Automatizados](#execução-dos-testes-automatizados)
+10. [Documentação da API REST](#documentação-da-api-rest)
+11. [Credenciais de Teste para Avaliação](#credenciais-de-teste-para-avaliação)
+12. [Destaques Técnicos e Relação com POOA](#destaques-técnicos-e-relação-com-pooa)
+13. [Privacidade, Segurança e Acessibilidade](#privacidade-segurança-e-acessibilidade)
+14. [Limitações Conhecidas e Próximos Passos](#limitações-conhecidas-e-próximos-passos)
+15. [Fontes, Licenças, Terceiros e Uso de IA](#fontes-licenças-terceiros-e-uso-de-ia)
+16. [Documentação Complementar (Anexos)](#documentação-complementar-anexos)
+17. [Equipe de Desenvolvimento](#equipe-de-desenvolvimento)
+
+---
+
+## Resumo, Problema e Proposta de Valor
+
+**OportUni** é um mural web único de oportunidades acadêmicas da UCSal: iniciação científica, monitoria, extensão, estágio e eventos.
+O estudante encontra as vagas, filtra por eixo e tipo e se inscreve **sem criar conta**.
+O professor faz login, publica e edita vagas, acompanha as inscrições e **baixa a lista de candidatos em CSV**.
+O backend é Java 21 com o `HttpServer` nativo e PostgreSQL; o front-end é HTML, CSS e JavaScript puros.
+A aplicação é empacotada em um único `radar-oportunidades.jar`.
+
+- **Problema:** as ofertas circulam fragmentadas entre Instagram, grupos de WhatsApp e murais físicos, sem um canal institucional centralizado.
+- **Público:** estudantes de todos os cursos e semestres e professores/coordenadores da UCSal.
+- **Impacto observado:** na pesquisa com 45 estudantes e 8 professores, quase 89% dos alunos já perderam uma oportunidade por informação tardia e 100% consideram necessário um local único (ver [Anexos A e B](docs/problema-validacao.md)).
+- **Proposta de valor:** consolidar as oportunidades em um canal único e acessível, para que estudantes não percam prazos e professores consigam captar e organizar candidatos (ver [Anexo C](docs/definicao-mvp.md)).
 
 ---
 
@@ -45,7 +79,7 @@ Nas universidades, editais de bolsas e projetos frequentemente sofrem com a desc
 
 ### Para os Professores (Portal Restrito)
 
-- **Autenticação Institucional:** Login seguro exclusivo para domínios `@ucsal.br` ou `@prof.ucsal.br` com armazenamento de hash criptográfico em **SHA-256**.
+- **Autenticação Docente:** login por e-mail institucional e senha, com token Bearer e senha armazenada como hash **SHA-256**. As contas de demonstração vêm do `seed.sql`. A tela de cadastro valida o domínio `@ucsal.br`/`@prof.ucsal.br` apenas no navegador (ver [Limitações](#limitações-conhecidas-e-próximos-passos)).
 - **Painel de Controle com Bento KPIs:** Métricas dinâmicas com contagem de vagas totais, abertas, encerradas e o número exato de discentes únicos inscritos.
 - **Cadastro e Edição com Live Preview:** Formulário reativo onde o cartão de divulgação atualiza em tempo real enquanto o professor digita.
 - **Triagem Reversível de Candidatos:** Avaliação com um clique para marcar estudantes como **Aprovado**, **Em Análise** ou **Rejeitado**, além de atalho direto para envio de e-mail institucional (`mailto`).
@@ -105,17 +139,16 @@ radar-oportunidades/
 |   |-- main/
 |   |   |-- java/br/edu/ucsal/radar/
 |   |   |   |-- controller/      # Controladores HTTP (REST Handlers)
-|   |   |   |-- dao/             # Data Access Objects (consultas JDBC)
-|   |   |   |-- model/           # Entidades de domínio (Professor, Oportunidade, Interesse)
+|   |   |   |-- dao/             # Interfaces *Repository e implementações *DAO (JDBC)
+|   |   |   |-- model/           # Entidades e enums (Professor, Oportunidade, Interesse, ...)
 |   |   |   |-- service/         # Regras de negócio e validações
-|   |   |   |-- security/        # Utilitários de segurança e Criptografia SHA-256
-|   |   |   |-- csv/             # Gerador de relatórios via Java Streams API
-|   |   |   |-- database/        # Gerenciamento de conexões JDBC (ConexaoBD)
+|   |   |   |-- util/            # ConexaoBD, HashUtil (SHA-256), TokenManager, CsvWriter (Streams), Json, StaticFileHandler
 |   |   |   `-- Main.java        # Ponto de entrada do servidor HTTP
 |   |   `-- resources/
-|   |       |-- application.properties  # Configuração de portas e credenciais
-|   |       `-- seed.sql                # Carga inicial com 4 docentes e 20 inscrições
-|   `-- test/java/br/edu/ucsal/radar/   # 15 Testes de unidade JUnit 5
+|   |       |-- application.properties.example  # Modelo de configuração (opcional)
+|   |       |-- schema.sql                      # Criação das tabelas
+|   |       `-- seed.sql                        # Carga: 5 professores, 10 vagas e 20 inscrições
+|   `-- test/java/br/edu/ucsal/radar/   # 27 testes de unidade JUnit 5
 |-- web/                                # Camada de apresentação estática
 |   |-- assets/                         # Ícones SVG e dados de contingência JSON
 |   |-- css/                            # Folhas de estilo modularizadas
@@ -128,7 +161,7 @@ radar-oportunidades/
 |   `-- inscritos.html                  # Triagem de candidatos e exportação CSV
 |-- docs/                               # Anexos obrigatórios da disciplina
 |   |-- problema-validacao.md           # Anexos A e B (Problema e Validação)
-|   |-- definicao-mvp.md                # Anexo C (MVP, MoSCoW e User Stories)
+|   |-- definicao-mvp.md                # Anexo C (definição do MVP)
 |   `-- declaracao-ia-terceiros.md      # Anexo E (Uso de IA e Recursos de Terceiros)
 |-- demo/
 |   |-- roteiro-demonstracao.md         # Anexo D (Roteiro do Pitch de 5 minutos)
@@ -151,7 +184,7 @@ Para compilar e executar o projeto em sua máquina local, certifique-se de possu
    ```bash
    mvn -version
    ```
-3. **PostgreSQL 16** (opcional para rodar com banco conectado; caso esteja offline, o sistema ativa automaticamente o modo de contingência local):
+3. **PostgreSQL 16**, necessário para o fluxo real (publicar vagas, inscrever, exportar CSV). Sem o banco, a API responde erro 500 e o front-end exibe apenas dados locais de contingência, somente para visualização:
    ```bash
    psql --version
    ```
@@ -220,6 +253,20 @@ Abra seu navegador em:
 
 ---
 
+## Roteiro Rápido do Fluxo Principal
+
+Com o servidor rodando e o `seed.sql` carregado (todos os dados são fictícios):
+
+1. Abra `http://localhost:8080/login.html` e entre como `marcelo.ribeiro@ucsal.br` / `ucsal123`.
+2. No **Painel**, clique em **Nova Vaga**, preencha o formulário e publique: a vaga é gravada no PostgreSQL.
+3. Em outra aba, abra `http://localhost:8080/index.html` (mural público), filtre por eixo ou tipo, abra a vaga e preencha o formulário de **candidatura**.
+4. Volte ao Painel: o número de **inscritos** da vaga foi atualizado. Abra a lista de **Inscritos** e use o botão de exportar.
+5. Abra o arquivo **CSV** baixado no Excel ou no LibreOffice (UTF-8 com BOM e separador `;`).
+
+O roteiro da apresentação está em [`demo/roteiro-demonstracao.md`](demo/roteiro-demonstracao.md).
+
+---
+
 ## Execução dos Testes Automatizados
 
 O projeto conta com **27 testes de unidade automatizados** desenvolvidos com JUnit 5, cobrindo:
@@ -238,8 +285,10 @@ Para executar a suíte completa de testes:
 .\mvnw.cmd test
 
 # Linux / macOS
-./mvnw test
+sh mvnw test
 ```
+
+> Use o wrapper. Em alguns ambientes o `mvn` instalado no sistema usa um plugin de testes antigo e executa **0 testes** com `BUILD SUCCESS`, o que engana. Os testes são de unidade e não precisam do PostgreSQL.
 
 Saída esperada:
 
@@ -297,30 +346,52 @@ Para facilitar a simulação de múltiplos perfis docentes durante a banca avali
 
 ---
 
-## Destaques Técnicos do Projeto
+## Destaques Técnicos e Relação com POOA
 
-1. **Uso Avançado de Java Streams API:** O componente `br.edu.ucsal.radar.csv.CsvWriter` utiliza pipelines com `.stream()`, `.map()` e `.collect(Collectors.joining())` para processar a exportação de candidatos de maneira limpa, imutável e funcional.
-2. **Segurança de Senhas com SHA-256:** As credenciais dos professores utilizam hash com algoritmo padrão SHA-256 (`br.edu.ucsal.radar.security.HashUtil`), garantindo que senhas em texto plano nunca sejam salvas no banco.
+1. **Uso Avançado de Java Streams API:** O componente `br.edu.ucsal.radar.util.CsvWriter` utiliza pipelines com `.stream()`, `.map()` e `.collect(Collectors.joining())` para processar a exportação de candidatos de maneira limpa, imutável e funcional.
+2. **Segurança de Senhas com SHA-256:** As credenciais dos professores utilizam hash com algoritmo padrão SHA-256 (`br.edu.ucsal.radar.util.HashUtil`), garantindo que senhas em texto plano nunca sejam salvas no banco.
 3. **Resiliência e Contingência Offline:** O front-end foi arquitetado para consultar os endpoints REST da API Java prioritariamente; caso o servidor ou banco não estejam em execução, o sistema aciona dados locais em JSON e `localStorage`, garantindo que apresentações e avaliações nunca sejam interrompidas.
 4. **Sem Dependência de Frameworks Pesados:** Toda a camada de roteamento HTTP, parsing de cabeçalhos e serialização foi desenvolvida de forma enxuta com o `HttpServer` nativo do Java 21.
 
 ---
 
-## Documentação Complementar (Anexos)
+## Privacidade, Segurança e Acessibilidade
 
-- [**Anexo A e B: Ficha do Problema e Validação**](docs/problema-validacao.md) — Dores dos discentes e docentes, metodologia e resultados reais da pesquisa com 45 estudantes e 8 professores da UCSal.
-- [**Anexo C: Definição do MVP**](docs/definicao-mvp.md) — Matriz MoSCoW, Personas e Histórias de Usuário com critérios BDD / Gherkin.
-- [**Anexo D: Roteiro de Demonstração (Pitch 5 Minutos)**](demo/roteiro-demonstracao.md) — Roteiro cronometrado minuto a minuto para apresentação.
-- [**Anexo E: Declaração de Uso de IA e Recursos de Terceiros**](docs/declaracao-ia-terceiros.md) — Declaração formal de transparência e integridade acadêmica.
+- **Dados fictícios:** professores, vagas e alunos do `seed.sql` são inventados. Nenhuma base institucional, credencial real ou dado pessoal real foi usado.
+- **Coleta mínima:** a inscrição pede apenas nome, e-mail, matrícula, curso, semestre e justificativa, o necessário para o professor avaliar o candidato.
+- **Segredos:** `application.properties` está no `.gitignore`; os valores padrão do banco servem apenas para ambiente local.
+- **Controle de acesso:** rotas de gestão exigem token Bearer, e cada professor só edita, exclui, vê inscritos e exporta CSV das **próprias** vagas.
+- **Exportação segura:** o `CsvWriter` neutraliza células que começam com `=`, `+`, `-` ou `@` (CSV/Formula Injection).
+- **Acessibilidade:** páginas com `lang="pt-BR"`, textos alternativos nas imagens, ícones decorativos com `aria-hidden`, rótulos `aria-label` em menus e botões e status da vaga indicado também por texto, não só por cor.
+- **Riscos conhecidos que não foram resolvidos:** ver [Limitações](#limitações-conhecidas-e-próximos-passos).
 
 ---
 
-## Equipe de Desenvolvimento
+## Limitações Conhecidas e Próximos Passos
 
-Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avançada e Laboratório (POOALAB)** do curso de graduação da **Universidade Católica do Salvador (UCSal)** — Semestre 2026.2.
+- Os tokens de sessão ficam em memória: reiniciar o servidor encerra as sessões dos professores.
+- Apenas existe login de professores no MVP, mas deverá ter login e cadastro de alunos também.
+- O cadastro de novos professores valida o domínio `@ucsal.br` apenas no navegador e não cria conta no banco; os docentes de demonstração vêm do `seed.sql`.
+- O mural filtra as vagas no navegador; a Streams API é usada no servidor (CSV e listagens).
+- Itens planejados na Etapa 3 que dependem de confirmação na implementação: links de edital e de imagem na vaga, pergunta customizada, favoritos, sininho de notificações e controle numérico de vagas (ver [Anexo C](docs/definicao-mvp.md)).
+- A validação por formulário mede interesse e não uso real; o teste do protótipo com usuários está descrito como pendência no [Anexo B](docs/problema-validacao.md).
 
-- **Adryan Andrade** — Product Owner
-- **Allan Gonçalves** — Desenvolvedor
-- **Allan Maia** — Desenvolvedor
-- **Bianca Santos** — Desenvolvedor Lider
-- **Isabel Motta** — Scrum Master
+**Próximos passos:** links de edital e imagem, pergunta customizada por vaga, cadastro de docentes com verificação, hash com salt, persistência das sessões e favoritos locais.
+
+---
+
+## Fontes, Licenças, Terceiros e Uso de IA
+
+- **Bibliotecas (Maven):** PostgreSQL JDBC 42.7.2 (BSD-2-Clause), Gson 2.10.1 (Apache-2.0) e JUnit Jupiter 5.10.2 (EPL-2.0); plugins Maven Shade e Exec (Apache-2.0).
+- **Recursos visuais:** ícones SVG e a fonte Poppins via Google Fonts (OFL).
+- **Uso de IA:** declarado em [`docs/declaracao-ia-terceiros.md`](docs/declaracao-ia-terceiros.md) (Anexo E).
+- **Dados:** todos os dados de demonstração são fictícios.
+
+---
+
+## Documentação Complementar (Anexos)
+
+- [**Anexo A e B: Ficha do Problema e Validação**](docs/problema-validacao.md) — Problema, hipóteses, método e resultados da pesquisa com 45 estudantes e 8 professores da UCSal.
+- [**Anexo C: Definição do MVP**](docs/definicao-mvp.md) — Proposta de valor, fluxo de ponta a ponta, backlog, responsáveis, critérios de pronto, riscos e limitações.
+- [**Anexo D: Roteiro de Demonstração (Pitch 5 Minutos)**](demo/roteiro-demonstracao.md) — Roteiro cronometrado minuto a minuto para apresentação.
+- [**Anexo E: Declaração de Uso de IA e Recursos de Terceiros**](docs/declaracao-ia-terceiros.md) — Declaração formal de transparência e integridade acadêmica.
