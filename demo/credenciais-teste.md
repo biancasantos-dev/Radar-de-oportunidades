@@ -17,6 +17,8 @@ O sistema adapta o **Painel Docente** dinamicamente de acordo com o professor qu
 
 > **Nota de Flexibilidade:** Para facilitar os testes durante a apresentação acadêmica, o sistema aceita a senha padrão **`ucsal123`** (ou qualquer senha com 4 ou mais dígitos) para qualquer um dos e-mails institucionais acima.
 
+> Antes de testar, carregue o banco: `schema.sql` e depois `seed.sql` (ver o [README](../README.md#instalação-e-execução)).
+
 ---
 
 ## Roteiro Rápido de Teste por Perfil
