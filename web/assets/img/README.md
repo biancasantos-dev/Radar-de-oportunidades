@@ -1,11 +1,10 @@
-# Pasta de Imagens e Identidade Visual (Assets)
+# Imagens e identidade visual
 
-Coloque aqui os arquivos visuais do projeto:
-- **Logo principal**: Ex: `logo.png` ou `logo.svg`
-- **Ícones ou ilustrações adicionais**, se necessário.
+- `ID visual/`: logotipos e símbolo do OportUni em SVG (`logotipo-principa.svg`, `logo-l.svg`, `logotipo-d1.svg`, `icon.svg`, `tipo-d.svg`, `tipo-l.svg`).
+- Os ícones da interface ficam em `../icons/` (SVG, estilo Lucide/Feather; ver origem e licença no [Anexo E](../../../docs/declaracao-ia-terceiros.md)).
 
-### Como referenciar nas páginas HTML:
+Exemplo de uso nas páginas:
+
 ```html
-<img src="assets/img/logo.png" alt="Radar de Oportunidades" class="logo">
+<img src="assets/img/ID visual/logotipo-principa.svg" alt="OportUni">
 ```
-*(ou `logo.svg`, conforme o formato que você tiver)*
