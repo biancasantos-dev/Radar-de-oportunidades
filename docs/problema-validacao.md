@@ -51,7 +51,7 @@ Pesquisa exploratória e descritiva por **formulários online estruturados**, em
 | **3 — Adesão dos professores** | Confirmada | Os docentes apontaram "falta de engajamento (os alunos veem, mas não se inscrevem)" e "baixo alcance" como principais dificuldades de captação. |
 | **4 — Centralização** | Validada | **100%** dos respondentes (45 alunos e 8 professores) disseram ser necessário um aplicativo que consolide as informações. A utilidade de um painel institucional exclusivo teve média **4,86/5** entre os alunos e **4,75/5** entre os professores. |
 
-> **Limites da evidência:** a amostra é pequena (45 alunos e 8 professores) e autodeclarada. Os resultados indicam que o problema existe e que há interesse na solução, mas **não** medem o uso real do sistema.
+> **Limites da evidência:** a amostra é pequena (45 alunos e 8 professores). Os resultados indicam que o problema existe e que há interesse na solução, mas **não** medem o uso real do sistema.
 
 ## 1. Dados Reais Coletados na Pesquisa de Campo (Google Forms)
 

@@ -40,7 +40,7 @@
 
 ## Equipe de Desenvolvimento
 
-Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avançada e Laboratório (POOALAB)** do curso de graduação da **Universidade Católica do Salvador (UCSal)** — Semestre 2026.2.
+Projeto desenvolvido para a disciplina **Programação Orientada a Objetos Avançada (POOALAB)** do curso de graduação da **Universidade Católica do Salvador (UCSal)** — Semestre 2026.2.
 
 **Turma:** ADS- T1
 
